@@ -6,16 +6,16 @@ namespace Gestran.VehicleControl.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController : ControllerBase
+    public class CheckListController : ControllerBase
     {
 
-        private readonly ILogger<UserController> _logger;
-        private readonly IUserApplication _UserApplication;
+        private readonly ILogger<CheckListController> _logger;
+        private readonly ICheckListApplication _CheckListApplication;
 
-        public UserController(ILogger<UserController> logger, IUserApplication UserApplication)
+        public CheckListController(ILogger<CheckListController> logger, ICheckListApplication CheckListApplication)
         {
             _logger = logger;
-            _UserApplication = UserApplication;
+            _CheckListApplication = CheckListApplication;
         }
 
         [HttpGet]
@@ -24,7 +24,7 @@ namespace Gestran.VehicleControl.Api.Controllers
         {
             try
             {
-                var response = await _UserApplication.GetAsync(id);
+                var response = await _CheckListApplication.GetAsync(id);
                 if (response == null) 
                     return NotFound("Registro não encontrado");
 
@@ -42,7 +42,7 @@ namespace Gestran.VehicleControl.Api.Controllers
         {
             try
             {
-                var response = await _UserApplication.GetAsync();
+                var response = await _CheckListApplication.GetAsync();
                 if (response == null || response.Count == 0)
                     return NotFound("Registro não encontrado");
 
@@ -56,11 +56,11 @@ namespace Gestran.VehicleControl.Api.Controllers
 
         [HttpPost]
         [Route("persist")]
-        public virtual async Task<ActionResult> Persist(UserDTO User)
+        public virtual async Task<ActionResult> Persist(CheckListDTO CheckList)
         {
             try
             {
-                var response = await _UserApplication.CreateOrUpdateAsync(User);
+                var response = await _CheckListApplication.CreateOrUpdateAsync(CheckList);
                 
                 return Ok(response);
             }
@@ -76,11 +76,11 @@ namespace Gestran.VehicleControl.Api.Controllers
         {
             try
             {
-                var response = await _UserApplication.GetAsync(id);
+                var response = await _CheckListApplication.GetAsync(id);
                 if (response == null)
                     return NotFound("Registro não encontrado");
 
-                await _UserApplication.DeleteAsync(id);
+                await _CheckListApplication.DeleteAsync(id);
                 return Ok("Registro excluído com sucesso.");
             }
             catch (Exception ex)

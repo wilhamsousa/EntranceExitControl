@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  gestran.vehiclecontrol.api:
+    image: ${DOCKER_REGISTRY-}gestranvehiclecontrolapi
+    build:
+      context: .
+      dockerfile: Gestran.VehicleControl.Api/Dockerfile

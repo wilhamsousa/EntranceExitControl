@@ -12,7 +12,7 @@ namespace Gestran.VehicleControl.Domain.Model.Entity.Validator
                 .MaximumLength(20);
             RuleFor(entity => entity.DuplicatedPlateError)
                 .Equal(false)
-                .WithMessage("Registro com este nome já existe.");
+                .WithMessage($"Checklist pendente com esta placa já existe para outro usuário.");
         }
     }
 }

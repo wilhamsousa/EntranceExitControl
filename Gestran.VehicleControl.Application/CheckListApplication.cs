@@ -50,7 +50,6 @@ namespace Gestran.VehicleControl.Application
                 }
             }
 
-
             return await _CheckListRepository.CreateOrUpdateAsync(CheckList);
         }
 

@@ -2,6 +2,9 @@
 Api para avaliação 
 Cadastros CRUD, criação de checklist e marcação de aprovação de item concluídos.
 Faltou método de finalizar o checklist
+Faltou implementar os DTOs de payload e response para as controllers e usei a própria entidade para trafegar.
+Faltou converter a descrição do Enum de status aprovado.
+Faltou realizar os testes
 
 🚀 Começando
 Realize o download do projeto ou realize a clonagem

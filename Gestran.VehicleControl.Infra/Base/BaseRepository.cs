@@ -8,7 +8,7 @@ namespace Gestran.VehicleControl.Infra.Base
     public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
         where TEntity : BaseEntity
     {
-        private readonly ExcContext _context;
+        public readonly ExcContext _context;
 
         protected BaseRepository(ExcContext context)
         {

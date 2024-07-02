@@ -47,6 +47,7 @@ namespace Gestran.VehicleControl.Application
                 {
                     user.SetDuplicated();
                     _notificationContext.AddNotifications(user.ValidationResult);
+                    return null;
                 }
             }
 

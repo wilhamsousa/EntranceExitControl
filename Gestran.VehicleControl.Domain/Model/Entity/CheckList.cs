@@ -12,16 +12,19 @@ namespace Gestran.VehicleControl.Domain.Model.Entity
             CheckListItem = new HashSet<CheckListItem>();
         }
 
-        public User User { get; set; }
+        public Guid UserId { get; set; }
         public string VehiclePlate { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
         public CheckListStatus Status { get; set; }
 
+        public virtual User User { get; set; }
         public virtual ICollection<CheckListItem>? CheckListItem { get; set; }
 
         [NotMapped]
         public bool DuplicatedPlateError { get; private set; }
+        [NotMapped]
+        public bool UserNotFoundError { get; private set; }
 
         public void SetDuplicated()
         {
@@ -29,12 +32,24 @@ namespace Gestran.VehicleControl.Domain.Model.Entity
             Validate(this, new CheckListValidator());
         }
 
-        public CheckList(Guid id, string vehiclePlate)
+        public void SetUserNotFound()
         {
-            Id = id;
-            VehiclePlate = vehiclePlate;
-
+            UserNotFoundError = true;
             Validate(this, new CheckListValidator());
+        }
+
+        public CheckList(Guid userId, string vehiclePlate, List<Item> items)
+        {
+            CheckListItem = new HashSet<CheckListItem>();
+            UserId = userId;
+            VehiclePlate = vehiclePlate;
+            StartDateTime = DateTime.Now;
+            Status = CheckListStatus.Started;
+            Validate(this, new CheckListValidator());
+
+            CheckListItem = new List<CheckListItem>();
+            foreach (Item item in items)
+                CheckListItem.Add(new CheckListItem(item.Id));
         }
     }
 }

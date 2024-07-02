@@ -1,4 +1,5 @@
 using Gestran.VehicleControl.Domain.Model.DTO;
+using Gestran.VehicleControl.Domain.Model.Entity;
 using Gestran.VehicleControl.Domain.Model.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,15 +54,15 @@ namespace Gestran.VehicleControl.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
+        
         [HttpPost]
-        [Route("persist")]
-        public virtual async Task<ActionResult> Persist(CheckListDTO CheckList)
+        [Route("create")]
+        public virtual async Task<ActionResult> Create(CheckListCreateDTO param)
         {
             try
-            {
-                var response = await _CheckListApplication.CreateOrUpdateAsync(CheckList);
-                
+            {                
+                var response = await _CheckListApplication.CreateAsync(param);
+
                 return Ok(response);
             }
             catch (Exception ex)
@@ -70,18 +71,31 @@ namespace Gestran.VehicleControl.Api.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("{id:guid}")]
-        public virtual async Task<ActionResult> Delete(Guid id)
+        [HttpPost]
+        [Route("aprove-item")]
+        public virtual async Task<ActionResult> AproveItem(CheckListItemUpdateDTO param)
         {
             try
             {
-                var response = await _CheckListApplication.GetAsync(id);
-                if (response == null)
-                    return NotFound("Registro não encontrado");
+                await _CheckListApplication.AproveItem(param.itemId, true);
 
-                await _CheckListApplication.DeleteAsync(id);
-                return Ok("Registro excluído com sucesso.");
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("reprove-item")]
+        public virtual async Task<ActionResult> ReproveItem(CheckListItemUpdateDTO param)
+        {
+            try
+            {
+                await _CheckListApplication.AproveItem(param.itemId, false);
+
+                return Ok();
             }
             catch (Exception ex)
             {

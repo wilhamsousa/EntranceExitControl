@@ -6,6 +6,11 @@ namespace Gestran.VehicleControl.Domain.Model.Entity
 {
     public class User : BaseEntity
     {
+        public User()
+        {
+            
+        }
+
         public string Name { get; set; }
 
         [NotMapped]
@@ -15,11 +20,6 @@ namespace Gestran.VehicleControl.Domain.Model.Entity
         {
             DuplicatedNameError = true;
             Validate(this, new UserValidator());
-        }
-
-        public User()
-        {
-
         }
 
         public User(Guid id, string name)

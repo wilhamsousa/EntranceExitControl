@@ -7,10 +7,8 @@ namespace Gestran.VehicleControl.Domain.Model.Interface
     {
         Task<CheckList> GetAsync(Guid id);
         Task<List<CheckList>> GetAsync();
-        Task<CheckList> Createsync(CheckList entity);
-        Task<CheckList> CreateOrUpdateAsync(CheckListDTO entity);
-        Task UpdateAsync(CheckList entity);
-        Task DeleteAsync(CheckList entity);
-        Task DeleteAsync(Guid id);
+        Task<CheckList> CreateAsync(CheckListCreateDTO entity);
+        Task AproveItem(Guid checkListItemId, bool approved);
+
     }
 }

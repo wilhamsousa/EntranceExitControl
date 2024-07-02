@@ -1,4 +1,4 @@
 ﻿namespace Gestran.VehicleControl.Domain.Model.DTO
 {
-    public record CheckListDTO (Guid Id, string VehiclePlate);
+    public record UserDTO (Guid Id, string Name);
 }

@@ -6,6 +6,11 @@ namespace Gestran.VehicleControl.Domain.Model.Entity
 {
     public class Item : BaseEntity
     {
+        public Item()
+        {
+            
+        }
+
         public string Name { get; set; }
         public string Note { get; set; }
 
@@ -16,11 +21,6 @@ namespace Gestran.VehicleControl.Domain.Model.Entity
         {
             DuplicatedNameError = true;
             Validate(this, new ItemValidator());
-        }
-
-        public Item()
-        {
-
         }
 
         public Item(Guid id, string name, string note)

@@ -21,6 +21,7 @@ builder.Services.AddScoped<IUserApplication, UserApplication>();
 builder.Services.AddScoped<ICheckListRepository, CheckListRepository>();
 builder.Services.AddScoped<ICheckListApplication, CheckListApplication>();
 
+builder.Services.AddScoped<ICheckListItemRepository, CheckListItemRepository>();
 
 builder.Services
     .AddControllers();

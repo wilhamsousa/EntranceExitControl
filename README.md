@@ -1,5 +1,7 @@
 # Controle de entrada e saída de veículos
-Api para avaliação
+Api para avaliação 
+Cadastros CRUD, criação de checklist e marcação de aprovação de item concluídos.
+Faltou método de finalizar o checklist
 
 🚀 Começando
 Realize o download do projeto ou realize a clonagem

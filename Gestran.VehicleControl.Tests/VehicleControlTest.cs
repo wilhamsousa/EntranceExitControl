@@ -1,6 +1,6 @@
 namespace Gestran.VehicleControl.Tests
 {
-    public class UnitTest1
+    public class VehicleControlTest
     {
         [Fact]
         public void Test1()

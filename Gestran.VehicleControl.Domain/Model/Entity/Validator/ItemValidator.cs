@@ -7,13 +7,13 @@ namespace Gestran.VehicleControl.Domain.Model.Entity.Validator
         public ItemValidator()
         {
             RuleFor(entity => entity.Name)
-                .NotNull()
-                .MinimumLength(1)
-                .MaximumLength(50);
+                .NotEmpty().WithMessage("Nome não preenchido.")
+                .Length(1, 50).WithMessage("Nome deve ter entre 1 e 50 caracteres.");
+
             RuleFor(entity => entity.Note)
-                .NotNull()
-                .MinimumLength(1)
-                .MaximumLength(50);
+                .NotEmpty().WithMessage("Observação não preenchida.")
+                .Length(1, 50).WithMessage("Observação deve ter entre 1 e 50 caracteres.");
+
             RuleFor(entity => entity.DuplicatedNameError)
                 .Equal(false)
                 .WithMessage("Registro com este nome já existe.");

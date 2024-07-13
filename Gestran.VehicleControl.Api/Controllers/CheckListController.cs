@@ -1,3 +1,5 @@
+using Azure;
+using Gestran.VehicleControl.Api.Controllers.Base;
 using Gestran.VehicleControl.Domain.Model.DTO;
 using Gestran.VehicleControl.Domain.Model.Entity;
 using Gestran.VehicleControl.Domain.Model.Interface;
@@ -7,7 +9,7 @@ namespace Gestran.VehicleControl.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CheckListController : ControllerBase
+    public class CheckListController : MyControllerBase
     {
 
         private readonly ILogger<CheckListController> _logger;
@@ -26,10 +28,7 @@ namespace Gestran.VehicleControl.Api.Controllers
             try
             {
                 var response = await _CheckListApplication.GetAsync(id);
-                if (response == null) 
-                    return NotFound("Registro não encontrado");
-
-                return Ok(response);
+                return CreateResult(response);
             }
             catch (Exception ex)
             {
@@ -44,10 +43,7 @@ namespace Gestran.VehicleControl.Api.Controllers
             try
             {
                 var response = await _CheckListApplication.GetAsync();
-                if (response == null || response.Count == 0)
-                    return NotFound("Registro não encontrado");
-
-                return Ok(response);
+                return CreateResult(response);
             }
             catch (Exception ex)
             {
@@ -62,8 +58,7 @@ namespace Gestran.VehicleControl.Api.Controllers
             try
             {                
                 var response = await _CheckListApplication.CreateAsync(param);
-
-                return Ok(response);
+                return CreateResult(response);
             }
             catch (Exception ex)
             {
@@ -78,8 +73,7 @@ namespace Gestran.VehicleControl.Api.Controllers
             try
             {
                 await _CheckListApplication.AproveItem(param.itemId, true);
-
-                return Ok();
+                return CreateResult();
             }
             catch (Exception ex)
             {
@@ -94,8 +88,7 @@ namespace Gestran.VehicleControl.Api.Controllers
             try
             {
                 await _CheckListApplication.AproveItem(param.itemId, false);
-
-                return Ok();
+                return CreateResult();
             }
             catch (Exception ex)
             {

@@ -54,22 +54,6 @@ namespace Gestran.VehicleControl.Api.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("persist")]
-        public virtual async Task<ActionResult> Persist(UserDTO User)
-        {
-            try
-            {
-                var response = await _UserApplication.CreateOrUpdateAsync(User);
-                
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
         [HttpDelete]
         [Route("{id:guid}")]
         public virtual async Task<ActionResult> Delete(Guid id)

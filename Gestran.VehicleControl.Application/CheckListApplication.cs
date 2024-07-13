@@ -40,7 +40,10 @@ namespace Gestran.VehicleControl.Application
                 return null;
             }
 
-            var oldCheckList = _checkListRepository.GetQueryable().Where(x => x.VehiclePlate == param.VehiclePlate && x.Status == CheckListStatus.Started).SingleOrDefault();
+            var oldCheckList = _checkListRepository
+                .GetQueryable()
+                .Where(x => x.VehiclePlate == param.VehiclePlate && x.Status == CheckListStatus.Started)
+                .SingleOrDefault();
 
             if (oldCheckList == null)
             {

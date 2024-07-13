@@ -30,31 +30,6 @@ namespace Gestran.VehicleControl.Application
             }            
         }
 
-        public async Task<User> CreateOrUpdateAsync(UserDTO param)
-        {            
-            var user = new User(param.Id, param.Name);
-            if (user.Invalid)
-            {
-                _notificationContext.AddNotifications(user.ValidationResult);
-                return null;
-            }
-
-            if (param.Id == Guid.Empty || param.Id == null)
-            {
-                var alreadyExists = _UserRepository.GetQueryable().Any(x => x.Name == param.Name);
-
-                if (alreadyExists)
-                {
-                    user.SetDuplicated();
-                    _notificationContext.AddNotifications(user.ValidationResult);
-                    return null;
-                }
-            }
-
-
-            return await _UserRepository.CreateOrUpdateAsync(user);
-        }
-
         public async Task DeleteAsync(User entity)
         {
             await _UserRepository.DeleteAsync(entity);

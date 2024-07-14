@@ -6,6 +6,6 @@ namespace Gestran.VehicleControl.Domain.Model.Interface
     {
         Task<List<CheckList>> GetCheckListAsync();
         Task<CheckList> GetCheckListAsync(Guid id);
-        
+
     }
 }

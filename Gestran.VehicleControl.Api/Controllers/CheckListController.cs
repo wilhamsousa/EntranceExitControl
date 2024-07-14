@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Gestran.VehicleControl.Api.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
     public class CheckListController : MyControllerBase
     {
 

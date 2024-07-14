@@ -9,13 +9,19 @@ namespace Gestran.VehicleControl.Domain.Model.Base
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        [JsonIgnore]
+        public Guid Id { get; protected set; }
 
         [NotMapped]
-        public bool Valid { get; private set; }
+        public bool Valid { get; protected set; }
 
         [NotMapped]
         public bool Invalid => !Valid;
+
+        public void SetId(Guid id) => Id = id;
+        public Guid Identifier { get => Id; }
+
+
 
         [NotMapped, JsonIgnore]
         public FluentValidation.Results.ValidationResult? ValidationResult { get; private set; }

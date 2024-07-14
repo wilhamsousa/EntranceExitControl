@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Gestran.VehicleControl.Api.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
     public class ItemController : MyControllerBaseCRUD<Item, IItemApplication>
     {
         public ItemController(ILogger<MyControllerBaseCRUD<Item, IItemApplication>> logger, IItemApplication application) : base(logger, application)

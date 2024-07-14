@@ -3,7 +3,7 @@ using Gestran.VehicleControl.Domain.Model.Entity;
 
 namespace Gestran.VehicleControl.Domain.Model.Interface
 {
-    public interface IItemApplication: IBaseApplicationCRUD<Item>
+    public interface IItemApplication : IBaseApplicationCRUD<Item>
     {
     }
 }

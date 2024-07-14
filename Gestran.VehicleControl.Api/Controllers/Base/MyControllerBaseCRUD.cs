@@ -62,6 +62,22 @@ namespace Gestran.VehicleControl.Api.Controllers.Base
             }
         }
 
+        [HttpPost]
+        [Route("update/{id}")]
+        public virtual async Task<ActionResult> Update(TEntity item, Guid id)
+        {
+            try
+            {
+                item.SetId(id);
+                await _application.UpdateAsync(item);
+                return CreateResult();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpDelete]
         [Route("{id:guid}")]
         public virtual async Task<ActionResult> Delete(Guid id)

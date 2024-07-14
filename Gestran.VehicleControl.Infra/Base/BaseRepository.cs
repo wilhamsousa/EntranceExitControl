@@ -91,7 +91,7 @@ namespace Gestran.VehicleControl.Infra.Base
         private void CreateId(TEntity param)
         {
             if (param.Id == Guid.Empty)
-                param.Id = Guid.NewGuid();
+                param.SetId(Guid.NewGuid());
         }
     }
 }

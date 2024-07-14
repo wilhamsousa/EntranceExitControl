@@ -11,7 +11,7 @@ namespace Gestran.VehicleControl.Domain.Model.Base
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; protected set; }
 
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public bool Valid { get; protected set; }
 
         [NotMapped, JsonIgnore]

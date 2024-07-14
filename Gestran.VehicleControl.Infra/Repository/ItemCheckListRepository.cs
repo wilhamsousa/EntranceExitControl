@@ -5,9 +5,9 @@ using Gestran.VehicleControl.Infra.Repository.Context;
 
 namespace Gestran.VehicleControl.Infra.Repository
 {
-    public class ItemRepository : BaseRepository<Item>, IItemRepository
+    public class ItemCheckListRepository : BaseRepository<ItemCheckList>, IItemCheckListRepository
     {
-        public ItemRepository(ExcContext context) : base(context)
+        public ItemCheckListRepository(ExcContext context) : base(context)
         {
         }
     }

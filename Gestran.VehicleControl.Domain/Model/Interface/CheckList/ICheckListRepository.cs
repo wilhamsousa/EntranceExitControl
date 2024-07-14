@@ -2,7 +2,7 @@
 
 namespace Gestran.VehicleControl.Domain.Model.Interface
 {
-    public interface ICheckListRepository : IBaseRepository<CheckList>
+    public interface ICheckListRepository : IRepositoryBase<CheckList>
     {
         Task<List<CheckList>> GetCheckListAsync();
         Task<CheckList> GetCheckListAsync(Guid id);

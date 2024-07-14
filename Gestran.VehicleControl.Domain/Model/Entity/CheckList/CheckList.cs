@@ -1,7 +1,5 @@
 ﻿using Gestran.VehicleControl.Domain.Model.Base;
-using Gestran.VehicleControl.Domain.Model.Entity.Validator;
 using Gestran.VehicleControl.Domain.Model.Enum;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Gestran.VehicleControl.Domain.Model.Entity
 {
@@ -21,24 +19,7 @@ namespace Gestran.VehicleControl.Domain.Model.Entity
         public virtual User User { get; set; }
         public virtual ICollection<CheckListItem>? CheckListItem { get; set; }
 
-        [NotMapped]
-        public bool DuplicatedPlateError { get; private set; }
-        [NotMapped]
-        public bool UserNotFoundError { get; private set; }
-
-        public void SetDuplicated()
-        {
-            DuplicatedPlateError = true;
-            Validate(this, new CheckListValidator());
-        }
-
-        public void SetUserNotFound()
-        {
-            UserNotFoundError = true;
-            Validate(this, new CheckListValidator());
-        }
-
-        public CheckList(Guid userId, string vehiclePlate, List<Item> items)
+        public CheckList(Guid userId, string vehiclePlate, List<ItemCheckList> items)
         {
             CheckListItem = new HashSet<CheckListItem>();
             UserId = userId;
@@ -48,7 +29,7 @@ namespace Gestran.VehicleControl.Domain.Model.Entity
             Validate(this, new CheckListValidator());
 
             CheckListItem = new List<CheckListItem>();
-            foreach (Item item in items)
+            foreach (ItemCheckList item in items)
                 CheckListItem.Add(new CheckListItem(item.Id));
         }
     }

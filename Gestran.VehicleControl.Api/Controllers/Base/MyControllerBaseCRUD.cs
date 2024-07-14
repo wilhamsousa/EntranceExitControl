@@ -6,7 +6,7 @@ namespace Gestran.VehicleControl.Api.Controllers.Base
 {
     public abstract class MyControllerBaseCRUD<TEntity, TApplicationInterface> : MyControllerBase
         where TEntity : BaseEntity
-        where TApplicationInterface : IBaseApplicationCRUD<TEntity>
+        where TApplicationInterface : IApplicationBaseCRUD<TEntity>
     {
         private readonly ILogger<MyControllerBaseCRUD<TEntity, TApplicationInterface>> _logger;
         private readonly TApplicationInterface _application;

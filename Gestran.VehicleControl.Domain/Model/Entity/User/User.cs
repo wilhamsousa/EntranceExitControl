@@ -1,18 +1,16 @@
 ﻿using Gestran.VehicleControl.Domain.Model.Base;
-using Gestran.VehicleControl.Domain.Model.Entity.Validator;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Gestran.VehicleControl.Domain.Model.Entity
 {
-    public class Item : BaseEntity
+    public class User : BaseEntity
     {
-        public Item()
+        public User()
         {
-            
+
         }
 
         public string Name { get; set; }
-        public string Note { get; set; }
 
         [NotMapped]
         public bool DuplicatedNameError { get; private set; }
@@ -20,16 +18,15 @@ namespace Gestran.VehicleControl.Domain.Model.Entity
         public void SetDuplicated()
         {
             DuplicatedNameError = true;
-            Validate(this, new ItemValidator());
+            Validate(this, new UserValidator());
         }
 
-        public Item(Guid id, string name, string note)
+        public User(Guid id, string name)
         {
             Id = id;
             Name = name;
-            Note = note;
 
-            Validate(this, new ItemValidator());
+            Validate(this, new UserValidator());
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Gestran.VehicleControl.Domain.Model.Interface
 {
-    public interface IItemRepository : IBaseRepository<Item>
+    public interface IItemCheckListRepository : IRepositoryBase<ItemCheckList>
     {
     }
 }

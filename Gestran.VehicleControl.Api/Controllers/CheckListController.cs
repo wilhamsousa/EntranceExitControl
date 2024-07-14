@@ -1,7 +1,6 @@
 using Azure;
 using Gestran.VehicleControl.Api.Controllers.Base;
-using Gestran.VehicleControl.Domain.Model.DTO;
-using Gestran.VehicleControl.Domain.Model.Entity;
+using Gestran.VehicleControl.Domain.Model.DTO.CheckList;
 using Gestran.VehicleControl.Domain.Model.Interface;
 using Microsoft.AspNetCore.Mvc;
 

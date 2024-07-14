@@ -1,4 +1,4 @@
-﻿using Gestran.VehicleControl.Domain.Model.DTO;
+﻿using Gestran.VehicleControl.Domain.Model.DTO.CheckList;
 using Gestran.VehicleControl.Domain.Model.Entity;
 
 namespace Gestran.VehicleControl.Domain.Model.Interface

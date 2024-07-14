@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Gestran.VehicleControl.Domain.Model.Entity.Validator
+namespace Gestran.VehicleControl.Domain.Model.Entity
 {
     public class CheckListValidator : AbstractValidator<CheckList>
     {
@@ -12,14 +12,6 @@ namespace Gestran.VehicleControl.Domain.Model.Entity.Validator
 
             RuleFor(entity => entity.UserId)
                 .NotEmpty().WithMessage("Usuário não preenchido.");
-
-            RuleFor(entity => entity.DuplicatedPlateError)
-                .Equal(false)
-                .WithMessage($"Checklist pendente com esta placa já existe para outro usuário.");
-
-            RuleFor(entity => entity.UserNotFoundError)
-                .Equal(false)
-                .WithMessage($"Usuário não encontrado.");
         }
     }
 }

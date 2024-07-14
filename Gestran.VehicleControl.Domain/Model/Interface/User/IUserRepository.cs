@@ -2,7 +2,7 @@
 
 namespace Gestran.VehicleControl.Domain.Model.Interface
 {
-    public interface IUserRepository : IBaseRepository<User>
+    public interface IUserRepository : IRepositoryBase<User>
     {
     }
 }

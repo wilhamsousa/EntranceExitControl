@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using System.Text.Json.Serialization;
+using Gestran.VehicleControl.Domain.Model.Interface;
 
 namespace Gestran.VehicleControl.Domain.Model.Base
 {

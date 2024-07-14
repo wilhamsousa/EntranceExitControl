@@ -1,20 +1,20 @@
-﻿using Gestran.VehicleControl.Domain.Model.Base.Interface;
+﻿using Gestran.VehicleControl.Domain.Model.Base;
+using Gestran.VehicleControl.Domain.Model.Base.Interface;
 using Gestran.VehicleControl.Domain.Model.Interface;
 using Gestran.VehicleControl.Domain.Notification;
 
-namespace Gestran.VehicleControl.Domain.Model.Base
+namespace Gestran.VehicleControl.Application.Base
 {
-    public abstract class BaseApplicationCRUD<TEntity, TRepositoryInterface> : IBaseApplicationCRUD<TEntity>
+    public abstract class MyApplicationBaseCRUD<TEntity, TRepositoryInterface> : MyApplicationBase, IApplicationBaseCRUD<TEntity>
         where TEntity : BaseEntity        
-        where TRepositoryInterface : IBaseRepository<TEntity>
+        where TRepositoryInterface : IRepositoryBase<TEntity>
     {
         private readonly TRepositoryInterface _repository;
-        private readonly NotificationContext _notificationContext;
 
-        public BaseApplicationCRUD(TRepositoryInterface repository, NotificationContext notificationContext)
+        public MyApplicationBaseCRUD(TRepositoryInterface repository, NotificationContext notificationContext) : 
+            base(notificationContext)
         {
             _repository = repository;
-            _notificationContext = notificationContext;
         }
 
         public async Task<TEntity> CreateAsync(TEntity entity)

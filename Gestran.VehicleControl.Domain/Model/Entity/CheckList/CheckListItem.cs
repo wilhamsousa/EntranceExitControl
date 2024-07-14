@@ -1,5 +1,4 @@
 ﻿using Gestran.VehicleControl.Domain.Model.Base;
-using Gestran.VehicleControl.Domain.Model.Entity.Validator;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Gestran.VehicleControl.Domain.Model.Entity
@@ -21,8 +20,8 @@ namespace Gestran.VehicleControl.Domain.Model.Entity
         [NotMapped]
         public bool DuplicatedPlateError { get; private set; }
 
-        public virtual Item Item { get; set; }
-        
+        public virtual ItemCheckList Item { get; set; }
+
         public CheckListItem(Guid itemId)
         {
             ItemId = itemId;

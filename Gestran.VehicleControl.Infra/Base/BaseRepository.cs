@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gestran.VehicleControl.Infra.Base
 {
-    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
+    public abstract class BaseRepository<TEntity> : IRepositoryBase<TEntity>
         where TEntity : BaseEntity
     {
         public readonly ExcContext _context;

@@ -12,15 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<NotificationContext>();
 
-builder.Services.AddScoped<IItemRepository, ItemRepository>();
-builder.Services.AddScoped<IItemApplication, ItemApplication>();
+builder.Services.AddScoped<IItemCheckListRepository, ItemCheckListRepository>();
+builder.Services.AddScoped<IItemCheckListApplication, ItemCheckListApplication>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserApplication, UserApplication>();
 
 builder.Services.AddScoped<ICheckListRepository, CheckListRepository>();
 builder.Services.AddScoped<ICheckListApplication, CheckListApplication>();
-
 builder.Services.AddScoped<ICheckListItemRepository, CheckListItemRepository>();
 
 builder.Services

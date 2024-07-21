@@ -1,6 +1,5 @@
 ﻿using Gestran.VehicleControl.Domain.Notification;
 using FluentValidation.Results;
-using FluentValidation;
 
 namespace Gestran.VehicleControl.Application.Base
 {
@@ -22,7 +21,7 @@ namespace Gestran.VehicleControl.Application.Base
 
         protected void AddNotifications(ValidationResult validationResult)
         {
-            if (validationResult != null)
+            if (validationResult != null && validationResult.Errors.Any())
                 _notificationContext.AddNotifications(validationResult);
         }
     }

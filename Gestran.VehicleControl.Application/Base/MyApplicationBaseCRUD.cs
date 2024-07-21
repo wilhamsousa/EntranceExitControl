@@ -1,6 +1,7 @@
-﻿using Gestran.VehicleControl.Domain.Model.Base;
-using Gestran.VehicleControl.Domain.Model.Base.Interface;
-using Gestran.VehicleControl.Domain.Model.Interface;
+﻿using Gestran.VehicleControl.Domain.Exceptions;
+using Gestran.VehicleControl.Domain.Model.Base;
+using Gestran.VehicleControl.Domain.Model.Base.Interfacess;
+using Gestran.VehicleControl.Domain.Model.Interfaces;
 using Gestran.VehicleControl.Domain.Notification;
 
 namespace Gestran.VehicleControl.Application.Base
@@ -24,11 +25,12 @@ namespace Gestran.VehicleControl.Application.Base
                 var response = await _repository.CreateAsync(entity);
                 return response;
             }
-            catch (Exception)
+            catch (MyUniqueConstraintException ex)
             {
-
-                throw;
+                AddValidationFailure(ex.Message);
+                return null;
             }
+            catch (Exception ex) { throw; }
         }
 
         public async Task DeleteAsync(TEntity entity)

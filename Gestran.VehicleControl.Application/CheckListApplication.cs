@@ -1,8 +1,8 @@
 ﻿using Gestran.VehicleControl.Application.Base;
-using Gestran.VehicleControl.Domain.Model.DTO.CheckList;
-using Gestran.VehicleControl.Domain.Model.Entity;
-using Gestran.VehicleControl.Domain.Model.Enum;
-using Gestran.VehicleControl.Domain.Model.Interface;
+using Gestran.VehicleControl.Domain.Model.DTOs.CheckList;
+using Gestran.VehicleControl.Domain.Model.Entities;
+using Gestran.VehicleControl.Domain.Model.Enums;
+using Gestran.VehicleControl.Domain.Model.Interfaces;
 using Gestran.VehicleControl.Domain.Notification;
 
 namespace Gestran.VehicleControl.Application
@@ -51,8 +51,8 @@ namespace Gestran.VehicleControl.Application
                     AddValidationFailure("Usuário não cadastrado.");
                     return null;
                 }
-
-                return await _checkListRepository.CreateAsync(newCheckList);
+                var result = await _checkListRepository.CreateAsync(newCheckList); ;
+                return result;
             }
 
             if (oldCheckList.UserId != param.UserId)
@@ -76,12 +76,6 @@ namespace Gestran.VehicleControl.Application
 
         public async Task AproveItem(Guid checkListItemId, bool approved)
         {
-            if (checkListItemId == Guid.Empty || checkListItemId == null)
-            {
-                AddValidationFailure("Id não informado.");
-                return;
-            }
-
             var checkListItem = _checkListItemRepository.GetQueryable().Where(x => x.Id == checkListItemId).FirstOrDefault();
             if (checkListItem == null)
             {
@@ -89,7 +83,7 @@ namespace Gestran.VehicleControl.Application
                 return;
             }
 
-            checkListItem.Approved = approved;
+            checkListItem.SetApproved(approved);
             await _checkListItemRepository.UpdateAsync(checkListItem);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Gestran.VehicleControl.Domain.Model.Base;
-using Gestran.VehicleControl.Domain.Model.Base.Interface;
+using Gestran.VehicleControl.Domain.Model.Base.Interfacess;
+using Gestran.VehicleControl.Domain.Notification;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gestran.VehicleControl.Api.Controllers.Base
@@ -11,7 +12,8 @@ namespace Gestran.VehicleControl.Api.Controllers.Base
         private readonly ILogger<MyControllerBaseCRUD<TEntity, TApplicationInterface>> _logger;
         private readonly TApplicationInterface _application;
 
-        public MyControllerBaseCRUD(ILogger<MyControllerBaseCRUD<TEntity, TApplicationInterface>> logger, TApplicationInterface application)
+        public MyControllerBaseCRUD(NotificationContext notificationContext, ILogger<MyControllerBaseCRUD<TEntity, TApplicationInterface>> logger, TApplicationInterface application)
+             : base(notificationContext)
         {
             _logger = logger;
             _application = application;

@@ -1,11 +1,12 @@
 using Gestran.VehicleControl.Api.Controllers.Notification;
 using Gestran.VehicleControl.Application;
-using Gestran.VehicleControl.Domain.Model.Interface;
+using Gestran.VehicleControl.Domain.Model.Interfaces;
 using Gestran.VehicleControl.Domain.Notification;
-using Gestran.VehicleControl.Infra.Repository;
-using Gestran.VehicleControl.Infra.Repository.Context;
+using Gestran.VehicleControl.Infra.Repositories;
+using Gestran.VehicleControl.Infra.Repositories.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +24,8 @@ builder.Services.AddScoped<ICheckListApplication, CheckListApplication>();
 builder.Services.AddScoped<ICheckListItemRepository, CheckListItemRepository>();
 
 builder.Services
-    .AddControllers();
-    //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Item>());
+    .AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

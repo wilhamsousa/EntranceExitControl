@@ -1,6 +1,7 @@
-﻿using Gestran.VehicleControl.Domain.Model.Base;
-using Gestran.VehicleControl.Domain.Model.Interface;
-using Gestran.VehicleControl.Infra.Repository.Context;
+﻿using Gestran.VehicleControl.Domain.Exceptions;
+using Gestran.VehicleControl.Domain.Model.Base;
+using Gestran.VehicleControl.Domain.Model.Interfaces;
+using Gestran.VehicleControl.Infra.Repositories.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gestran.VehicleControl.Infra.Base
@@ -38,9 +39,26 @@ namespace Gestran.VehicleControl.Infra.Base
         {
             CreateId(param);
 
-            var data = _context.Set<TEntity>().Add(param);
-            var result = await _context.SaveChangesAsync();
-            return data.Entity;
+            try
+            {
+                var data = _context.Set<TEntity>().Add(param);
+                var result = await _context.SaveChangesAsync();
+                return data.Entity;
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ExceptionHelper.IsUniqueConstraintViolation(ex))
+                {
+                    foreach (KeyValuePair<string, string> kvp in MessageErrors())
+                    {
+                        if (ex.InnerException.Message.Contains(kvp.Key))
+                            throw new MyUniqueConstraintException(kvp.Value);
+                    }
+                }
+
+                throw;
+            }
+            catch (Exception) { throw; };
         }
 
         public virtual async Task<TEntity> CreateOrUpdateAsync(TEntity entity)
@@ -92,6 +110,11 @@ namespace Gestran.VehicleControl.Infra.Base
         {
             if (param.Id == Guid.Empty)
                 param.SetId(Guid.NewGuid());
+        }
+
+        public virtual Dictionary<string, string> MessageErrors()
+        {
+            return new Dictionary<string, string>();
         }
     }
 }

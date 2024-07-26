@@ -4,6 +4,7 @@ using Gestran.VehicleControl.Infra.Repositories.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gestran.VehicleControl.Infra.Migrations
 {
     [DbContext(typeof(ExcContext))]
-    partial class ExcContextModelSnapshot : ModelSnapshot
+    [Migration("20240726022407_ChecklistUserIndex")]
+    partial class ChecklistUserIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

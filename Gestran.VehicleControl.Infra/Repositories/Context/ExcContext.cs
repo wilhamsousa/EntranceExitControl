@@ -18,6 +18,7 @@ namespace Gestran.VehicleControl.Infra.Repositories.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             MyModelConfigurationStrategy.Configure(builder, new UserConfiguration());
+            MyModelConfigurationStrategy.Configure(builder, new CheckListConfiguration());
         }
     }
 }

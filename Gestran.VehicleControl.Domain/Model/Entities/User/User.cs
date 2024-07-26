@@ -6,7 +6,7 @@ namespace Gestran.VehicleControl.Domain.Model.Entities
     {
         public User()
         {
-
+            CheckLists = new HashSet<CheckList>();
         }
 
         public string Name { get; set; }
@@ -18,5 +18,7 @@ namespace Gestran.VehicleControl.Domain.Model.Entities
 
             Validate(this, new UserValidator());
         }
+
+        public virtual ICollection<CheckList>? CheckLists { get; set; }
     }
 }

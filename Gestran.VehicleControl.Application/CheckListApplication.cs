@@ -13,7 +13,7 @@ namespace Gestran.VehicleControl.Application
         private readonly ICheckListItemRepository _checkListItemRepository;
         private readonly IUserRepository _userRepository;
         private readonly IItemCheckListRepository _itemCheckListRepository;
-        
+
 
         public CheckListApplication(
             NotificationContext notificationContext,
@@ -26,42 +26,44 @@ namespace Gestran.VehicleControl.Application
             _checkListRepository = checkListRepository;
             _checkListItemRepository = checkListItemRepository;
             _userRepository = userRepository;
-            _itemCheckListRepository = itemCheckListRepository;            
-        }        
+            _itemCheckListRepository = itemCheckListRepository;
+        }
 
         public async Task<CheckList> CreateAsync(CheckListCreateDTO param)
         {
-            var items = await _itemCheckListRepository.GetAsync();            
+            var items = await _itemCheckListRepository.GetAsync();
             var newCheckList = new CheckList(param.UserId, param.VehiclePlate, items);
             AddNotifications(newCheckList.ValidationResult);
             if (newCheckList.Invalid)
                 return null;
 
-            var oldCheckList = _checkListRepository
-                .GetQueryable()
-                .Where(x => x.VehiclePlate == param.VehiclePlate && x.Status == CheckListStatus.Started)
-                .SingleOrDefault();
+            CheckList? oldCheckList = GetCheckListIfExist(param.VehiclePlate);
 
-            if (oldCheckList == null)
-            {
-                var user = await _userRepository.GetAsync(param.UserId);
+            if (ChecklistAnotherUser(oldCheckList, param.UserId))
+                return null;            
 
-                if (user == null)
-                {
-                    AddValidationFailure("Usuário não cadastrado.");
-                    return null;
-                }
-                var result = await _checkListRepository.CreateAsync(newCheckList); ;
-                return result;
-            }
+            if (oldCheckList != null)
+                return oldCheckList;            
+            
+            var result = await _checkListRepository.CreateAsync(newCheckList); ;
+            return result;
+        }
 
-            if (oldCheckList.UserId != param.UserId)
-            {
-                AddValidationFailure("Já existe um checklist para este usuário em aberto.");
-                return null;
-            }
+        private bool ChecklistAnotherUser(CheckList? oldCheckList, Guid userId)
+        {
+            bool exists = (oldCheckList != null && oldCheckList.UserId != userId);
+            if (exists)
+                AddValidationFailure("Já existe um checklist para esta placa e outro usuário em aberto.");
 
-            return oldCheckList;
+            return exists;
+        }
+
+        private CheckList? GetCheckListIfExist(string vehiclePlate)
+        {
+            return _checkListRepository
+                            .GetQueryable()
+                            .Where(x => x.VehiclePlate == vehiclePlate && x.Status == CheckListStatus.Started)
+                            .SingleOrDefault();
         }
 
         public async Task<CheckList> GetAsync(Guid id)

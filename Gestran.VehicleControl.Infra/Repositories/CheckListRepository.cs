@@ -1,14 +1,16 @@
 ﻿using Gestran.VehicleControl.Domain.Model.Entities;
 using Gestran.VehicleControl.Domain.Model.Interfaces;
+using Gestran.VehicleControl.Domain.Notification;
 using Gestran.VehicleControl.Infra.Base;
 using Gestran.VehicleControl.Infra.Repositories.Context;
+using Gestran.VehicleControl.Infra.Repositories.Context.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gestran.VehicleControl.Infra.Repositories
 {
     public class CheckListRepository : BaseRepository<CheckList>, ICheckListRepository
     {
-        public CheckListRepository(ExcContext context) : base(context)
+        public CheckListRepository(ExcContext context, NotificationContext notificationContext) : base(context, notificationContext)
         {
         }
 
@@ -36,6 +38,15 @@ namespace Gestran.VehicleControl.Infra.Repositories
             checkList.CheckListItem = checkListItem;
 
             return checkList;
+        }
+
+        public override Dictionary<string, string> MessageErrors()
+        {
+            return new Dictionary<string, string>
+            {
+                { CheckListIndexes.VehiclePlateStartDateTime, "Já existe um checklist para esta placa e horário." },
+                { CheckListIndexes.CheckListUser, "Usuário não cadastrado." }
+            };
         }
     }
 }

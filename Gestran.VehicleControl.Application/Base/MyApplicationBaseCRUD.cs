@@ -1,5 +1,4 @@
-﻿using Gestran.VehicleControl.Domain.Exceptions;
-using Gestran.VehicleControl.Domain.Model.Base;
+﻿using Gestran.VehicleControl.Domain.Model.Base;
 using Gestran.VehicleControl.Domain.Model.Base.Interfacess;
 using Gestran.VehicleControl.Domain.Model.Interfaces;
 using Gestran.VehicleControl.Domain.Notification;
@@ -7,12 +6,12 @@ using Gestran.VehicleControl.Domain.Notification;
 namespace Gestran.VehicleControl.Application.Base
 {
     public abstract class MyApplicationBaseCRUD<TEntity, TRepositoryInterface> : MyApplicationBase, IApplicationBaseCRUD<TEntity>
-        where TEntity : BaseEntity        
+        where TEntity : BaseEntity
         where TRepositoryInterface : IRepositoryBase<TEntity>
     {
         private readonly TRepositoryInterface _repository;
 
-        public MyApplicationBaseCRUD(TRepositoryInterface repository, NotificationContext notificationContext) : 
+        public MyApplicationBaseCRUD(TRepositoryInterface repository, NotificationContext notificationContext) :
             base(notificationContext)
         {
             _repository = repository;
@@ -20,17 +19,8 @@ namespace Gestran.VehicleControl.Application.Base
 
         public async Task<TEntity> CreateAsync(TEntity entity)
         {
-            try
-            {
-                var response = await _repository.CreateAsync(entity);
-                return response;
-            }
-            catch (MyUniqueConstraintException ex)
-            {
-                AddValidationFailure(ex.Message);
-                return null;
-            }
-            catch (Exception ex) { throw; }
+            var response = await _repository.CreateAsync(entity);
+            return response;
         }
 
         public async Task DeleteAsync(TEntity entity)

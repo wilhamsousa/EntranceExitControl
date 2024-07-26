@@ -20,5 +20,13 @@ namespace Gestran.VehicleControl.Infra.Base
 
             return sqlException != null && sqlException.Class == 14 && (sqlException.Number == 2601 || sqlException.Number == 2627);
         }
+
+        public static bool IsFKConstraintViolation(Exception ex)
+        {
+            var innermost = GetInnermostException(ex);
+            var sqlException = innermost as SqlException;
+
+            return sqlException != null && sqlException.Class == 16 && (sqlException.Number == 547);
+        }
     }
 }

@@ -1,6 +1,7 @@
-﻿using Gestran.VehicleControl.Domain.Exceptions;
+﻿using FluentValidation.Results;
 using Gestran.VehicleControl.Domain.Model.Base;
 using Gestran.VehicleControl.Domain.Model.Interfaces;
+using Gestran.VehicleControl.Domain.Notification;
 using Gestran.VehicleControl.Infra.Repositories.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,13 @@ namespace Gestran.VehicleControl.Infra.Base
         where TEntity : BaseEntity
     {
         public readonly ExcContext _context;
+        private readonly ValidationResult _validationResult = new ValidationResult();
+        private readonly NotificationContext _notificationContext;
 
-        protected BaseRepository(ExcContext context)
+        protected BaseRepository(ExcContext context, NotificationContext notificationContext)
         {
             _context = context;
+            _notificationContext = notificationContext;
         }
 
         public virtual async Task<TEntity> GetAsync(Guid id)
@@ -52,7 +56,16 @@ namespace Gestran.VehicleControl.Infra.Base
                     foreach (KeyValuePair<string, string> kvp in MessageErrors())
                     {
                         if (ex.InnerException.Message.Contains(kvp.Key))
-                            throw new MyUniqueConstraintException(kvp.Value);
+                            AddValidationFailure(kvp.Value);
+                    }
+                }
+
+                if (ExceptionHelper.IsFKConstraintViolation(ex))
+                {
+                    foreach (KeyValuePair<string, string> kvp in MessageErrors())
+                    {
+                        if (ex.InnerException.Message.Contains(kvp.Key))
+                            AddValidationFailure(kvp.Value);
                     }
                 }
 
@@ -115,6 +128,12 @@ namespace Gestran.VehicleControl.Infra.Base
         public virtual Dictionary<string, string> MessageErrors()
         {
             return new Dictionary<string, string>();
+        }
+
+        protected void AddValidationFailure(string message)
+        {
+            _validationResult.Errors.Add(new ValidationFailure() { ErrorMessage = message });
+            _notificationContext.AddNotifications(_validationResult);
         }
     }
 }

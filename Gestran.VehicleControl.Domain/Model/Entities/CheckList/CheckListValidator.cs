@@ -11,7 +11,9 @@ namespace Gestran.VehicleControl.Domain.Model.Entities
                 .Length(1, 20).WithMessage("Nome deve ter entre 1 e 20 caracteres.");
 
             RuleFor(entity => entity.UserId)
-                .NotEmpty().WithMessage("Usuário não preenchido.");
+                .NotEmpty()
+                .NotEqual(Guid.Empty)
+                .WithMessage("Usuário não preenchido.");
         }
     }
 }

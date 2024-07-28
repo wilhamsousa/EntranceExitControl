@@ -10,10 +10,23 @@ namespace Gestran.VehicleControl.Domain.Model.Entities
 
         }
 
-        public Guid CheckListId { get; private set; }
-        public Guid ItemId { get; private set; }
-        public bool? Approved { get; private set; }
-        public DateTime? DateTime { get; private set; }
+        public CheckListItem(
+            Guid checkListId,
+            Guid itemId,
+            bool? approved,
+            DateTime? dateTime
+            )
+        {
+            CheckListId = checkListId;
+            ItemId = itemId;
+            Approved = approved;
+            DateTime = dateTime;
+        }
+
+        public Guid CheckListId { get; set; }
+        public Guid ItemId { get; set; }
+        public bool? Approved { get; set; }
+        public DateTime? DateTime { get; set; }
 
         public virtual CheckList CheckList { get; set; }
         public virtual ItemCheckList Item { get; set; }

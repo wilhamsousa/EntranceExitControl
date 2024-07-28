@@ -43,7 +43,7 @@ namespace Gestran.VehicleControl.Application
                 return null;            
 
             if (oldCheckList != null)
-                return oldCheckList;            
+                return oldCheckList;
             
             var result = await _checkListRepository.CreateAsync(newCheckList); ;
             return result;
@@ -78,7 +78,7 @@ namespace Gestran.VehicleControl.Application
 
         public async Task AproveItem(Guid checkListItemId, bool approved)
         {
-            var checkListItem = _checkListItemRepository.GetQueryable().Where(x => x.Id == checkListItemId).FirstOrDefault();
+            var checkListItem = await _checkListItemRepository.GetAsync(checkListItemId);
             if (checkListItem == null)
             {
                 AddValidationFailure("Item de checklist não encontrado.");

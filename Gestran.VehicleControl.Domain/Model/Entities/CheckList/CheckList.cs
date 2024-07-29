@@ -37,6 +37,6 @@ namespace Gestran.VehicleControl.Domain.Model.Entities
     public static class CheckListMessage
     {
         public const string 
-            CHECKLIST_JA_EXISTE = "Já existe um checklist para esta placa e outro usuário em aberto.";
+            CHECKLIST_ALREADY_EXISTS = "Já existe um checklist para esta placa e outro usuário em aberto.";
     }
 }

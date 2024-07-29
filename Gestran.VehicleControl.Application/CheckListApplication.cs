@@ -52,7 +52,7 @@ namespace Gestran.VehicleControl.Application
         {
             bool exists = (oldCheckList != null && oldCheckList.UserId != userId);
             if (exists)
-                AddValidationFailure(CheckListMessage.CHECKLIST_JA_EXISTE);
+                AddValidationFailure(CheckListMessage.CHECKLIST_ALREADY_EXISTS);
 
             return exists;
         }

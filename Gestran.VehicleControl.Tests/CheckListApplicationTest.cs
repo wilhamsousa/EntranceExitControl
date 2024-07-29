@@ -127,7 +127,7 @@ namespace Gestran.VehicleControl.Tests
         }
 
         [Fact]
-        public void CreateUserError()
+        public void CheckListAlreadyExists()
         {
             CreateSetup(
                 new CheckList(
@@ -161,7 +161,7 @@ namespace Gestran.VehicleControl.Tests
             };
             var result = _application.CreateAsync(param).Result;
             Assert.Null(result);
-            Assert.True(_notificationContext.Notifications.Any(x => x.Message == CheckListMessage.CHECKLIST_JA_EXISTE));
+            Assert.True(_notificationContext.Notifications.Any(x => x.Message == CheckListMessage.CHECKLIST_ALREADY_EXISTS));
         }
     }
 }

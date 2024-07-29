@@ -25,7 +25,7 @@ namespace Gestran.VehicleControl.Tests
         Guid user1 = Guid.Parse("8ab7a28f-3526-4abd-8567-7dd42840cbf7");
         Guid user2 = Guid.Parse("a33b5c0e-5111-4f8b-85eb-d329a185e245");
 
-        public CheckListApplicationTest(NotificationContext notificationContext, ITestOutputHelper output) : base(notificationContext, output)
+        public CheckListApplicationTest(ITestOutputHelper output) : base(output)
         {
             _checkListRepository = new Mock<ICheckListRepository>();
             _checkListItemRepository = new Mock<ICheckListItemRepository>();
@@ -35,16 +35,16 @@ namespace Gestran.VehicleControl.Tests
             _itemCheckList.Add(new ItemCheckList(Guid.Parse("182deb7b-54b9-4b4d-ba20-0d6248d3de5e"), "Item 1", "Observação 1"));            
         }
 
-        //[Theory]
-        //[InlineData("182deb7b-54b9-4b4d-ba20-0d6248d3de5e", "ABC-1234", true)]
-        //[InlineData("00000000-0000-0000-0000-000000000000", "ABC-1234", false)]
-        //[InlineData("182deb7b-54b9-4b4d-ba20-0d6248d3de5e", "", false)]
-        //public void CheckListValidator(string userId, string vehiclePlate, bool result)
-        //{
-        //    var newUserId = Guid.Parse(userId);
-        //    CheckList checkList = new CheckList(newUserId, vehiclePlate, _itemCheckList);
-        //    Assert.Equal(result, checkList.Valid);
-        //}
+        [Theory]
+        [InlineData("182deb7b-54b9-4b4d-ba20-0d6248d3de5e", "ABC-1234", true)]
+        [InlineData("182deb7b-54b9-4b4d-ba20-0d6248d3de5e", "", false)]
+        [InlineData("00000000-0000-0000-0000-000000000000", "ABC-1234", false)]
+        public void CheckListValidator(string userId, string vehiclePlate, bool result)
+        {
+            var newUserId = Guid.Parse(userId);
+            CheckList checkList = new CheckList(newUserId, vehiclePlate, _itemCheckList);
+            Assert.Equal(result, checkList.Valid);
+        }
 
         [Fact]
         public void CreateOK()

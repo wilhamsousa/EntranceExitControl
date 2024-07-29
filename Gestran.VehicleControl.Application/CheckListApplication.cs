@@ -1,7 +1,6 @@
 ﻿using Gestran.VehicleControl.Application.Base;
 using Gestran.VehicleControl.Domain.Model.DTOs.CheckList;
 using Gestran.VehicleControl.Domain.Model.Entities;
-using Gestran.VehicleControl.Domain.Model.Enums;
 using Gestran.VehicleControl.Domain.Model.Interfaces;
 using Gestran.VehicleControl.Domain.Notification;
 

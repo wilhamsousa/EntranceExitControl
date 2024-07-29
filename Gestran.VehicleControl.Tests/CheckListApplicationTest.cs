@@ -32,7 +32,50 @@ namespace Gestran.VehicleControl.Tests
             _userRepository = new Mock<IUserRepository>();
             _itemCheckListRepository = new Mock<IItemCheckListRepository>();            
 
-            _itemCheckList.Add(new ItemCheckList(Guid.Parse("182deb7b-54b9-4b4d-ba20-0d6248d3de5e"), "Item 1", "Observação 1"));            
+            _itemCheckList.Add(new ItemCheckList(Guid.Parse("182deb7b-54b9-4b4d-ba20-0d6248d3de5e"), "Item 1", "Observação 1"));
+            _application = new CheckListApplication(
+                _notificationContext,
+                _checkListRepository.Object,
+                _checkListItemRepository.Object,
+                _userRepository.Object,
+                _itemCheckListRepository.Object
+            );
+        }
+
+        private void CreateSetup(
+            CheckList createCreckListResult,
+            CheckList getStartedByVehiclePlateResult,
+            CheckListItem getCheckListItemResult,
+            List<ItemCheckList> getItemCheckListResult)
+        {
+            _checkListRepository.Setup(x => x
+                .CreateAsync(It.IsAny<CheckList>()))
+                .Callback((CheckList param) => _output.WriteLine($"Received {param.VehiclePlate}"))
+                .Returns(() =>
+                    Task.FromResult(createCreckListResult)
+                );
+
+            _checkListRepository.Setup(x => x
+                .GetStartedByVehiclePlate(It.IsAny<string>()))
+                .Callback((string param) => _output.WriteLine($"Received {param}"))
+                .Returns(() =>
+                    Task.FromResult(getStartedByVehiclePlateResult)
+                );
+
+            _checkListItemRepository.Setup(x => x
+                .GetAsync(It.IsAny<Guid>()))
+                .Callback((Guid param) => _output.WriteLine($"Received {param}"))
+                .Returns(() =>
+                    Task.FromResult(getCheckListItemResult)
+                );
+
+            _checkListItemRepository.Setup(x => x
+                .UpdateAsync(It.IsAny<CheckListItem>()))
+                .Callback((CheckListItem param) => _output.WriteLine($"Received {param.Id}"));
+
+            _itemCheckListRepository.Setup(x => x
+                .GetAsync())
+                .Returns(() => Task.FromResult(getItemCheckListResult));
         }
 
         [Theory]
@@ -49,115 +92,74 @@ namespace Gestran.VehicleControl.Tests
         [Fact]
         public void CreateOK()
         {
-            _checkListRepository.Setup(x => x.CreateAsync(It.IsAny<CheckList>()))
-                .Callback((CheckList param) => _output.WriteLine($"Received {param.VehiclePlate}"))
-                .Returns(() =>
-                    Task.FromResult(new CheckList(
-                        user1, 
-                        vehiclePlate, 
-                        _itemCheckList
-                    ))
-                );
-
-            _checkListRepository.Setup(x => x.GetStartedByVehiclePlate(It.IsAny<string>()))
-                .Callback((string param) => _output.WriteLine($"Received {param}"))
-                .Returns(() =>
-                    Task.FromResult(new CheckList(
+            CreateSetup(
+                new CheckList(
                         user1,
                         vehiclePlate,
                         _itemCheckList
-                    ))
-                );
-
-            _checkListItemRepository.Setup(x => x.GetAsync(It.IsAny<Guid>()))
-                .Callback((Guid param) => _output.WriteLine($"Received {param}"))
-                .Returns(() => 
-                    Task.FromResult(new CheckListItem
+                    ),
+                new CheckList(
+                        user1,
+                        vehiclePlate,
+                        _itemCheckList
+                    ),
+                new CheckListItem
                     (
                         item1,
                         item2,
                         true,
                         DateTime.Now
-                    ))
-                );
-
-            _checkListItemRepository.Setup(x => x.UpdateAsync(It.IsAny<CheckListItem>()))
-                .Callback((CheckListItem param) => _output.WriteLine($"Received {param.Id}"));
-
-            _itemCheckListRepository.Setup(x => x.GetAsync())
-                .Returns(() => Task.FromResult(new List<ItemCheckList>() 
-                    { 
+                    ),
+                new List<ItemCheckList>()
+                    {
                         new ItemCheckList(item1, "Item1", "Observação"),
                         new ItemCheckList(item2, "Item2", "Observação2")
                     }
-                ));
-
-            var application = new CheckListApplication(_notificationContext, _checkListRepository.Object, _checkListItemRepository.Object, _userRepository.Object, _itemCheckListRepository.Object);
+            );
 
             CheckListCreateDTO param = new CheckListCreateDTO()
             {
                 UserId = user1,
                 VehiclePlate = vehiclePlate
             };
-            var result = application.CreateAsync(param).Result;
+            var result = _application.CreateAsync(param).Result;
             Assert.Equal(result.Valid, true);
         }
 
         [Fact]
         public void CreateUserError()
         {
-            _checkListRepository.Setup(x => x.CreateAsync(It.IsAny<CheckList>()))
-                .Callback((CheckList param) => _output.WriteLine($"Received {param.VehiclePlate}"))
-                .Returns(() =>
-                    Task.FromResult(new CheckList(
+            CreateSetup(
+                new CheckList(
                         user1,
                         vehiclePlate,
                         _itemCheckList
-                    ))
-                );
-
-            _checkListRepository.Setup(x => x.GetStartedByVehiclePlate(It.IsAny<string>()))
-                .Callback((string param) => _output.WriteLine($"Received {param}"))
-                .Returns(() =>
-                    Task.FromResult(new CheckList(
+                    ),
+                new CheckList(
                         user2,
                         vehiclePlate,
                         _itemCheckList
-                    ))
-                );
-
-
-            _checkListItemRepository.Setup(x => x.GetAsync(It.IsAny<Guid>()))
-                .Callback((Guid param) => _output.WriteLine($"Received {param}"))
-                .Returns(() =>
-                    Task.FromResult(new CheckListItem
+                    ),
+                new CheckListItem
                     (
                         item1,
                         item2,
                         true,
                         DateTime.Now
-                    ))
-                );
-
-            _checkListItemRepository.Setup(x => x.UpdateAsync(It.IsAny<CheckListItem>()))
-                .Callback((CheckListItem param) => _output.WriteLine($"Received {param.Id}"));
-
-            _itemCheckListRepository.Setup(x => x.GetAsync())
-                .Returns(() => Task.FromResult(new List<ItemCheckList>()
+                    ),
+                new List<ItemCheckList>()
                     {
                         new ItemCheckList(item1, "Item1", "Observação"),
                         new ItemCheckList(item2, "Item2", "Observação2")
                     }
-                ));
-
-            var application = new CheckListApplication(_notificationContext, _checkListRepository.Object, _checkListItemRepository.Object, _userRepository.Object, _itemCheckListRepository.Object);
+            );
 
             CheckListCreateDTO param = new CheckListCreateDTO()
             {
                 UserId = user1,
                 VehiclePlate = vehiclePlate
             };
-            var result = application.CreateAsync(param).Result;
+            var result = _application.CreateAsync(param).Result;
             Assert.Null(result);
             Assert.True(_notificationContext.Notifications.Any(x => x.Message == CheckListMessage.CHECKLIST_JA_EXISTE));
         }

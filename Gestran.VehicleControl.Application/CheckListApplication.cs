@@ -37,7 +37,7 @@ namespace Gestran.VehicleControl.Application
             if (newCheckList.Invalid)
                 return null;
 
-            CheckList? oldCheckList = GetCheckListIfExist(param.VehiclePlate);
+            CheckList? oldCheckList = await GetCheckListIfExist(param.VehiclePlate);
 
             if (ChecklistAnotherUser(oldCheckList, param.UserId))
                 return null;            
@@ -53,18 +53,13 @@ namespace Gestran.VehicleControl.Application
         {
             bool exists = (oldCheckList != null && oldCheckList.UserId != userId);
             if (exists)
-                AddValidationFailure("Já existe um checklist para esta placa e outro usuário em aberto.");
+                AddValidationFailure(CheckListMessage.CHECKLIST_JA_EXISTE);
 
             return exists;
         }
 
-        private CheckList? GetCheckListIfExist(string vehiclePlate)
-        {
-            return _checkListRepository
-                            .GetQueryable()
-                            .Where(x => x.VehiclePlate == vehiclePlate && x.Status == CheckListStatus.Started)
-                            .SingleOrDefault();
-        }
+        private async Task<CheckList?> GetCheckListIfExist(string vehiclePlate) =>
+            await _checkListRepository.GetStartedByVehiclePlate(vehiclePlate);
 
         public async Task<CheckList> GetAsync(Guid id)
         {

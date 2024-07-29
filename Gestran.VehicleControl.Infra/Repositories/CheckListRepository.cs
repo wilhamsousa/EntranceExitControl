@@ -1,4 +1,5 @@
 ﻿using Gestran.VehicleControl.Domain.Model.Entities;
+using Gestran.VehicleControl.Domain.Model.Enums;
 using Gestran.VehicleControl.Domain.Model.Interfaces;
 using Gestran.VehicleControl.Domain.Notification;
 using Gestran.VehicleControl.Infra.Base;
@@ -39,6 +40,12 @@ namespace Gestran.VehicleControl.Infra.Repositories
 
             return checkList;
         }
+
+        public async Task<CheckList> GetStartedByVehiclePlate(string vehiclePlate) =>
+            await _context.CheckList
+                .Where(x => x.VehiclePlate == vehiclePlate)
+                .Where(x => x.Status == CheckListStatus.Started)
+                .SingleOrDefaultAsync();
 
         public override Dictionary<string, string> MessageErrors()
         {

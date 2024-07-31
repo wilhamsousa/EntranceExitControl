@@ -1,4 +1,5 @@
 ﻿using Gestran.VehicleControl.Domain.Model.Base;
+using System.Text.Json.Serialization;
 
 namespace Gestran.VehicleControl.Domain.Model.Entities
 {
@@ -19,6 +20,7 @@ namespace Gestran.VehicleControl.Domain.Model.Entities
             Validate(this, new UserValidator());
         }
 
+        [JsonIgnore]
         public virtual ICollection<CheckList>? CheckLists { get; set; }
     }
 

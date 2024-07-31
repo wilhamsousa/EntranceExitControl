@@ -25,6 +25,7 @@ namespace Gestran.VehicleControl.Tests
         Guid userId1 = Guid.Parse("8ab7a28f-3526-4abd-8567-7dd42840cbf7");
         Guid userId2 = Guid.Parse("a33b5c0e-5111-4f8b-85eb-d329a185e245");
         Guid checkListId = Guid.Parse("ed4f7bad-0fb9-4ef8-9e92-483b5e688036");
+        Guid checkListItemId = Guid.Parse("223f3c36-34ab-4829-af00-de8bd1f35343");
 
         public CheckListApplicationTest(ITestOutputHelper output) : base(output)
         {
@@ -227,8 +228,8 @@ namespace Gestran.VehicleControl.Tests
                 .UpdateAsync(It.IsAny<CheckListItem>()))
                 .Callback((CheckListItem param) => _output.WriteLine($"Received {param.Id}"));
 
-            await _application.AproveItem(checkListId, true);
-            Assert.True(_notificationContext.HasNotifications);
+            await _application.ApproveItem(new CheckListItemUpdateDTO(checkListItemId));
+            Assert.False(_notificationContext.HasNotifications);
         }
 
         [Fact]
@@ -244,7 +245,7 @@ namespace Gestran.VehicleControl.Tests
                 );
 
             Guid checkListItemId = Guid.NewGuid();
-            await _application.AproveItem(checkListItemId, true);
+            await _application.ApproveItem(new CheckListItemUpdateDTO(checkListItemId));
             Assert.True(_notificationContext.Notifications.Any(x => x.Message == CheckListMessage.CHECKLISTITEM_NOTFOUND));
         }
     }

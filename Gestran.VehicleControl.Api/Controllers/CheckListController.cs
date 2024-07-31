@@ -73,12 +73,12 @@ namespace Gestran.VehicleControl.Api.Controllers
         }
 
         [HttpPost]
-        [Route("aprove-item")]
-        public virtual async Task<ActionResult> AproveItem(CheckListItemUpdateDTO param)
+        [Route("approve-item")]
+        public virtual async Task<ActionResult> ApproveItem(CheckListItemUpdateDTO param)
         {
             try
             {
-                await _CheckListApplication.AproveItem(param.itemId, true);
+                await _CheckListApplication.ApproveItem(param);
                 return CreateResult();
             }
             catch (Exception ex)
@@ -93,7 +93,7 @@ namespace Gestran.VehicleControl.Api.Controllers
         {
             try
             {
-                await _CheckListApplication.AproveItem(param.itemId, false);
+                await _CheckListApplication.ReproveItem(param);
                 return CreateResult();
             }
             catch (Exception ex)

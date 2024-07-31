@@ -83,17 +83,22 @@ namespace Gestran.VehicleControl.Application
             return await _checkListRepository.GetCheckListAsync();
         }
 
-        public async Task AproveItem(Guid checkListItemId, bool approved)
+        public async Task ApproveItem(CheckListItemUpdateDTO param) => AproveOrReproveItem(param, true);
+        public async Task ReproveItem(CheckListItemUpdateDTO param) => AproveOrReproveItem(param, false);
+
+        public async Task AproveOrReproveItem(CheckListItemUpdateDTO param, bool approve)
         {
-            var checkListItem = await _checkListItemRepository.GetAsync(checkListItemId);
+            var checkListItem = await _checkListItemRepository.GetAsync(param.checkListItemId);
             CheckListItemNotFoundValidation(checkListItem);
 
             if (HasNotifications)
                 return;
 
-            checkListItem.SetApproved(approved);
+            checkListItem.SetApproved(approve);
             await _checkListItemRepository.UpdateAsync(checkListItem);
         }
+
+
 
         private void CheckListItemNotFoundValidation(CheckListItem? checkListItem)
         {

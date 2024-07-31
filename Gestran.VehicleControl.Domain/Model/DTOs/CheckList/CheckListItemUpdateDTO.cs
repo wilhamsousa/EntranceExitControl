@@ -1,4 +1,4 @@
 ﻿namespace Gestran.VehicleControl.Domain.Model.DTOs.CheckList
 {
-    public record CheckListItemUpdateDTO(Guid itemId);
+    public record CheckListItemUpdateDTO(Guid checkListItemId);
 }

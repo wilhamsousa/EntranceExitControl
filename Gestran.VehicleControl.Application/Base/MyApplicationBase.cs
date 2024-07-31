@@ -8,6 +8,8 @@ namespace Gestran.VehicleControl.Application.Base
         private readonly ValidationResult _validationResult = new ValidationResult();
         private readonly NotificationContext _notificationContext;
 
+        public bool HasNotifications { get => _notificationContext.HasNotifications; }
+
         protected MyApplicationBase(NotificationContext notificationContext)
         {
             _notificationContext = notificationContext;

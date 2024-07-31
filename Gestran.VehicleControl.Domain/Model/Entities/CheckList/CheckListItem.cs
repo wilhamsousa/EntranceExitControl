@@ -21,6 +21,8 @@ namespace Gestran.VehicleControl.Domain.Model.Entities
             ItemId = itemId;
             Approved = approved;
             DateTime = dateTime;
+
+            Validate(this, new CheckListItemValidator());
         }
 
         public Guid CheckListId { get; set; }

@@ -10,5 +10,21 @@ namespace Gestran.VehicleControl.Application
         public UserApplication(IUserRepository repository, NotificationContext notificationContext) : base(repository, notificationContext)
         {
         }
+
+        public override async Task<User> CreateAsync(User entity)
+        {
+            UserNameValidation(entity);
+            if (HasNotifications)
+                return null;
+
+            return await base.CreateAsync(entity);
+        }
+
+        private void UserNameValidation(User entity)
+        {
+            var user = _repository.GetByNameAsync(entity.Name);
+            if (user != null);
+                AddValidationFailure(UserMessage.USERNAME_ALREADY_EXISTS);
+        }
     }
 }

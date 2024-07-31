@@ -43,35 +43,9 @@ namespace Gestran.VehicleControl.Infra.Base
         {
             CreateId(param);
 
-            try
-            {
-                var data = _context.Set<TEntity>().Add(param);
-                var result = await _context.SaveChangesAsync();
-                return data.Entity;
-            }
-            catch (DbUpdateException ex)
-            {
-                if (ExceptionHelper.IsUniqueConstraintViolation(ex))
-                {
-                    foreach (KeyValuePair<string, string> kvp in MessageErrors())
-                    {
-                        if (ex.InnerException.Message.Contains(kvp.Key))
-                            AddValidationFailure(kvp.Value);
-                    }
-                }
-
-                if (ExceptionHelper.IsFKConstraintViolation(ex))
-                {
-                    foreach (KeyValuePair<string, string> kvp in MessageErrors())
-                    {
-                        if (ex.InnerException.Message.Contains(kvp.Key))
-                            AddValidationFailure(kvp.Value);
-                    }
-                }
-
-                throw;
-            }
-            catch (Exception) { throw; };
+            var data = _context.Set<TEntity>().Add(param);
+            var result = await _context.SaveChangesAsync();
+            return data.Entity;
         }
 
         public virtual async Task<TEntity> CreateOrUpdateAsync(TEntity entity)
@@ -102,7 +76,7 @@ namespace Gestran.VehicleControl.Infra.Base
             _context.Entry<TEntity>(entity).State = EntityState.Modified;
             var result = _context.Set<TEntity>().Update(entity);
             await _context.SaveChangesAsync();
-        }        
+        }
 
         public virtual async Task DeleteAsync(TEntity param)
         {

@@ -11,7 +11,7 @@ namespace Gestran.VehicleControl.Domain.Notification
     {
         private readonly List<Notification> _notifications;
         public IReadOnlyCollection<Notification> Notifications => _notifications;
-        public bool HasNotifications => _notifications.Any();
+        public bool HasNotifications { get => _notifications.Any(); }
 
         public NotificationContext()
         {
@@ -50,5 +50,6 @@ namespace Gestran.VehicleControl.Domain.Notification
                 AddNotification(error.ErrorCode, error.ErrorMessage);
             }
         }
+
     }
 }

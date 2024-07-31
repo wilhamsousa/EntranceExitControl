@@ -4,7 +4,6 @@ using Gestran.VehicleControl.Domain.Model.Interfaces;
 using Gestran.VehicleControl.Domain.Notification;
 using Gestran.VehicleControl.Infra.Base;
 using Gestran.VehicleControl.Infra.Repositories.Context;
-using Gestran.VehicleControl.Infra.Repositories.Context.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gestran.VehicleControl.Infra.Repositories
@@ -46,14 +45,5 @@ namespace Gestran.VehicleControl.Infra.Repositories
                 .Where(x => x.VehiclePlate == vehiclePlate)
                 .Where(x => x.Status == CheckListStatus.Started)
                 .SingleOrDefaultAsync();
-
-        public override Dictionary<string, string> MessageErrors()
-        {
-            return new Dictionary<string, string>
-            {
-                { CheckListIndexes.VehiclePlateStartDateTime, "Já existe um checklist para esta placa e horário." },
-                { CheckListIndexes.CheckListUser, "Usuário não cadastrado." }
-            };
-        }
     }
 }

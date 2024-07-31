@@ -9,15 +9,7 @@ namespace Gestran.VehicleControl.Infra.Repositories.Context.Configuration
         {
             builder.Entity<User>()
                 .HasIndex(u => u.Name)
-                .HasDatabaseName(UserIndexes.Name)
                 .IsUnique();
         }
-    }
-
-    public static class UserIndexes
-    {
-        public const string 
-            Name = "IX_Name",
-            Name2 = "";
     }
 }

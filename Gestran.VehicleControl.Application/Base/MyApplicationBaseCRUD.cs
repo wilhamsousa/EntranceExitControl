@@ -9,7 +9,7 @@ namespace Gestran.VehicleControl.Application.Base
         where TEntity : BaseEntity
         where TRepositoryInterface : IRepositoryBase<TEntity>
     {
-        private readonly TRepositoryInterface _repository;
+        protected readonly TRepositoryInterface _repository;
 
         public MyApplicationBaseCRUD(TRepositoryInterface repository, NotificationContext notificationContext) :
             base(notificationContext)
@@ -17,33 +17,33 @@ namespace Gestran.VehicleControl.Application.Base
             _repository = repository;
         }
 
-        public async Task<TEntity> CreateAsync(TEntity entity)
+        public virtual async Task<TEntity> CreateAsync(TEntity entity)
         {
             var response = await _repository.CreateAsync(entity);
             return response;
         }
 
-        public async Task DeleteAsync(TEntity entity)
+        public virtual async Task DeleteAsync(TEntity entity)
         {
             await _repository.DeleteAsync(entity);
         }
 
-        public async Task DeleteAsync(Guid id)
+        public virtual async Task DeleteAsync(Guid id)
         {
             await _repository.DeleteAsync(id);
         }
 
-        public async Task<TEntity> GetAsync(Guid id)
+        public virtual async Task<TEntity> GetAsync(Guid id)
         {
             return await _repository.GetAsync(id);
         }
 
-        public async Task<List<TEntity>> GetAsync()
+        public virtual async Task<List<TEntity>> GetAsync()
         {
             return await _repository.GetAsync();
         }
 
-        public async Task UpdateAsync(TEntity entity)
+        public virtual async Task UpdateAsync(TEntity entity)
         {
             await _repository.UpdateAsync(entity);
         }

@@ -33,13 +33,21 @@ namespace Gestran.VehicleControl.Application
             var items = await _itemCheckListRepository.GetAsync();
             var newCheckList = new CheckList(param.UserId, param.VehiclePlate, items);
             AddNotifications(newCheckList.ValidationResult);
-            if (newCheckList.Invalid)
+            
+            if (HasNotifications)
+                return null;
+
+            UserNotFoundValidation(param.UserId);
+
+            if (HasNotifications)
                 return null;
 
             CheckList? oldCheckList = await GetCheckListIfExist(param.VehiclePlate);
 
-            if (ChecklistAnotherUser(oldCheckList, param.UserId))
-                return null;            
+            ChecklistAlreadyExistsValidation(oldCheckList, param.UserId);
+            
+            if (HasNotifications)
+                return null;
 
             if (oldCheckList != null)
                 return oldCheckList;
@@ -48,13 +56,18 @@ namespace Gestran.VehicleControl.Application
             return result;
         }
 
-        private bool ChecklistAnotherUser(CheckList? oldCheckList, Guid userId)
+        private async Task UserNotFoundValidation(Guid userId)
         {
-            bool exists = (oldCheckList != null && oldCheckList.UserId != userId);
-            if (exists)
-                AddValidationFailure(CheckListMessage.CHECKLIST_ALREADY_EXISTS);
+            var user = await _userRepository.GetAsync(userId);
 
-            return exists;
+            if (user == null)
+                AddValidationFailure(CheckListMessage.CHECKLIST_USER_NOTFOUND);
+        }
+
+        private void ChecklistAlreadyExistsValidation(CheckList? oldCheckList, Guid userId)
+        {
+            if (oldCheckList != null && oldCheckList.UserId != userId)
+                AddValidationFailure(CheckListMessage.CHECKLIST_ALREADY_EXISTS);
         }
 
         private async Task<CheckList?> GetCheckListIfExist(string vehiclePlate) =>
@@ -73,14 +86,19 @@ namespace Gestran.VehicleControl.Application
         public async Task AproveItem(Guid checkListItemId, bool approved)
         {
             var checkListItem = await _checkListItemRepository.GetAsync(checkListItemId);
-            if (checkListItem == null)
-            {
-                AddValidationFailure("Item de checklist não encontrado.");
+            CheckListItemNotFoundValidation(checkListItem);
+
+            if (HasNotifications)
                 return;
-            }
 
             checkListItem.SetApproved(approved);
             await _checkListItemRepository.UpdateAsync(checkListItem);
+        }
+
+        private void CheckListItemNotFoundValidation(CheckListItem? checkListItem)
+        {
+            if (checkListItem == null)
+                AddValidationFailure(CheckListMessage.CHECKLISTITEM_NOTFOUND);
         }
     }
 }

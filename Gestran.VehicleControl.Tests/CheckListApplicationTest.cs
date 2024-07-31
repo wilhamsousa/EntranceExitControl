@@ -19,11 +19,12 @@ namespace Gestran.VehicleControl.Tests
         Mock<IItemCheckListRepository> _itemCheckListRepository;
         List<ItemCheckList> _itemCheckList = new List<ItemCheckList>();
 
-        Guid item1 = Guid.Parse("182deb7b-54b9-4b4d-ba20-0d6248d3de5e");
-        Guid item2 = Guid.Parse("1fd17098-9af1-4976-ade1-635f9ff27812");
+        Guid itemId1 = Guid.Parse("182deb7b-54b9-4b4d-ba20-0d6248d3de5e");
+        Guid itemId2 = Guid.Parse("1fd17098-9af1-4976-ade1-635f9ff27812");
         string vehiclePlate = "ABC-1234";
-        Guid user1 = Guid.Parse("8ab7a28f-3526-4abd-8567-7dd42840cbf7");
-        Guid user2 = Guid.Parse("a33b5c0e-5111-4f8b-85eb-d329a185e245");
+        Guid userId1 = Guid.Parse("8ab7a28f-3526-4abd-8567-7dd42840cbf7");
+        Guid userId2 = Guid.Parse("a33b5c0e-5111-4f8b-85eb-d329a185e245");
+        Guid checkListId = Guid.Parse("ed4f7bad-0fb9-4ef8-9e92-483b5e688036");
 
         public CheckListApplicationTest(ITestOutputHelper output) : base(output)
         {
@@ -46,7 +47,8 @@ namespace Gestran.VehicleControl.Tests
             CheckList createCreckListResult,
             CheckList getStartedByVehiclePlateResult,
             CheckListItem getCheckListItemResult,
-            List<ItemCheckList> getItemCheckListResult)
+            List<ItemCheckList> getItemCheckListResult,
+            User getUserAsyncResult)
         {
             _checkListRepository.Setup(x => x
                 .CreateAsync(It.IsAny<CheckList>()))
@@ -76,6 +78,10 @@ namespace Gestran.VehicleControl.Tests
             _itemCheckListRepository.Setup(x => x
                 .GetAsync())
                 .Returns(() => Task.FromResult(getItemCheckListResult));
+
+            _userRepository.Setup(x => x
+                .GetAsync(It.IsAny<Guid>()))
+                .Returns(() => Task.FromResult(getUserAsyncResult));
         }
 
         [Theory]
@@ -94,32 +100,33 @@ namespace Gestran.VehicleControl.Tests
         {
             CreateSetup(
                 new CheckList(
-                        user1,
+                        userId1,
                         vehiclePlate,
                         _itemCheckList
                     ),
                 new CheckList(
-                        user1,
+                        userId1,
                         vehiclePlate,
                         _itemCheckList
                     ),
                 new CheckListItem
                     (
-                        item1,
-                        item2,
+                        itemId1,
+                        itemId2,
                         true,
                         DateTime.Now
                     ),
                 new List<ItemCheckList>()
                     {
-                        new ItemCheckList(item1, "Item1", "Observação"),
-                        new ItemCheckList(item2, "Item2", "Observação2")
-                    }
+                        new ItemCheckList(itemId1, "Item1", "Observação"),
+                        new ItemCheckList(itemId2, "Item2", "Observação2")
+                    },
+                new User(userId1, "Usuário 1")
             );
 
             CheckListCreateDTO param = new CheckListCreateDTO()
             {
-                UserId = user1,
+                UserId = userId1,
                 VehiclePlate = vehiclePlate
             };
             var result = _application.CreateAsync(param).Result;
@@ -131,37 +138,114 @@ namespace Gestran.VehicleControl.Tests
         {
             CreateSetup(
                 new CheckList(
-                        user1,
+                        userId1,
                         vehiclePlate,
                         _itemCheckList
                     ),
                 new CheckList(
-                        user2,
+                        userId2,
                         vehiclePlate,
                         _itemCheckList
                     ),
                 new CheckListItem
                     (
-                        item1,
-                        item2,
+                        itemId1,
+                        itemId2,
                         true,
                         DateTime.Now
                     ),
                 new List<ItemCheckList>()
                     {
-                        new ItemCheckList(item1, "Item1", "Observação"),
-                        new ItemCheckList(item2, "Item2", "Observação2")
-                    }
+                        new ItemCheckList(itemId1, "Item1", "Observação"),
+                        new ItemCheckList(itemId2, "Item2", "Observação2")
+                    },
+                new User(userId1, "Usuário 1")
             );
 
             CheckListCreateDTO param = new CheckListCreateDTO()
             {
-                UserId = user1,
+                UserId = userId1,
                 VehiclePlate = vehiclePlate
             };
             var result = _application.CreateAsync(param).Result;
             Assert.Null(result);
             Assert.True(_notificationContext.Notifications.Any(x => x.Message == CheckListMessage.CHECKLIST_ALREADY_EXISTS));
+        }
+
+        [Fact]
+        public void UserNotFound()
+        {
+            CreateSetup(
+                new CheckList(
+                        userId1,
+                        vehiclePlate,
+                        _itemCheckList
+                    ),
+                new CheckList(
+                        userId2,
+                        vehiclePlate,
+                        _itemCheckList
+                    ),
+                new CheckListItem
+                    (
+                        itemId1,
+                        itemId2,
+                        true,
+                        DateTime.Now
+                    ),
+                new List<ItemCheckList>()
+                    {
+                        new ItemCheckList(itemId1, "Item1", "Observação"),
+                        new ItemCheckList(itemId2, "Item2", "Observação2")
+                    },
+                null
+            );
+
+            CheckListCreateDTO param = new CheckListCreateDTO()
+            {
+                UserId = userId1,
+                VehiclePlate = vehiclePlate
+            };
+            var result = _application.CreateAsync(param).Result;
+            Assert.Null(result);
+            Assert.True(_notificationContext.Notifications.Any(x => x.Message == CheckListMessage.CHECKLIST_USER_NOTFOUND));
+        }        
+
+        [Fact]
+        public async void AproveItem()
+        {
+            var checkListItemResult = new CheckListItem(checkListId, itemId1, false, DateTime.Now);
+
+            _checkListItemRepository.Setup(x => x
+                .GetAsync(It.IsAny<Guid>()))
+                .Callback((Guid param) => _output.WriteLine($"Received {param}"))
+                .Returns(() =>
+                    Task.FromResult(checkListItemResult)
+                );
+
+            _checkListItemRepository.Setup(x => x
+                .UpdateAsync(It.IsAny<CheckListItem>()))
+                .Callback((CheckListItem param) => _output.WriteLine($"Received {param.Id}"));
+
+            await _application.AproveItem(checkListId, true);
+            Assert.True(_notificationContext.HasNotifications);
+        }
+
+        [Fact]
+        public async void CheckListItemNotFound()
+        {
+            CheckListItem checkListItemResult = null;
+
+            _checkListItemRepository.Setup(x => x
+                .GetAsync(It.IsAny<Guid>()))
+                .Callback((Guid param) => _output.WriteLine($"Received {param}"))
+                .Returns(() =>
+                    Task.FromResult(checkListItemResult)
+                );
+
+            Guid checkListItemId = Guid.NewGuid();
+            await _application.AproveItem(checkListItemId, true);
+            Assert.True(_notificationContext.Notifications.Any(x => x.Message == CheckListMessage.CHECKLISTITEM_NOTFOUND));
         }
     }
 }

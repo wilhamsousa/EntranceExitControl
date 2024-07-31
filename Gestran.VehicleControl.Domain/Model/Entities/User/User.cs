@@ -21,4 +21,10 @@ namespace Gestran.VehicleControl.Domain.Model.Entities
 
         public virtual ICollection<CheckList>? CheckLists { get; set; }
     }
+
+    public static class UserMessage
+    {
+        public const string
+            USERNAME_ALREADY_EXISTS = "Já existe um usuário com este nome.";
+    }
 }

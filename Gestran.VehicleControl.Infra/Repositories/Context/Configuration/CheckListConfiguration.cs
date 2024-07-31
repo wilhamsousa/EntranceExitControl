@@ -9,22 +9,13 @@ namespace Gestran.VehicleControl.Infra.Repositories.Context.Configuration
         {
             builder.Entity<CheckList>()
                 .HasIndex(u => new { u.VehiclePlate, u.StartDateTime })
-                .HasDatabaseName(CheckListIndexes.VehiclePlateStartDateTime)
                 .IsUnique();
 
             builder.Entity<CheckList>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.CheckLists)
                 .HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName(CheckListIndexes.CheckListUser);
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
-    }
-
-    public static class CheckListIndexes
-    {
-        public const string
-            VehiclePlateStartDateTime = "IX_VehiclePlateStartDateTime",
-            CheckListUser = "FK_CheckList_User";
     }
 }

@@ -1,92 +1,18 @@
-using Gestran.VehicleControl.Domain.Model.DTO;
-using Gestran.VehicleControl.Domain.Model.Interface;
-using Microsoft.AspNetCore.Mvc;
+using Gestran.VehicleControl.Api.Controllers.Base;
+using Gestran.VehicleControl.Domain.Model.Entities;
+using Gestran.VehicleControl.Domain.Model.Interfaces;
+using Gestran.VehicleControl.Domain.Notification;
 
 namespace Gestran.VehicleControl.Api.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : MyControllerBaseCRUD<User, IUserApplication>
     {
-
-        private readonly ILogger<UserController> _logger;
-        private readonly IUserApplication _UserApplication;
-
-        public UserController(ILogger<UserController> logger, IUserApplication UserApplication)
+        public UserController(
+            NotificationContext notificationContext,
+            ILogger<MyControllerBaseCRUD<User, IUserApplication>> logger, 
+            IUserApplication application)
+            : base(notificationContext, logger, application)
         {
-            _logger = logger;
-            _UserApplication = UserApplication;
-        }
-
-        [HttpGet]
-        [Route("{id:guid}")]
-        public virtual async Task<ActionResult> Get(Guid id)
-        {
-            try
-            {
-                var response = await _UserApplication.GetAsync(id);
-                if (response == null) 
-                    return NotFound("Registro não encontrado");
-
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
-        [HttpGet]
-        [Route("getall")]
-        public virtual async Task<ActionResult> GetAll()
-        {
-            try
-            {
-                var response = await _UserApplication.GetAsync();
-                if (response == null || response.Count == 0)
-                    return NotFound("Registro não encontrado");
-
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("persist")]
-        public virtual async Task<ActionResult> Persist(UserDTO User)
-        {
-            try
-            {
-                var response = await _UserApplication.CreateOrUpdateAsync(User);
-                
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
-        [HttpDelete]
-        [Route("{id:guid}")]
-        public virtual async Task<ActionResult> Delete(Guid id)
-        {
-            try
-            {
-                var response = await _UserApplication.GetAsync(id);
-                if (response == null)
-                    return NotFound("Registro não encontrado");
-
-                await _UserApplication.DeleteAsync(id);
-                return Ok("Registro excluído com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
         }
     }
 }

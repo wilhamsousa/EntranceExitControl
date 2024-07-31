@@ -4,6 +4,7 @@ using Gestran.VehicleControl.Infra.Repositories.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gestran.VehicleControl.Infra.Migrations
 {
     [DbContext(typeof(ExcContext))]
-    partial class ExcContextModelSnapshot : ModelSnapshot
+    [Migration("20240716023506_CheckListItem")]
+    partial class CheckListItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,15 +45,11 @@ namespace Gestran.VehicleControl.Infra.Migrations
 
                     b.Property<string>("VehiclePlate")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("VehiclePlate", "StartDateTime")
-                        .IsUnique()
-                        .HasDatabaseName("IX_VehiclePlateStartDateTime");
 
                     b.ToTable("CheckList");
                 });
@@ -109,13 +108,9 @@ namespace Gestran.VehicleControl.Infra.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Name");
 
                     b.ToTable("User");
                 });
@@ -123,10 +118,10 @@ namespace Gestran.VehicleControl.Infra.Migrations
             modelBuilder.Entity("Gestran.VehicleControl.Domain.Model.Entities.CheckList", b =>
                 {
                     b.HasOne("Gestran.VehicleControl.Domain.Model.Entities.User", "User")
-                        .WithMany("CheckLists")
+                        .WithMany()
                         .HasForeignKey("UserId")
-                        .IsRequired()
-                        .HasConstraintName("FK_CheckList_User");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -153,11 +148,6 @@ namespace Gestran.VehicleControl.Infra.Migrations
             modelBuilder.Entity("Gestran.VehicleControl.Domain.Model.Entities.CheckList", b =>
                 {
                     b.Navigation("CheckListItem");
-                });
-
-            modelBuilder.Entity("Gestran.VehicleControl.Domain.Model.Entities.User", b =>
-                {
-                    b.Navigation("CheckLists");
                 });
 #pragma warning restore 612, 618
         }

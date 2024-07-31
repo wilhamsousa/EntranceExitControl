@@ -31,8 +31,4 @@
     <ProjectReference Include="..\Gestran.VehicleControl.Infra\Gestran.VehicleControl.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Base\" />
-  </ItemGroup>
-
 </Project>

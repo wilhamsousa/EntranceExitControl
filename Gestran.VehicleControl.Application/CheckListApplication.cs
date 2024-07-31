@@ -1,70 +1,77 @@
-﻿using FluentValidation.Results;
-using Gestran.VehicleControl.Domain.Model.DTO;
-using Gestran.VehicleControl.Domain.Model.Entity;
-using Gestran.VehicleControl.Domain.Model.Enum;
-using Gestran.VehicleControl.Domain.Model.Interface;
+﻿using Gestran.VehicleControl.Application.Base;
+using Gestran.VehicleControl.Domain.Model.DTOs.CheckList;
+using Gestran.VehicleControl.Domain.Model.Entities;
+using Gestran.VehicleControl.Domain.Model.Interfaces;
 using Gestran.VehicleControl.Domain.Notification;
 
 namespace Gestran.VehicleControl.Application
 {
-    public class CheckListApplication : ICheckListApplication
+    public class CheckListApplication : MyApplicationBase, ICheckListApplication
     {
         private readonly ICheckListRepository _checkListRepository;
         private readonly ICheckListItemRepository _checkListItemRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IItemRepository _itemRepository;
-        private readonly NotificationContext _notificationContext;
+        private readonly IItemCheckListRepository _itemCheckListRepository;
+
 
         public CheckListApplication(
+            NotificationContext notificationContext,
             ICheckListRepository checkListRepository,
             ICheckListItemRepository checkListItemRepository,
             IUserRepository userRepository,
-            IItemRepository itemRepository,
-            NotificationContext notificationContext)
+            IItemCheckListRepository itemCheckListRepository
+        ) : base(notificationContext)
         {
             _checkListRepository = checkListRepository;
             _checkListItemRepository = checkListItemRepository;
             _userRepository = userRepository;
-            _itemRepository = itemRepository;
-            _notificationContext = notificationContext;
-        }        
+            _itemCheckListRepository = itemCheckListRepository;
+        }
 
         public async Task<CheckList> CreateAsync(CheckListCreateDTO param)
         {
-            var items = await _itemRepository.GetAsync();
-            
+            var items = await _itemCheckListRepository.GetAsync();
             var newCheckList = new CheckList(param.UserId, param.VehiclePlate, items);
-            if (newCheckList.Invalid)
-            {
-                _notificationContext.AddNotifications(newCheckList.ValidationResult);
+            AddNotifications(newCheckList.ValidationResult);
+            
+            if (HasNotifications)
                 return null;
-            }
 
-            var oldCheckList = _checkListRepository.GetQueryable().Where(x => x.VehiclePlate == param.VehiclePlate && x.Status == CheckListStatus.Started).SingleOrDefault();
+            UserNotFoundValidation(param.UserId);
 
-            if (oldCheckList == null)
-            {
-                var user = await _userRepository.GetAsync(param.UserId);
-
-                if (user == null)
-                {
-                    newCheckList.SetUserNotFound();
-                    _notificationContext.AddNotifications(newCheckList.ValidationResult);
-                    return null;
-                }
-
-                return await _checkListRepository.CreateAsync(newCheckList);
-            }
-
-            if (oldCheckList.UserId != param.UserId)
-            {
-                oldCheckList.SetDuplicated();
-                _notificationContext.AddNotifications(oldCheckList.ValidationResult);
+            if (HasNotifications)
                 return null;
-            }
 
-            return oldCheckList;
+            CheckList? oldCheckList = await GetCheckListIfExist(param.VehiclePlate);
+
+            ChecklistAlreadyExistsValidation(oldCheckList, param.UserId);
+            
+            if (HasNotifications)
+                return null;
+
+            if (oldCheckList != null)
+                return oldCheckList;
+            
+            var result = await _checkListRepository.CreateAsync(newCheckList); ;
+            return result;
         }
+
+        private async Task UserNotFoundValidation(Guid userId)
+        {
+            var user = await _userRepository.GetAsync(userId);
+
+            if (user == null)
+                AddValidationFailure(CheckListMessage.CHECKLIST_USER_NOTFOUND);
+        }
+
+        private void ChecklistAlreadyExistsValidation(CheckList? oldCheckList, Guid userId)
+        {
+            if (oldCheckList != null && oldCheckList.UserId != userId)
+                AddValidationFailure(CheckListMessage.CHECKLIST_ALREADY_EXISTS);
+        }
+
+        private async Task<CheckList?> GetCheckListIfExist(string vehiclePlate) =>
+            await _checkListRepository.GetStartedByVehiclePlate(vehiclePlate);
 
         public async Task<CheckList> GetAsync(Guid id)
         {
@@ -76,28 +83,27 @@ namespace Gestran.VehicleControl.Application
             return await _checkListRepository.GetCheckListAsync();
         }
 
-        public async Task AproveItem(Guid checkListItemId, bool approved)
+        public async Task ApproveItem(CheckListItemUpdateDTO param) => AproveOrReproveItem(param, true);
+        public async Task ReproveItem(CheckListItemUpdateDTO param) => AproveOrReproveItem(param, false);
+
+        public async Task AproveOrReproveItem(CheckListItemUpdateDTO param, bool approve)
         {
-            if (checkListItemId == Guid.Empty || checkListItemId == null)
-            {
-                ValidationResult validationResult = new ValidationResult();
-                validationResult.Errors.Add(new ValidationFailure() { ErrorMessage = "Id não informado." });
-                _notificationContext.AddNotifications(validationResult);
+            var checkListItem = await _checkListItemRepository.GetAsync(param.checkListItemId);
+            CheckListItemNotFoundValidation(checkListItem);
+
+            if (HasNotifications)
                 return;
-            }
 
-            var checkListItem = _checkListItemRepository.GetQueryable().Where(x => x.Id == checkListItemId).FirstOrDefault();
-
-            if (checkListItem == null)
-            {
-                ValidationResult validationResult = new ValidationResult();
-                validationResult.Errors.Add(new ValidationFailure() { ErrorMessage = "Item de checklist não encontrado." });
-                _notificationContext.AddNotifications(validationResult);
-                return;
-            }
-
-            checkListItem.Approved = approved;
+            checkListItem.SetApproved(approve);
             await _checkListItemRepository.UpdateAsync(checkListItem);
+        }
+
+
+
+        private void CheckListItemNotFoundValidation(CheckListItem? checkListItem)
+        {
+            if (checkListItem == null)
+                AddValidationFailure(CheckListMessage.CHECKLISTITEM_NOTFOUND);
         }
     }
 }

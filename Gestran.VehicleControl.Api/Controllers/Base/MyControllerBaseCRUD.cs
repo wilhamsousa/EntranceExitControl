@@ -1,26 +1,22 @@
-using Azure;
-using Gestran.VehicleControl.Api.Controllers.Base;
-using Gestran.VehicleControl.Domain.Model.DTOs.CheckList;
-using Gestran.VehicleControl.Domain.Model.Interfaces;
+﻿using Gestran.VehicleControl.Domain.Model.Base;
+using Gestran.VehicleControl.Domain.Model.Base.Interfacess;
 using Gestran.VehicleControl.Domain.Notification;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gestran.VehicleControl.Api.Controllers
+namespace Gestran.VehicleControl.Api.Controllers.Base
 {
-    public class CheckListController : MyControllerBase
+    public abstract class MyControllerBaseCRUD<TEntity, TApplicationInterface> : MyControllerBase
+        where TEntity : BaseEntity
+        where TApplicationInterface : IApplicationBaseCRUD<TEntity>
     {
+        private readonly ILogger<MyControllerBaseCRUD<TEntity, TApplicationInterface>> _logger;
+        private readonly TApplicationInterface _application;
 
-        private readonly ILogger<CheckListController> _logger;
-        private readonly ICheckListApplication _CheckListApplication;
-
-        public CheckListController(
-            NotificationContext notificationContext, 
-            ILogger<CheckListController> logger, 
-            ICheckListApplication CheckListApplication)
-            : base(notificationContext)
+        public MyControllerBaseCRUD(NotificationContext notificationContext, ILogger<MyControllerBaseCRUD<TEntity, TApplicationInterface>> logger, TApplicationInterface application)
+             : base(notificationContext)
         {
             _logger = logger;
-            _CheckListApplication = CheckListApplication;
+            _application = application;
         }
 
         [HttpGet]
@@ -29,7 +25,7 @@ namespace Gestran.VehicleControl.Api.Controllers
         {
             try
             {
-                var response = await _CheckListApplication.GetAsync(id);
+                var response = await _application.GetAsync(id);
                 return CreateResult(response);
             }
             catch (Exception ex)
@@ -44,7 +40,7 @@ namespace Gestran.VehicleControl.Api.Controllers
         {
             try
             {
-                var response = await _CheckListApplication.GetAsync();
+                var response = await _application.GetAsync();
                 return CreateResult(response);
             }
             catch (Exception ex)
@@ -52,18 +48,14 @@ namespace Gestran.VehicleControl.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        
+
         [HttpPost]
         [Route("create")]
-        public virtual async Task<ActionResult> Create(CheckListCreateDTO param)
+        public virtual async Task<ActionResult> Create(TEntity item)
         {
             try
             {
-                AddNotifications(param.Validate());
-                if (param.Invalid)
-                    return CreateResult();
-
-                var response = await _CheckListApplication.CreateAsync(param);
+                var response = await _application.CreateAsync(item);
                 return CreateResult(response);
             }
             catch (Exception ex)
@@ -73,12 +65,13 @@ namespace Gestran.VehicleControl.Api.Controllers
         }
 
         [HttpPost]
-        [Route("approve-item")]
-        public virtual async Task<ActionResult> ApproveItem(CheckListItemUpdateDTO param)
+        [Route("update/{id}")]
+        public virtual async Task<ActionResult> Update(TEntity item, Guid id)
         {
             try
             {
-                await _CheckListApplication.ApproveItem(param);
+                item.SetId(id);
+                await _application.UpdateAsync(item);
                 return CreateResult();
             }
             catch (Exception ex)
@@ -87,14 +80,18 @@ namespace Gestran.VehicleControl.Api.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("reprove-item")]
-        public virtual async Task<ActionResult> ReproveItem(CheckListItemUpdateDTO param)
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public virtual async Task<ActionResult> Delete(Guid id)
         {
             try
             {
-                await _CheckListApplication.ReproveItem(param);
-                return CreateResult();
+                var response = await _application.GetAsync(id);
+                if (response == null)
+                    return CreateResult(response);
+
+                await _application.DeleteAsync(id);
+                return CreateResult(id);
             }
             catch (Exception ex)
             {

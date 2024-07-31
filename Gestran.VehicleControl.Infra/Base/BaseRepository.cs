@@ -1,18 +1,23 @@
-﻿using Gestran.VehicleControl.Domain.Model.Base;
-using Gestran.VehicleControl.Domain.Model.Interface;
-using Gestran.VehicleControl.Infra.Repository.Context;
+﻿using FluentValidation.Results;
+using Gestran.VehicleControl.Domain.Model.Base;
+using Gestran.VehicleControl.Domain.Model.Interfaces;
+using Gestran.VehicleControl.Domain.Notification;
+using Gestran.VehicleControl.Infra.Repositories.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gestran.VehicleControl.Infra.Base
 {
-    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
+    public abstract class BaseRepository<TEntity> : IRepositoryBase<TEntity>
         where TEntity : BaseEntity
     {
         public readonly ExcContext _context;
+        private readonly ValidationResult _validationResult = new ValidationResult();
+        private readonly NotificationContext _notificationContext;
 
-        protected BaseRepository(ExcContext context)
+        protected BaseRepository(ExcContext context, NotificationContext notificationContext)
         {
             _context = context;
+            _notificationContext = notificationContext;
         }
 
         public virtual async Task<TEntity> GetAsync(Guid id)
@@ -71,7 +76,7 @@ namespace Gestran.VehicleControl.Infra.Base
             _context.Entry<TEntity>(entity).State = EntityState.Modified;
             var result = _context.Set<TEntity>().Update(entity);
             await _context.SaveChangesAsync();
-        }        
+        }
 
         public virtual async Task DeleteAsync(TEntity param)
         {
@@ -91,7 +96,18 @@ namespace Gestran.VehicleControl.Infra.Base
         private void CreateId(TEntity param)
         {
             if (param.Id == Guid.Empty)
-                param.Id = Guid.NewGuid();
+                param.SetId(Guid.NewGuid());
+        }
+
+        public virtual Dictionary<string, string> MessageErrors()
+        {
+            return new Dictionary<string, string>();
+        }
+
+        protected void AddValidationFailure(string message)
+        {
+            _validationResult.Errors.Add(new ValidationFailure() { ErrorMessage = message });
+            _notificationContext.AddNotifications(_validationResult);
         }
     }
 }

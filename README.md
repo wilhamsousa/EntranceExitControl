@@ -6,9 +6,7 @@ Api para avaliação
 - Marcação de aprovação de item concluídos.
 
 - ``Faltou método de finalizar o checklist``
-- ``Faltou implementar os DTOs de response para as controllers e usei a própria entidade para retornar e sem mapeamento de objeto.``
 - ``Faltou converter a descrição do Enum de status aprovado.``
-- ``Faltou implementar os testes unitários``
 
 🚀 Começando
 Realize o download do projeto ou realize a clonagem

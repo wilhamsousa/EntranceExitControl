@@ -5,7 +5,6 @@ using Cronis.VehicleControl.Domain.Model.Interfaces;
 using Cronis.VehicleControl.Domain.Notification;
 using Cronis.VehicleControl.Tests.Base;
 using Moq;
-using System.Collections.Generic;
 using Xunit.Abstractions;
 
 namespace Cronis.VehicleControl.Tests
@@ -46,7 +45,7 @@ namespace Cronis.VehicleControl.Tests
         }
 
         private void CreateSetup(
-            CheckList createCreckListResult,
+            CheckList createCheckListResult,
             CheckList getStartedByVehiclePlateResult,
             CheckListItem getCheckListItemResult,
             List<ItemCheckList> getItemCheckListResult,
@@ -55,7 +54,7 @@ namespace Cronis.VehicleControl.Tests
             _checkListRepository.Setup(x => x
                 .CreateAsync(It.IsAny<CheckList>()))
                 .Callback((CheckList param) => _output.WriteLine($"Received {param.VehiclePlate}"))
-                .Returns(() => Task.FromResult(createCreckListResult));
+                .Returns(() => Task.FromResult(createCheckListResult));
 
             _checkListRepository.Setup(x => x
                 .GetStartedByVehiclePlate(It.IsAny<string>()))
@@ -95,29 +94,15 @@ namespace Cronis.VehicleControl.Tests
         public void CreateOK()
         {
             CreateSetup(
-                new CheckList(
-                        userId1,
-                        vehiclePlate,
-                        _itemCheckList
-                    ),
-                new CheckList(
-                        userId1,
-                        vehiclePlate,
-                        _itemCheckList
-                    ),
-                new CheckListItem
-                    (
-                        itemId1,
-                        itemId2,
-                        true,
-                        DateTime.Now
-                    ),
-                new List<ItemCheckList>()
-                    {
-                        new ItemCheckList(itemId1, "Item1", "Observação"),
-                        new ItemCheckList(itemId2, "Item2", "Observação2")
-                    },
-                new User(userId1, "Usuário 1")
+                createCheckListResult: new CheckList(userId1, vehiclePlate, _itemCheckList),
+                getStartedByVehiclePlateResult: new CheckList(userId1, vehiclePlate, _itemCheckList),
+                getCheckListItemResult: new CheckListItem(itemId1, itemId2, true, DateTime.Now),
+                getItemCheckListResult: new List<ItemCheckList>()
+                {
+                    new ItemCheckList(itemId1, "Item1", "Observação"),
+                    new ItemCheckList(itemId2, "Item2", "Observação2")
+                },
+                getUserAsyncResult: new User(userId1, "Usuário 1")
             );
 
             CheckListCreateDTO param = new CheckListCreateDTO()
@@ -133,29 +118,15 @@ namespace Cronis.VehicleControl.Tests
         public void CheckListAlreadyExists()
         {
             CreateSetup(
-                new CheckList(
-                        userId1,
-                        vehiclePlate,
-                        _itemCheckList
-                    ),
-                new CheckList(
-                        userId2,
-                        vehiclePlate,
-                        _itemCheckList
-                    ),
-                new CheckListItem
-                    (
-                        itemId1,
-                        itemId2,
-                        true,
-                        DateTime.Now
-                    ),
-                new List<ItemCheckList>()
+                createCheckListResult: new CheckList(userId1, vehiclePlate, _itemCheckList),
+                getStartedByVehiclePlateResult: new CheckList(userId2, vehiclePlate, _itemCheckList),
+                getCheckListItemResult: new CheckListItem(itemId1, itemId2, true, DateTime.Now),
+                getItemCheckListResult: new List<ItemCheckList>()
                     {
                         new ItemCheckList(itemId1, "Item1", "Observação"),
                         new ItemCheckList(itemId2, "Item2", "Observação2")
                     },
-                new User(userId1, "Usuário 1")
+                getUserAsyncResult: new User(userId1, "Usuário 1")
             );
 
             CheckListCreateDTO param = new CheckListCreateDTO()
@@ -171,29 +142,15 @@ namespace Cronis.VehicleControl.Tests
         public void UserNotFound()
         {
             CreateSetup(
-                new CheckList(
-                        userId1,
-                        vehiclePlate,
-                        _itemCheckList
-                    ),
-                new CheckList(
-                        userId2,
-                        vehiclePlate,
-                        _itemCheckList
-                    ),
-                new CheckListItem
-                    (
-                        itemId1,
-                        itemId2,
-                        true,
-                        DateTime.Now
-                    ),
-                new List<ItemCheckList>()
+                createCheckListResult: new CheckList(userId1, vehiclePlate, _itemCheckList),
+                getStartedByVehiclePlateResult: new CheckList(userId2, vehiclePlate, _itemCheckList),
+                getCheckListItemResult: new CheckListItem(itemId1, itemId2, true, DateTime.Now),
+                getItemCheckListResult: new List<ItemCheckList>()
                     {
                         new ItemCheckList(itemId1, "Item1", "Observação"),
                         new ItemCheckList(itemId2, "Item2", "Observação2")
                     },
-                null
+                getUserAsyncResult: null
             );
 
             CheckListCreateDTO param = new CheckListCreateDTO()

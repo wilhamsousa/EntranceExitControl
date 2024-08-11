@@ -26,7 +26,7 @@ namespace Cronis.VehicleControl.Tests
 
         private void CreateSetup(
             ItemCheckList createResult,
-            ItemCheckList GetByNameResult
+            ItemCheckList getByNameResult
         )
         {
             _ItemCheckListRepository.Setup(x => x
@@ -39,16 +39,17 @@ namespace Cronis.VehicleControl.Tests
             _ItemCheckListRepository.Setup(x => x
                 .GetByNameAsync(It.IsAny<string>()))
                 .Callback((string param) => _output.WriteLine($"Received {param}"))
-                .Returns(() => Task.FromResult(GetByNameResult)
+                .Returns(() => Task.FromResult(getByNameResult)
             );
         }
 
         [Fact]
         public void CreateOk()
         {
-            var createResult = new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1);
-            ItemCheckList getByNameResult = null;
-            CreateSetup(createResult, getByNameResult);
+            CreateSetup(
+                createResult: new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1), 
+                getByNameResult: null
+            );
 
             var param = new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1);
             var result = _ItemCheckListApplication.CreateAsync(param).Result;
@@ -58,9 +59,10 @@ namespace Cronis.VehicleControl.Tests
         [Fact]
         public void ItemCheckListNameAlreadyExists()
         {
-            var createResult = new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1);
-            var getByNameResult = new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1);
-            CreateSetup(createResult, getByNameResult);
+            CreateSetup(
+                createResult: new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1), 
+                getByNameResult: new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1)
+            );
 
             var param = new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1);
             var result = _ItemCheckListApplication.CreateAsync(param).Result;

@@ -22,4 +22,10 @@ namespace Cronis.VehicleControl.Domain.Model.Entities
             Validate(this, new ItemCheckListValidator());
         }
     }
+
+    public static class ItemCheckListMessage
+    {
+        public const string
+            ITEMCHECKLIST_ALREADY_EXISTS = "Já existe um item de checklist com este nome.";
+    }
 }

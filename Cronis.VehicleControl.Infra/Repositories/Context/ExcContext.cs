@@ -10,7 +10,7 @@ namespace Cronis.VehicleControl.Infra.Repositories.Context
         { 
         }
 
-        public virtual DbSet<ItemCheckList> Item { get; set; }
+        public virtual DbSet<ItemCheckList> ItemCheckList { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<CheckList> CheckList { get; set; }
         public virtual DbSet<CheckListItem> CheckListItem { get; set; }

@@ -24,23 +24,31 @@ namespace Cronis.VehicleControl.Tests
             _ItemCheckListApplication = new ItemCheckListApplication(_ItemCheckListRepository.Object, _notificationContext);
         }
 
-        [Fact]
-        public void CreateOk()
+        private void CreateSetup(
+            ItemCheckList createResult,
+            ItemCheckList GetByNameResult
+        )
         {
-            var createItemCheckListResult = new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1);
-
             _ItemCheckListRepository.Setup(x => x
                 .CreateAsync(It.IsAny<ItemCheckList>()))
                 .Callback((ItemCheckList param) => _output.WriteLine($"Received {param.Id}"))
-                .Returns(() => Task.FromResult(createItemCheckListResult)
+                .Returns(() => Task.FromResult(createResult)
             );
 
-            ItemCheckList ItemCheckListResult = null;
+            
             _ItemCheckListRepository.Setup(x => x
                 .GetByNameAsync(It.IsAny<string>()))
                 .Callback((string param) => _output.WriteLine($"Received {param}"))
-                .Returns(() => Task.FromResult(ItemCheckListResult)
+                .Returns(() => Task.FromResult(GetByNameResult)
             );
+        }
+
+        [Fact]
+        public void CreateOk()
+        {
+            var createResult = new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1);
+            ItemCheckList getByNameResult = null;
+            CreateSetup(createResult, getByNameResult);
 
             var param = new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1);
             var result = _ItemCheckListApplication.CreateAsync(param).Result;
@@ -50,19 +58,9 @@ namespace Cronis.VehicleControl.Tests
         [Fact]
         public void ItemCheckListNameAlreadyExists()
         {
-            var createItemCheckListResult = new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1);
-
-            _ItemCheckListRepository.Setup(x => x
-                .CreateAsync(It.IsAny<ItemCheckList>()))
-                .Callback((ItemCheckList param) => _output.WriteLine($"Received {param.Id}"))
-                .Returns(() => Task.FromResult(createItemCheckListResult)
-            );
-
-            _ItemCheckListRepository.Setup(x => x
-                .GetByNameAsync(It.IsAny<string>()))
-                .Callback((string param) => _output.WriteLine($"Received {param}"))
-                .Returns(() => Task.FromResult(createItemCheckListResult)
-            );
+            var createResult = new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1);
+            var getByNameResult = new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1);
+            CreateSetup(createResult, getByNameResult);
 
             var param = new ItemCheckList(ItemCheckListId1, ItemCheckListName1, ItemCheckListNote1);
             var result = _ItemCheckListApplication.CreateAsync(param).Result;

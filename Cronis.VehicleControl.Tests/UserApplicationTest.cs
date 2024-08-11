@@ -4,11 +4,6 @@ using Cronis.VehicleControl.Domain.Model.Interfaces;
 using Cronis.VehicleControl.Domain.Notification;
 using Cronis.VehicleControl.Tests.Base;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit.Abstractions;
 
 namespace Cronis.VehicleControl.Tests
@@ -28,22 +23,31 @@ namespace Cronis.VehicleControl.Tests
             _userApplication = new UserApplication(_userRepository.Object, _notificationContext);
         }
 
-        [Fact]
-        public void CreateOk()
+        private void CreateSetup(
+            User createUserResult,
+            User userResult
+        )
         {
-            var createUserResult = new User(userId1, userName1);
-
             _userRepository.Setup(x => x
                 .CreateAsync(It.IsAny<User>()))
                 .Callback((User param) => _output.WriteLine($"Received {param.Id}"))
                 .Returns(() => Task.FromResult(createUserResult)
             );
 
-            User userResult = null;
+            
             _userRepository.Setup(x => x
                 .GetByNameAsync(It.IsAny<string>()))
                 .Callback((string param) => _output.WriteLine($"Received {param}"))
                 .Returns(() => Task.FromResult(userResult)
+            );
+        }
+
+        [Fact]
+        public void CreateOk()
+        {
+            CreateSetup(
+                createUserResult: new User(userId1, userName1), 
+                userResult: null
             );
 
             var param = new User(userId1, userName1);
@@ -54,18 +58,9 @@ namespace Cronis.VehicleControl.Tests
         [Fact]
         public void UserNameAlreadyExists()
         {
-            var createUserResult = new User(userId1, userName1);
-
-            _userRepository.Setup(x => x
-                .CreateAsync(It.IsAny<User>()))
-                .Callback((User param) => _output.WriteLine($"Received {param.Id}"))
-                .Returns(() => Task.FromResult(createUserResult)
-            );
-
-            _userRepository.Setup(x => x
-                .GetByNameAsync(It.IsAny<string>()))
-                .Callback((string param) => _output.WriteLine($"Received {param}"))
-                .Returns(() => Task.FromResult(createUserResult)
+            CreateSetup(
+                createUserResult: new User(userId1, userName1),
+                userResult: new User(userId1, userName1)
             );
 
             var param = new User(userId1, userName1);

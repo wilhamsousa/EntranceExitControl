@@ -3,17 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gestran.VehicleControl.Api", "Gestran.VehicleControl.Api\Gestran.VehicleControl.Api.csproj", "{828081B3-A5EE-4425-A5BD-B58753086016}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Domain", "Cronis.VehicleControl.Domain\Cronis.VehicleControl.Domain.csproj", "{502741C4-0F75-4908-A312-04DE54D5B4FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gestran.VehicleControl.Application", "Gestran.VehicleControl.Application\Gestran.VehicleControl.Application.csproj", "{DCEAF7C7-AC91-490B-AC26-CAC410DCA847}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Infra", "Cronis.VehicleControl.Infra\Cronis.VehicleControl.Infra.csproj", "{B5B36A44-60FC-4BA1-8F77-7D1975BA0EF2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gestran.VehicleControl.Domain", "Gestran.VehicleControl.Domain\Gestran.VehicleControl.Domain.csproj", "{9E5C8E13-838E-40F6-9622-C6807B4D4029}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Api", "Cronis.VehicleControl.Api\Cronis.VehicleControl.Api.csproj", "{09A5C686-649E-4C57-BF2B-3A3805E60920}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gestran.VehicleControl.Infra", "Gestran.VehicleControl.Infra\Gestran.VehicleControl.Infra.csproj", "{36E99665-6269-4B0E-806F-60B9A413384D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Application", "Cronis.VehicleControl.Application\Cronis.VehicleControl.Application.csproj", "{6361B467-1CE7-4869-B3D2-036BE8985B6A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gestran.VehicleControl.Tests", "Gestran.VehicleControl.Tests\Gestran.VehicleControl.Tests.csproj", "{78AA8122-4760-4624-9BC2-61861EFEE0E6}"
-EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{B89553C9-E0AA-45ED-9265-A2B915941CEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Tests", "Cronis.VehicleControl.Tests\Cronis.VehicleControl.Tests.csproj", "{AE16FC47-B424-4685-8060-FA8535731175}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,35 +19,31 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{828081B3-A5EE-4425-A5BD-B58753086016}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{828081B3-A5EE-4425-A5BD-B58753086016}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{828081B3-A5EE-4425-A5BD-B58753086016}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{828081B3-A5EE-4425-A5BD-B58753086016}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DCEAF7C7-AC91-490B-AC26-CAC410DCA847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCEAF7C7-AC91-490B-AC26-CAC410DCA847}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DCEAF7C7-AC91-490B-AC26-CAC410DCA847}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DCEAF7C7-AC91-490B-AC26-CAC410DCA847}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E5C8E13-838E-40F6-9622-C6807B4D4029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E5C8E13-838E-40F6-9622-C6807B4D4029}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E5C8E13-838E-40F6-9622-C6807B4D4029}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E5C8E13-838E-40F6-9622-C6807B4D4029}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36E99665-6269-4B0E-806F-60B9A413384D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36E99665-6269-4B0E-806F-60B9A413384D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36E99665-6269-4B0E-806F-60B9A413384D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36E99665-6269-4B0E-806F-60B9A413384D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78AA8122-4760-4624-9BC2-61861EFEE0E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78AA8122-4760-4624-9BC2-61861EFEE0E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78AA8122-4760-4624-9BC2-61861EFEE0E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78AA8122-4760-4624-9BC2-61861EFEE0E6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B89553C9-E0AA-45ED-9265-A2B915941CEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B89553C9-E0AA-45ED-9265-A2B915941CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B89553C9-E0AA-45ED-9265-A2B915941CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B89553C9-E0AA-45ED-9265-A2B915941CEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{502741C4-0F75-4908-A312-04DE54D5B4FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{502741C4-0F75-4908-A312-04DE54D5B4FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{502741C4-0F75-4908-A312-04DE54D5B4FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{502741C4-0F75-4908-A312-04DE54D5B4FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5B36A44-60FC-4BA1-8F77-7D1975BA0EF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5B36A44-60FC-4BA1-8F77-7D1975BA0EF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5B36A44-60FC-4BA1-8F77-7D1975BA0EF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5B36A44-60FC-4BA1-8F77-7D1975BA0EF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09A5C686-649E-4C57-BF2B-3A3805E60920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09A5C686-649E-4C57-BF2B-3A3805E60920}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09A5C686-649E-4C57-BF2B-3A3805E60920}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09A5C686-649E-4C57-BF2B-3A3805E60920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6361B467-1CE7-4869-B3D2-036BE8985B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6361B467-1CE7-4869-B3D2-036BE8985B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6361B467-1CE7-4869-B3D2-036BE8985B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6361B467-1CE7-4869-B3D2-036BE8985B6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE16FC47-B424-4685-8060-FA8535731175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE16FC47-B424-4685-8060-FA8535731175}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE16FC47-B424-4685-8060-FA8535731175}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE16FC47-B424-4685-8060-FA8535731175}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E1B4C9F1-2B3C-467D-BAFC-773784919930}
+		SolutionGuid = {6E42083A-E9C6-4CCA-9C38-A5DBF6E5D62B}
 	EndGlobalSection
 EndGlobal

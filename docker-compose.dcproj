@@ -7,7 +7,7 @@
     <ProjectGuid>b89553c9-e0aa-45ed-9265-a2b915941ceb</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>gestran.vehiclecontrol.api</DockerServiceName>
+    <DockerServiceName>Cronis.vehiclecontrol.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

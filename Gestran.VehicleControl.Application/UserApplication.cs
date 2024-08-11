@@ -20,10 +20,10 @@ namespace Gestran.VehicleControl.Application
             return await base.CreateAsync(entity);
         }
 
-        private void UserNameValidation(User entity)
+        private async void UserNameValidation(User entity)
         {
-            var user = _repository.GetByNameAsync(entity.Name);
-            if (user != null);
+            var user = await _repository.GetByNameAsync(entity.Name);
+            if (user != null)
                 AddValidationFailure(UserMessage.USERNAME_ALREADY_EXISTS);
         }
     }

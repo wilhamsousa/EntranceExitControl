@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gestran.VehicleControl.Application\Gestran.VehicleControl.Application.csproj" />
-    <ProjectReference Include="..\Gestran.VehicleControl.Domain\Gestran.VehicleControl.Domain.csproj" />
+    <ProjectReference Include="..\Gestran.VehicleControl.Application\Cronis.VehicleControl.Application.csproj" />
+    <ProjectReference Include="..\Gestran.VehicleControl.Domain\Cronis.VehicleControl.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

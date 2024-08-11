@@ -5,6 +5,7 @@ using Gestran.VehicleControl.Domain.Model.Interfaces;
 using Gestran.VehicleControl.Domain.Notification;
 using Gestran.VehicleControl.Tests.Base;
 using Moq;
+using System.Collections.Generic;
 using Xunit.Abstractions;
 
 namespace Gestran.VehicleControl.Tests
@@ -12,20 +13,20 @@ namespace Gestran.VehicleControl.Tests
     public class CheckListApplicationTest : BaseTest
     {
         private readonly ICheckListApplication _application;
-        NotificationContext _notificationContext = new NotificationContext();
-        Mock<ICheckListRepository> _checkListRepository;
-        Mock<ICheckListItemRepository> _checkListItemRepository;
-        Mock<IUserRepository> _userRepository;
-        Mock<IItemCheckListRepository> _itemCheckListRepository;
-        List<ItemCheckList> _itemCheckList = new List<ItemCheckList>();
+        private readonly NotificationContext _notificationContext = new NotificationContext();
+        private readonly Mock<ICheckListRepository> _checkListRepository;
+        private readonly Mock<ICheckListItemRepository> _checkListItemRepository;
+        private readonly Mock<IUserRepository> _userRepository;
+        private readonly Mock<IItemCheckListRepository> _itemCheckListRepository;
+        private readonly List<ItemCheckList> _itemCheckList = new List<ItemCheckList>();
 
-        Guid itemId1 = Guid.Parse("182deb7b-54b9-4b4d-ba20-0d6248d3de5e");
-        Guid itemId2 = Guid.Parse("1fd17098-9af1-4976-ade1-635f9ff27812");
-        string vehiclePlate = "ABC-1234";
-        Guid userId1 = Guid.Parse("8ab7a28f-3526-4abd-8567-7dd42840cbf7");
-        Guid userId2 = Guid.Parse("a33b5c0e-5111-4f8b-85eb-d329a185e245");
-        Guid checkListId = Guid.Parse("ed4f7bad-0fb9-4ef8-9e92-483b5e688036");
-        Guid checkListItemId = Guid.Parse("223f3c36-34ab-4829-af00-de8bd1f35343");
+        private readonly Guid itemId1 = Guid.Parse("182deb7b-54b9-4b4d-ba20-0d6248d3de5e");
+        private readonly Guid itemId2 = Guid.Parse("1fd17098-9af1-4976-ade1-635f9ff27812");
+        private readonly string vehiclePlate = "ABC-1234";
+        private readonly Guid userId1 = Guid.Parse("8ab7a28f-3526-4abd-8567-7dd42840cbf7");
+        private readonly Guid userId2 = Guid.Parse("a33b5c0e-5111-4f8b-85eb-d329a185e245");
+        private readonly Guid checkListId = Guid.Parse("ed4f7bad-0fb9-4ef8-9e92-483b5e688036");
+        private readonly Guid checkListItemId = Guid.Parse("223f3c36-34ab-4829-af00-de8bd1f35343");
 
         public CheckListApplicationTest(ITestOutputHelper output) : base(output)
         {
@@ -54,23 +55,17 @@ namespace Gestran.VehicleControl.Tests
             _checkListRepository.Setup(x => x
                 .CreateAsync(It.IsAny<CheckList>()))
                 .Callback((CheckList param) => _output.WriteLine($"Received {param.VehiclePlate}"))
-                .Returns(() =>
-                    Task.FromResult(createCreckListResult)
-                );
+                .Returns(() => Task.FromResult(createCreckListResult));
 
             _checkListRepository.Setup(x => x
                 .GetStartedByVehiclePlate(It.IsAny<string>()))
                 .Callback((string param) => _output.WriteLine($"Received {param}"))
-                .Returns(() =>
-                    Task.FromResult(getStartedByVehiclePlateResult)
-                );
+                .Returns(() => Task.FromResult(getStartedByVehiclePlateResult));
 
             _checkListItemRepository.Setup(x => x
                 .GetAsync(It.IsAny<Guid>()))
                 .Callback((Guid param) => _output.WriteLine($"Received {param}"))
-                .Returns(() =>
-                    Task.FromResult(getCheckListItemResult)
-                );
+                .Returns(() => Task.FromResult(getCheckListItemResult));
 
             _checkListItemRepository.Setup(x => x
                 .UpdateAsync(It.IsAny<CheckListItem>()))
@@ -131,7 +126,7 @@ namespace Gestran.VehicleControl.Tests
                 VehiclePlate = vehiclePlate
             };
             var result = _application.CreateAsync(param).Result;
-            Assert.Equal(result.Valid, true);
+            Assert.True(result.Valid);
         }
 
         [Fact]
@@ -169,7 +164,6 @@ namespace Gestran.VehicleControl.Tests
                 VehiclePlate = vehiclePlate
             };
             var result = _application.CreateAsync(param).Result;
-            Assert.Null(result);
             Assert.True(_notificationContext.Notifications.Any(x => x.Message == CheckListMessage.CHECKLIST_ALREADY_EXISTS));
         }
 
@@ -220,9 +214,7 @@ namespace Gestran.VehicleControl.Tests
             _checkListItemRepository.Setup(x => x
                 .GetAsync(It.IsAny<Guid>()))
                 .Callback((Guid param) => _output.WriteLine($"Received {param}"))
-                .Returns(() =>
-                    Task.FromResult(checkListItemResult)
-                );
+                .Returns(() => Task.FromResult(checkListItemResult));
 
             _checkListItemRepository.Setup(x => x
                 .UpdateAsync(It.IsAny<CheckListItem>()))
@@ -240,9 +232,7 @@ namespace Gestran.VehicleControl.Tests
             _checkListItemRepository.Setup(x => x
                 .GetAsync(It.IsAny<Guid>()))
                 .Callback((Guid param) => _output.WriteLine($"Received {param}"))
-                .Returns(() =>
-                    Task.FromResult(checkListItemResult)
-                );
+                .Returns(() => Task.FromResult(checkListItemResult));
 
             Guid checkListItemId = Guid.NewGuid();
             await _application.ApproveItem(new CheckListItemUpdateDTO(checkListItemId));

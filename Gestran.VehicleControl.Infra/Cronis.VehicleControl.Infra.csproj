@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gestran.VehicleControl.Domain\Gestran.VehicleControl.Domain.csproj" />
+    <ProjectReference Include="..\Gestran.VehicleControl.Domain\Cronis.VehicleControl.Domain.csproj" />
   </ItemGroup>
 
 </Project>

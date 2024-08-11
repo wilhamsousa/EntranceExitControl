@@ -27,8 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gestran.VehicleControl.Application\Gestran.VehicleControl.Application.csproj" />
-    <ProjectReference Include="..\Gestran.VehicleControl.Infra\Gestran.VehicleControl.Infra.csproj" />
+    <ProjectReference Include="..\Gestran.VehicleControl.Application\Cronis.VehicleControl.Application.csproj" />
+    <ProjectReference Include="..\Gestran.VehicleControl.Infra\Cronis.VehicleControl.Infra.csproj" />
   </ItemGroup>
 
 </Project>

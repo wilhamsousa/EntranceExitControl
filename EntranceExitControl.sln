@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gestran.VehicleControl.Api", "Gestran.VehicleControl.Api\Gestran.VehicleControl.Api.csproj", "{828081B3-A5EE-4425-A5BD-B58753086016}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Api", "Gestran.VehicleControl.Api\Cronis.VehicleControl.Api.csproj", "{828081B3-A5EE-4425-A5BD-B58753086016}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gestran.VehicleControl.Application", "Gestran.VehicleControl.Application\Gestran.VehicleControl.Application.csproj", "{DCEAF7C7-AC91-490B-AC26-CAC410DCA847}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Application", "Gestran.VehicleControl.Application\Cronis.VehicleControl.Application.csproj", "{DCEAF7C7-AC91-490B-AC26-CAC410DCA847}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gestran.VehicleControl.Domain", "Gestran.VehicleControl.Domain\Gestran.VehicleControl.Domain.csproj", "{9E5C8E13-838E-40F6-9622-C6807B4D4029}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Domain", "Gestran.VehicleControl.Domain\Cronis.VehicleControl.Domain.csproj", "{9E5C8E13-838E-40F6-9622-C6807B4D4029}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gestran.VehicleControl.Infra", "Gestran.VehicleControl.Infra\Gestran.VehicleControl.Infra.csproj", "{36E99665-6269-4B0E-806F-60B9A413384D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Infra", "Gestran.VehicleControl.Infra\Cronis.VehicleControl.Infra.csproj", "{36E99665-6269-4B0E-806F-60B9A413384D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gestran.VehicleControl.Tests", "Gestran.VehicleControl.Tests\Gestran.VehicleControl.Tests.csproj", "{78AA8122-4760-4624-9BC2-61861EFEE0E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Tests", "Gestran.VehicleControl.Tests\Cronis.VehicleControl.Tests.csproj", "{78AA8122-4760-4624-9BC2-61861EFEE0E6}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{B89553C9-E0AA-45ED-9265-A2B915941CEB}"
 EndProject

@@ -37,6 +37,11 @@ builder.Services.AddDbContextPool<ExcContext>(options =>
                 .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
+using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
+ILogger logger = factory.CreateLogger("Program");
+logger.LogInformation("Application started!");
+logger.LogInformation("DefaultConnection: " + builder.Configuration.GetConnectionString("DefaultConnection"));
+
 builder.Services.AddMvc(options => options.Filters.Add<NotificationFilter>())
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -49,7 +54,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

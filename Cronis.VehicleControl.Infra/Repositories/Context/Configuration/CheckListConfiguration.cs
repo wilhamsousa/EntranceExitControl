@@ -12,6 +12,12 @@ namespace Cronis.VehicleControl.Infra.Repositories.Context.Configuration
                 .IsUnique();
 
             builder.Entity<CheckList>()
+                .HasMany(x => x.CheckListItems)
+                .WithOne(x => x.CheckList)
+                .HasForeignKey(x => x.CheckListId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            builder.Entity<CheckList>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.CheckLists)
                 .HasForeignKey(x => x.UserId)

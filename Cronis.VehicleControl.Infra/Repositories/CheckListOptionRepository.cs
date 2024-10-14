@@ -7,14 +7,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cronis.VehicleControl.Infra.Repositories
 {
-    public class ItemCheckListRepository : BaseRepository<ItemCheckList>, IItemCheckListRepository
+    public class CheckListOptionRepository : BaseRepository<CheckListOption>, Domain.Model.Interfaces.ICheckListOptionRepository
     {
-        public ItemCheckListRepository(ExcContext context, NotificationContext notificationContext) : base(context, notificationContext)
+        public CheckListOptionRepository(ExcContext context, NotificationContext notificationContext) : base(context, notificationContext)
         {
         }
 
-        public async Task<ItemCheckList> GetByNameAsync(string name) =>
-            await _context.ItemCheckList
+        public async Task<CheckListOption> GetByNameAsync(string name) =>
+            await _context.CheckListOption
                 .Where(x => x.Name == name)
                 .SingleOrDefaultAsync();
     }

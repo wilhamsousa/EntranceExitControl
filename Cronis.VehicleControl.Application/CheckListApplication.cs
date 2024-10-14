@@ -11,7 +11,7 @@ namespace Cronis.VehicleControl.Application
         private readonly ICheckListRepository _checkListRepository;
         private readonly ICheckListItemRepository _checkListItemRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IItemCheckListRepository _itemCheckListRepository;
+        private readonly ICheckListOptionRepository _CheckListOptionRepository;
 
 
         public CheckListApplication(
@@ -19,18 +19,18 @@ namespace Cronis.VehicleControl.Application
             ICheckListRepository checkListRepository,
             ICheckListItemRepository checkListItemRepository,
             IUserRepository userRepository,
-            IItemCheckListRepository itemCheckListRepository
+            ICheckListOptionRepository checkListOptionRepository
         ) : base(notificationContext)
         {
             _checkListRepository = checkListRepository;
             _checkListItemRepository = checkListItemRepository;
             _userRepository = userRepository;
-            _itemCheckListRepository = itemCheckListRepository;
+            _CheckListOptionRepository = checkListOptionRepository;
         }
 
         public async Task<CheckList> CreateAsync(CheckListCreateDTO param)
         {
-            var items = await _itemCheckListRepository.GetAsync();
+            var items = await _CheckListOptionRepository.GetAsync();
             var newCheckList = new CheckList(param.UserId, param.VehiclePlate, items);
             AddNotifications(newCheckList.ValidationResult);
             

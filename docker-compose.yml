@@ -1,8 +1,6 @@
-version: '3.4'
-
 services:
-  Cronis.vehiclecontrol.api:
-    image: ${DOCKER_REGISTRY-}Cronisvehiclecontrolapi
+  cronis.vehiclecontrol.api:
+    image: ${DOCKER_REGISTRY-}cronisvehiclecontrolapi
     build:
       context: .
       dockerfile: Cronis.VehicleControl.Api/Dockerfile

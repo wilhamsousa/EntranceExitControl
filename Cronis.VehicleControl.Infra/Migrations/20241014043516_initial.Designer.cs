@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cronis.VehicleControl.Infra.Migrations
 {
     [DbContext(typeof(ExcContext))]
-    [Migration("20240726022407_ChecklistUserIndex")]
-    partial class ChecklistUserIndex
+    [Migration("20241014043516_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,8 +52,7 @@ namespace Cronis.VehicleControl.Infra.Migrations
                     b.HasIndex("UserId");
 
                     b.HasIndex("VehiclePlate", "StartDateTime")
-                        .IsUnique()
-                        .HasDatabaseName("IX_VehiclePlateStartDateTime");
+                        .IsUnique();
 
                     b.ToTable("CheckList");
                 });
@@ -70,22 +69,22 @@ namespace Cronis.VehicleControl.Infra.Migrations
                     b.Property<Guid>("CheckListId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CheckListOptionId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("DateTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ItemId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CheckListId");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("CheckListOptionId");
 
                     b.ToTable("CheckListItem");
                 });
 
-            modelBuilder.Entity("Cronis.VehicleControl.Domain.Model.Entities.ItemCheckList", b =>
+            modelBuilder.Entity("Cronis.VehicleControl.Domain.Model.Entities.CheckListOption", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +100,7 @@ namespace Cronis.VehicleControl.Infra.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Item");
+                    b.ToTable("CheckListOption");
                 });
 
             modelBuilder.Entity("Cronis.VehicleControl.Domain.Model.Entities.User", b =>
@@ -117,8 +116,7 @@ namespace Cronis.VehicleControl.Infra.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Name");
+                        .IsUnique();
 
                     b.ToTable("User");
                 });
@@ -128,8 +126,7 @@ namespace Cronis.VehicleControl.Infra.Migrations
                     b.HasOne("Cronis.VehicleControl.Domain.Model.Entities.User", "User")
                         .WithMany("CheckLists")
                         .HasForeignKey("UserId")
-                        .IsRequired()
-                        .HasConstraintName("FK_CheckList_User");
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -137,25 +134,28 @@ namespace Cronis.VehicleControl.Infra.Migrations
             modelBuilder.Entity("Cronis.VehicleControl.Domain.Model.Entities.CheckListItem", b =>
                 {
                     b.HasOne("Cronis.VehicleControl.Domain.Model.Entities.CheckList", "CheckList")
-                        .WithMany("CheckListItem")
+                        .WithMany("CheckListItems")
                         .HasForeignKey("CheckListId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Cronis.VehicleControl.Domain.Model.Entities.ItemCheckList", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("Cronis.VehicleControl.Domain.Model.Entities.CheckListOption", "CheckListOption")
+                        .WithMany("CheckListItems")
+                        .HasForeignKey("CheckListOptionId")
                         .IsRequired();
 
                     b.Navigation("CheckList");
 
-                    b.Navigation("Item");
+                    b.Navigation("CheckListOption");
                 });
 
             modelBuilder.Entity("Cronis.VehicleControl.Domain.Model.Entities.CheckList", b =>
                 {
-                    b.Navigation("CheckListItem");
+                    b.Navigation("CheckListItems");
+                });
+
+            modelBuilder.Entity("Cronis.VehicleControl.Domain.Model.Entities.CheckListOption", b =>
+                {
+                    b.Navigation("CheckListItems");
                 });
 
             modelBuilder.Entity("Cronis.VehicleControl.Domain.Model.Entities.User", b =>

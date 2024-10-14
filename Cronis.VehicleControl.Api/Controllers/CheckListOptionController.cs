@@ -5,12 +5,12 @@ using Cronis.VehicleControl.Domain.Notification;
 
 namespace Cronis.VehicleControl.Api.Controllers
 {
-    public class ItemController : MyControllerBaseCRUD<ItemCheckList, IItemCheckListApplication>
+    public class CheckListOptionController : MyControllerBaseCRUD<CheckListOption, ICheckListOptionApplication>
     {
-        public ItemController(
+        public CheckListOptionController(
             NotificationContext notificationContext,
-            ILogger<MyControllerBaseCRUD<ItemCheckList, IItemCheckListApplication>> logger, 
-            IItemCheckListApplication application)
+            ILogger<MyControllerBaseCRUD<CheckListOption, ICheckListOptionApplication>> logger, 
+            ICheckListOptionApplication application)
             : base(notificationContext, logger, application)
         {
         }

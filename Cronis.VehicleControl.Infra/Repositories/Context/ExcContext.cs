@@ -10,7 +10,7 @@ namespace Cronis.VehicleControl.Infra.Repositories.Context
         { 
         }
 
-        public virtual DbSet<ItemCheckList> ItemCheckList { get; set; }
+        public virtual DbSet<CheckListOption> CheckListOption { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<CheckList> CheckList { get; set; }
         public virtual DbSet<CheckListItem> CheckListItem { get; set; }
@@ -18,7 +18,9 @@ namespace Cronis.VehicleControl.Infra.Repositories.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             MyModelConfigurationStrategy.Configure(builder, new UserConfiguration());
+            MyModelConfigurationStrategy.Configure(builder, new CheckListOptionConfiguration());
             MyModelConfigurationStrategy.Configure(builder, new CheckListConfiguration());
+            MyModelConfigurationStrategy.Configure(builder, new CheckListItemConfiguration());
         }
     }
 }

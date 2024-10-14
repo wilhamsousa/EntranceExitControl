@@ -18,11 +18,11 @@ namespace Cronis.VehicleControl.Infra.Repositories
         {
             var checkList = await _context.CheckList.ToListAsync();
             var checkListItem = await _context.CheckListItem
-                .Include(x => x.Item)
+                .Include(x => x.CheckListOption)
                 .ToListAsync();
 
             foreach (var item in checkList)
-                item.CheckListItem = checkListItem.Where(x => x.CheckListId == item.Id).ToList();
+                item.CheckListItems = checkListItem.Where(x => x.CheckListId == item.Id).ToList();
 
             return checkList;
         }
@@ -31,11 +31,11 @@ namespace Cronis.VehicleControl.Infra.Repositories
         {
             var checkList = await _context.CheckList.Where(x => x.Id == id).SingleOrDefaultAsync();
             var checkListItem = await _context.CheckListItem
-                .Include(x => x.Item)
+                .Include(x => x.CheckListOption)
                 .Where(x => x.CheckListId == id)
                 .ToListAsync();
 
-            checkList.CheckListItem = checkListItem;
+            checkList.CheckListItems = checkListItem;
 
             return checkList;
         }

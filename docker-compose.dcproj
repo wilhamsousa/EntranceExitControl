@@ -4,10 +4,10 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>b89553c9-e0aa-45ed-9265-a2b915941ceb</ProjectGuid>
+    <ProjectGuid>2601ed96-b003-4280-8f75-198ed4328807</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>Cronis.vehiclecontrol.api</DockerServiceName>
+    <DockerServiceName>cronis.vehiclecontrol.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

@@ -4,13 +4,13 @@ using System.Text.Json.Serialization;
 namespace Cronis.VehicleControl.Domain.Model.Entities
 {
     public class User : BaseEntity
-    {
+    {        
+        public string Name { get; set; }
+
         public User()
         {
             CheckLists = new HashSet<CheckList>();
         }
-
-        public string Name { get; set; }
 
         public User(Guid id, string name)
         {

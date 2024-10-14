@@ -16,8 +16,8 @@ namespace Cronis.VehicleControl.Tests
         private readonly Mock<ICheckListRepository> _checkListRepository;
         private readonly Mock<ICheckListItemRepository> _checkListItemRepository;
         private readonly Mock<IUserRepository> _userRepository;
-        private readonly Mock<IItemCheckListRepository> _itemCheckListRepository;
-        private readonly List<ItemCheckList> _itemCheckList = new List<ItemCheckList>();
+        private readonly Mock<ICheckListOptionRepository> _checkListOptionRepository;
+        private readonly List<CheckListOption> _checkListOption = new List<CheckListOption>();
 
         private readonly Guid itemId1 = Guid.Parse("182deb7b-54b9-4b4d-ba20-0d6248d3de5e");
         private readonly Guid itemId2 = Guid.Parse("1fd17098-9af1-4976-ade1-635f9ff27812");
@@ -32,15 +32,15 @@ namespace Cronis.VehicleControl.Tests
             _checkListRepository = new Mock<ICheckListRepository>();
             _checkListItemRepository = new Mock<ICheckListItemRepository>();
             _userRepository = new Mock<IUserRepository>();
-            _itemCheckListRepository = new Mock<IItemCheckListRepository>();            
+            _checkListOptionRepository = new Mock<ICheckListOptionRepository>();            
 
-            _itemCheckList.Add(new ItemCheckList(Guid.Parse("182deb7b-54b9-4b4d-ba20-0d6248d3de5e"), "Item 1", "Observação 1"));
+            _checkListOption.Add(new CheckListOption(Guid.Parse("182deb7b-54b9-4b4d-ba20-0d6248d3de5e"), "Item 1", "Observação 1"));
             _application = new CheckListApplication(
                 _notificationContext,
                 _checkListRepository.Object,
                 _checkListItemRepository.Object,
                 _userRepository.Object,
-                _itemCheckListRepository.Object
+                _checkListOptionRepository.Object
             );
         }
 
@@ -48,7 +48,7 @@ namespace Cronis.VehicleControl.Tests
             CheckList createCheckListResult,
             CheckList getStartedByVehiclePlateResult,
             CheckListItem getCheckListItemResult,
-            List<ItemCheckList> getItemCheckListResult,
+            List<CheckListOption> getCheckListOptionResult,
             User getUserAsyncResult)
         {
             _checkListRepository.Setup(x => x
@@ -70,9 +70,9 @@ namespace Cronis.VehicleControl.Tests
                 .UpdateAsync(It.IsAny<CheckListItem>()))
                 .Callback((CheckListItem param) => _output.WriteLine($"Received {param.Id}"));
 
-            _itemCheckListRepository.Setup(x => x
+            _checkListOptionRepository.Setup(x => x
                 .GetAsync())
-                .Returns(() => Task.FromResult(getItemCheckListResult));
+                .Returns(() => Task.FromResult(getCheckListOptionResult));
 
             _userRepository.Setup(x => x
                 .GetAsync(It.IsAny<Guid>()))
@@ -86,7 +86,7 @@ namespace Cronis.VehicleControl.Tests
         public void CheckListValidator(string userId, string vehiclePlate, bool result)
         {
             var newUserId = Guid.Parse(userId);
-            CheckList checkList = new CheckList(newUserId, vehiclePlate, _itemCheckList);
+            CheckList checkList = new CheckList(newUserId, vehiclePlate, _checkListOption);
             Assert.Equal(result, checkList.Valid);
         }
 
@@ -94,13 +94,13 @@ namespace Cronis.VehicleControl.Tests
         public void CreateOK()
         {
             CreateSetup(
-                createCheckListResult: new CheckList(userId1, vehiclePlate, _itemCheckList),
-                getStartedByVehiclePlateResult: new CheckList(userId1, vehiclePlate, _itemCheckList),
+                createCheckListResult: new CheckList(userId1, vehiclePlate, _checkListOption),
+                getStartedByVehiclePlateResult: new CheckList(userId1, vehiclePlate, _checkListOption),
                 getCheckListItemResult: new CheckListItem(itemId1, itemId2, true, DateTime.Now),
-                getItemCheckListResult: new List<ItemCheckList>()
+                getCheckListOptionResult: new List<CheckListOption>()
                 {
-                    new ItemCheckList(itemId1, "Item1", "Observação"),
-                    new ItemCheckList(itemId2, "Item2", "Observação2")
+                    new CheckListOption(itemId1, "Item1", "Observação"),
+                    new CheckListOption(itemId2, "Item2", "Observação2")
                 },
                 getUserAsyncResult: new User(userId1, "Usuário 1")
             );
@@ -118,13 +118,13 @@ namespace Cronis.VehicleControl.Tests
         public void CheckListAlreadyExists()
         {
             CreateSetup(
-                createCheckListResult: new CheckList(userId1, vehiclePlate, _itemCheckList),
-                getStartedByVehiclePlateResult: new CheckList(userId2, vehiclePlate, _itemCheckList),
+                createCheckListResult: new CheckList(userId1, vehiclePlate, _checkListOption),
+                getStartedByVehiclePlateResult: new CheckList(userId2, vehiclePlate, _checkListOption),
                 getCheckListItemResult: new CheckListItem(itemId1, itemId2, true, DateTime.Now),
-                getItemCheckListResult: new List<ItemCheckList>()
+                getCheckListOptionResult: new List<CheckListOption>()
                     {
-                        new ItemCheckList(itemId1, "Item1", "Observação"),
-                        new ItemCheckList(itemId2, "Item2", "Observação2")
+                        new CheckListOption(itemId1, "Item1", "Observação"),
+                        new CheckListOption(itemId2, "Item2", "Observação2")
                     },
                 getUserAsyncResult: new User(userId1, "Usuário 1")
             );
@@ -142,13 +142,13 @@ namespace Cronis.VehicleControl.Tests
         public void UserNotFound()
         {
             CreateSetup(
-                createCheckListResult: new CheckList(userId1, vehiclePlate, _itemCheckList),
-                getStartedByVehiclePlateResult: new CheckList(userId2, vehiclePlate, _itemCheckList),
+                createCheckListResult: new CheckList(userId1, vehiclePlate, _checkListOption),
+                getStartedByVehiclePlateResult: new CheckList(userId2, vehiclePlate, _checkListOption),
                 getCheckListItemResult: new CheckListItem(itemId1, itemId2, true, DateTime.Now),
-                getItemCheckListResult: new List<ItemCheckList>()
+                getCheckListOptionResult: new List<CheckListOption>()
                     {
-                        new ItemCheckList(itemId1, "Item1", "Observação"),
-                        new ItemCheckList(itemId2, "Item2", "Observação2")
+                        new CheckListOption(itemId1, "Item1", "Observação"),
+                        new CheckListOption(itemId2, "Item2", "Observação2")
                     },
                 getUserAsyncResult: null
             );

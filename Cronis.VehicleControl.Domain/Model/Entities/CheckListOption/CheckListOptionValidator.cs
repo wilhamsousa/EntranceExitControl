@@ -2,9 +2,9 @@
 
 namespace Cronis.VehicleControl.Domain.Model.Entities
 {
-    public class ItemCheckListValidator : AbstractValidator<ItemCheckList>
+    public class CheckListOptionValidator : AbstractValidator<CheckListOption>
     {
-        public ItemCheckListValidator()
+        public CheckListOptionValidator()
         {
             RuleFor(entity => entity.Name)
                 .NotEmpty().WithMessage("Nome não preenchido.")

@@ -1,9 +1,9 @@
 ﻿using FluentValidation.Results;
 using Cronis.VehicleControl.Domain.Model.Base;
-using Cronis.VehicleControl.Domain.Model.Interfaces;
 using Cronis.VehicleControl.Domain.Notification;
 using Cronis.VehicleControl.Infra.Repositories.Context;
 using Microsoft.EntityFrameworkCore;
+using Cronis.VehicleControl.Domain.Interfaces.Base;
 
 namespace Cronis.VehicleControl.Infra.Base
 {

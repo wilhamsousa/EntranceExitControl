@@ -1,6 +1,6 @@
 using Cronis.VehicleControl.Api.Controllers.Notification;
-using Cronis.VehicleControl.Application;
-using Cronis.VehicleControl.Domain.Model.Interfaces;
+using Cronis.VehicleControl.Application.Services;
+using Cronis.VehicleControl.Domain.Interfaces;
 using Cronis.VehicleControl.Domain.Notification;
 using Cronis.VehicleControl.Infra.Repositories;
 using Cronis.VehicleControl.Infra.Repositories.Context;
@@ -14,13 +14,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<NotificationContext>();
 
 builder.Services.AddScoped<ICheckListOptionRepository, CheckListOptionRepository>();
-builder.Services.AddScoped<ICheckListOptionApplication, CheckListOptionApplication>();
+builder.Services.AddScoped<ICheckListOptionService, CheckListOptionService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserApplication, UserApplication>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<ICheckListRepository, CheckListRepository>();
-builder.Services.AddScoped<ICheckListApplication, CheckListApplication>();
+builder.Services.AddScoped<ICheckListService, CheckListService>();
 builder.Services.AddScoped<ICheckListItemRepository, CheckListItemRepository>();
 
 builder.Services

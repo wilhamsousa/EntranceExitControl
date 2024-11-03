@@ -1,13 +1,13 @@
 ﻿using Cronis.VehicleControl.Application.Base;
+using Cronis.VehicleControl.Domain.Interfaces;
 using Cronis.VehicleControl.Domain.Model.Entities;
-using Cronis.VehicleControl.Domain.Model.Interfaces;
 using Cronis.VehicleControl.Domain.Notification;
 
-namespace Cronis.VehicleControl.Application
+namespace Cronis.VehicleControl.Application.Services
 {
-    public class UserApplication : MyApplicationBaseCRUD<User, IUserRepository>, IUserApplication
+    public class UserService : MyServiceBaseCRUD<User, IUserRepository>, IUserService
     {
-        public UserApplication(IUserRepository repository, NotificationContext notificationContext) : base(repository, notificationContext)
+        public UserService(IUserRepository repository, NotificationContext notificationContext) : base(repository, notificationContext)
         {
         }
 

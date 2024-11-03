@@ -10,4 +10,11 @@
     <ProjectReference Include="..\Cronis.VehicleControl.Domain\Cronis.VehicleControl.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="ExternalInterfaces\" />
+    <Folder Include="UseCases\" />
+    <Folder Include="Queries\" />
+  </ItemGroup>
+
 </Project>

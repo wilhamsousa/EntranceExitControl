@@ -1,12 +1,12 @@
 ﻿using Cronis.VehicleControl.Application.Base;
+using Cronis.VehicleControl.Domain.Interfaces;
 using Cronis.VehicleControl.Domain.Model.DTOs.CheckList;
 using Cronis.VehicleControl.Domain.Model.Entities;
-using Cronis.VehicleControl.Domain.Model.Interfaces;
 using Cronis.VehicleControl.Domain.Notification;
 
-namespace Cronis.VehicleControl.Application
+namespace Cronis.VehicleControl.Application.Services
 {
-    public class CheckListApplication : MyApplicationBase, ICheckListApplication
+    public class CheckListService : MyServiceBase, ICheckListService
     {
         private readonly ICheckListRepository _checkListRepository;
         private readonly ICheckListItemRepository _checkListItemRepository;
@@ -14,7 +14,7 @@ namespace Cronis.VehicleControl.Application
         private readonly ICheckListOptionRepository _CheckListOptionRepository;
 
 
-        public CheckListApplication(
+        public CheckListService(
             NotificationContext notificationContext,
             ICheckListRepository checkListRepository,
             ICheckListItemRepository checkListItemRepository,
@@ -33,7 +33,7 @@ namespace Cronis.VehicleControl.Application
             var items = await _CheckListOptionRepository.GetAsync();
             var newCheckList = new CheckList(param.UserId, param.VehiclePlate, items);
             AddNotifications(newCheckList.ValidationResult);
-            
+
             if (HasNotifications)
                 return null;
 
@@ -45,13 +45,13 @@ namespace Cronis.VehicleControl.Application
             CheckList? oldCheckList = await GetCheckListIfExist(param.VehiclePlate);
 
             ChecklistAlreadyExistsValidation(oldCheckList, param.UserId);
-            
+
             if (HasNotifications)
                 return null;
 
             if (oldCheckList != null)
                 return oldCheckList;
-            
+
             var result = await _checkListRepository.CreateAsync(newCheckList); ;
             return result;
         }

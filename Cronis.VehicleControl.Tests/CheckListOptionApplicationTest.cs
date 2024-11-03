@@ -1,6 +1,6 @@
-﻿using Cronis.VehicleControl.Application;
+﻿using Cronis.VehicleControl.Application.Services;
+using Cronis.VehicleControl.Domain.Interfaces;
 using Cronis.VehicleControl.Domain.Model.Entities;
-using Cronis.VehicleControl.Domain.Model.Interfaces;
 using Cronis.VehicleControl.Domain.Notification;
 using Cronis.VehicleControl.Tests.Base;
 using Moq;
@@ -11,7 +11,7 @@ namespace Cronis.VehicleControl.Tests
     public class CheckListOptionApplicationTest : BaseTest
     {
         private readonly Mock<ICheckListOptionRepository> _checkListOptionRepository;
-        private readonly Domain.Model.Interfaces.ICheckListOptionApplication _checkListOptionApplication;
+        private readonly ICheckListOptionService _checkListOptionApplication;
         NotificationContext _notificationContext = new NotificationContext();
 
         private readonly Guid ItemCheckListId1 = Guid.Parse("8ab7a28f-3526-4abd-8567-7dd42840cbf7");
@@ -21,7 +21,7 @@ namespace Cronis.VehicleControl.Tests
         public CheckListOptionApplicationTest(ITestOutputHelper output) : base(output)
         {
             _checkListOptionRepository = new Mock<ICheckListOptionRepository>();
-            _checkListOptionApplication = new Application.CheckListOptionApplication(_checkListOptionRepository.Object, _notificationContext);
+            _checkListOptionApplication = new CheckListOptionService(_checkListOptionRepository.Object, _notificationContext);
         }
 
         private void CreateSetup(

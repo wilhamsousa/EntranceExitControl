@@ -1,9 +1,9 @@
 using Azure;
 using Cronis.VehicleControl.Api.Controllers.Base;
 using Cronis.VehicleControl.Domain.Model.DTOs.CheckList;
-using Cronis.VehicleControl.Domain.Model.Interfaces;
 using Cronis.VehicleControl.Domain.Notification;
 using Microsoft.AspNetCore.Mvc;
+using Cronis.VehicleControl.Domain.Interfaces;
 
 namespace Cronis.VehicleControl.Api.Controllers
 {
@@ -11,16 +11,16 @@ namespace Cronis.VehicleControl.Api.Controllers
     {
 
         private readonly ILogger<CheckListController> _logger;
-        private readonly ICheckListApplication _CheckListApplication;
+        private readonly ICheckListService _checkListService;
 
         public CheckListController(
             NotificationContext notificationContext, 
             ILogger<CheckListController> logger, 
-            ICheckListApplication CheckListApplication)
+            ICheckListService CheckListApplication)
             : base(notificationContext)
         {
             _logger = logger;
-            _CheckListApplication = CheckListApplication;
+            _checkListService = CheckListApplication;
         }
 
         [HttpGet]
@@ -29,7 +29,7 @@ namespace Cronis.VehicleControl.Api.Controllers
         {
             try
             {
-                var response = await _CheckListApplication.GetAsync(id);
+                var response = await _checkListService.GetAsync(id);
                 return CreateResult(response);
             }
             catch (Exception ex)
@@ -44,7 +44,7 @@ namespace Cronis.VehicleControl.Api.Controllers
         {
             try
             {
-                var response = await _CheckListApplication.GetAsync();
+                var response = await _checkListService.GetAsync();
                 return CreateResult(response);
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace Cronis.VehicleControl.Api.Controllers
                 if (param.Invalid)
                     return CreateResult();
 
-                var response = await _CheckListApplication.CreateAsync(param);
+                var response = await _checkListService.CreateAsync(param);
                 return CreateResult(response);
             }
             catch (Exception ex)
@@ -78,7 +78,7 @@ namespace Cronis.VehicleControl.Api.Controllers
         {
             try
             {
-                await _CheckListApplication.ApproveItem(param);
+                await _checkListService.ApproveItem(param);
                 return CreateResult();
             }
             catch (Exception ex)
@@ -93,7 +93,7 @@ namespace Cronis.VehicleControl.Api.Controllers
         {
             try
             {
-                await _CheckListApplication.ReproveItem(param);
+                await _checkListService.ReproveItem(param);
                 return CreateResult();
             }
             catch (Exception ex)

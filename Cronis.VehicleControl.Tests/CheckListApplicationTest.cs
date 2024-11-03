@@ -1,7 +1,7 @@
-using Cronis.VehicleControl.Application;
+using Cronis.VehicleControl.Application.Services;
+using Cronis.VehicleControl.Domain.Interfaces;
 using Cronis.VehicleControl.Domain.Model.DTOs.CheckList;
 using Cronis.VehicleControl.Domain.Model.Entities;
-using Cronis.VehicleControl.Domain.Model.Interfaces;
 using Cronis.VehicleControl.Domain.Notification;
 using Cronis.VehicleControl.Tests.Base;
 using Moq;
@@ -11,7 +11,7 @@ namespace Cronis.VehicleControl.Tests
 {
     public class CheckListApplicationTest : BaseTest
     {
-        private readonly ICheckListApplication _application;
+        private readonly ICheckListService _application;
         private readonly NotificationContext _notificationContext = new NotificationContext();
         private readonly Mock<ICheckListRepository> _checkListRepository;
         private readonly Mock<ICheckListItemRepository> _checkListItemRepository;
@@ -35,7 +35,7 @@ namespace Cronis.VehicleControl.Tests
             _checkListOptionRepository = new Mock<ICheckListOptionRepository>();            
 
             _checkListOption.Add(new CheckListOption(Guid.Parse("182deb7b-54b9-4b4d-ba20-0d6248d3de5e"), "Item 1", "Observação 1"));
-            _application = new CheckListApplication(
+            _application = new CheckListService(
                 _notificationContext,
                 _checkListRepository.Object,
                 _checkListItemRepository.Object,

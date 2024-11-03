@@ -1,17 +1,16 @@
-﻿using Cronis.VehicleControl.Domain.Model.Base;
-using Cronis.VehicleControl.Domain.Model.Base.Interfacess;
-using Cronis.VehicleControl.Domain.Model.Interfaces;
+﻿using Cronis.VehicleControl.Domain.Interfaces.Base;
+using Cronis.VehicleControl.Domain.Model.Base;
 using Cronis.VehicleControl.Domain.Notification;
 
 namespace Cronis.VehicleControl.Application.Base
 {
-    public abstract class MyApplicationBaseCRUD<TEntity, TRepositoryInterface> : MyApplicationBase, IApplicationBaseCRUD<TEntity>
+    public abstract class MyServiceBaseCRUD<TEntity, TRepositoryInterface> : MyServiceBase, IServiceBaseCRUD<TEntity>
         where TEntity : BaseEntity
         where TRepositoryInterface : IRepositoryBase<TEntity>
     {
         protected readonly TRepositoryInterface _repository;
 
-        public MyApplicationBaseCRUD(TRepositoryInterface repository, NotificationContext notificationContext) :
+        public MyServiceBaseCRUD(TRepositoryInterface repository, NotificationContext notificationContext) :
             base(notificationContext)
         {
             _repository = repository;

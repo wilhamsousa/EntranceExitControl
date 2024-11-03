@@ -1,22 +1,22 @@
-﻿using Cronis.VehicleControl.Domain.Model.Base;
-using Cronis.VehicleControl.Domain.Model.Base.Interfacess;
+﻿using Cronis.VehicleControl.Domain.Interfaces.Base;
+using Cronis.VehicleControl.Domain.Model.Base;
 using Cronis.VehicleControl.Domain.Notification;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cronis.VehicleControl.Api.Controllers.Base
 {
-    public abstract class MyControllerBaseCRUD<TEntity, TApplicationInterface> : MyControllerBase
+    public abstract class MyControllerBaseCRUD<TEntity, TServiceInterface> : MyControllerBase
         where TEntity : BaseEntity
-        where TApplicationInterface : IApplicationBaseCRUD<TEntity>
+        where TServiceInterface : IServiceBaseCRUD<TEntity>
     {
-        private readonly ILogger<MyControllerBaseCRUD<TEntity, TApplicationInterface>> _logger;
-        private readonly TApplicationInterface _application;
+        private readonly ILogger<MyControllerBaseCRUD<TEntity, TServiceInterface>> _logger;
+        private readonly TServiceInterface _service;
 
-        public MyControllerBaseCRUD(NotificationContext notificationContext, ILogger<MyControllerBaseCRUD<TEntity, TApplicationInterface>> logger, TApplicationInterface application)
+        public MyControllerBaseCRUD(NotificationContext notificationContext, ILogger<MyControllerBaseCRUD<TEntity, TServiceInterface>> logger, TServiceInterface application)
              : base(notificationContext)
         {
             _logger = logger;
-            _application = application;
+            _service = application;
         }
 
         [HttpGet]
@@ -25,7 +25,7 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
         {
             try
             {
-                var response = await _application.GetAsync(id);
+                var response = await _service.GetAsync(id);
                 return CreateResult(response);
             }
             catch (Exception ex)
@@ -40,7 +40,7 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
         {
             try
             {
-                var response = await _application.GetAsync();
+                var response = await _service.GetAsync();
                 return CreateResult(response);
             }
             catch (Exception ex)
@@ -55,7 +55,7 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
         {
             try
             {
-                var response = await _application.CreateAsync(item);
+                var response = await _service.CreateAsync(item);
                 return CreateResult(response);
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
             try
             {
                 item.SetId(id);
-                await _application.UpdateAsync(item);
+                await _service.UpdateAsync(item);
                 return CreateResult();
             }
             catch (Exception ex)
@@ -86,11 +86,11 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
         {
             try
             {
-                var response = await _application.GetAsync(id);
+                var response = await _service.GetAsync(id);
                 if (response == null)
                     return CreateResult(response);
 
-                await _application.DeleteAsync(id);
+                await _service.DeleteAsync(id);
                 return CreateResult(id);
             }
             catch (Exception ex)

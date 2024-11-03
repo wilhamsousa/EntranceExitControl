@@ -1,6 +1,6 @@
-﻿using Cronis.VehicleControl.Domain.Model.Entities;
+﻿using Cronis.VehicleControl.Domain.Interfaces;
+using Cronis.VehicleControl.Domain.Model.Entities;
 using Cronis.VehicleControl.Domain.Model.Enums;
-using Cronis.VehicleControl.Domain.Model.Interfaces;
 using Cronis.VehicleControl.Domain.Notification;
 using Cronis.VehicleControl.Infra.Base;
 using Cronis.VehicleControl.Infra.Repositories.Context;

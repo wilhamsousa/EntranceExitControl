@@ -1,9 +1,9 @@
 ﻿using Cronis.VehicleControl.Domain.Model.DTOs.CheckList;
 using Cronis.VehicleControl.Domain.Model.Entities;
 
-namespace Cronis.VehicleControl.Domain.Model.Interfaces
+namespace Cronis.VehicleControl.Domain.Interfaces
 {
-    public interface ICheckListApplication
+    public interface ICheckListService
     {
         Task<CheckList> GetAsync(Guid id);
         Task<List<CheckList>> GetAsync();

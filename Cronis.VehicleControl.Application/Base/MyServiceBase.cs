@@ -3,14 +3,14 @@ using FluentValidation.Results;
 
 namespace Cronis.VehicleControl.Application.Base
 {
-    public abstract class MyApplicationBase
+    public abstract class MyServiceBase
     {
         private readonly ValidationResult _validationResult = new ValidationResult();
         private readonly NotificationContext _notificationContext;
 
         public bool HasNotifications { get => _notificationContext.HasNotifications; }
 
-        protected MyApplicationBase(NotificationContext notificationContext)
+        protected MyServiceBase(NotificationContext notificationContext)
         {
             _notificationContext = notificationContext;
         }

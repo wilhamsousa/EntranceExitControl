@@ -1,13 +1,13 @@
 ﻿using Cronis.VehicleControl.Application.Base;
+using Cronis.VehicleControl.Domain.Interfaces;
 using Cronis.VehicleControl.Domain.Model.Entities;
-using Cronis.VehicleControl.Domain.Model.Interfaces;
 using Cronis.VehicleControl.Domain.Notification;
 
-namespace Cronis.VehicleControl.Application
+namespace Cronis.VehicleControl.Application.Services
 {
-    public class CheckListOptionApplication : MyApplicationBaseCRUD<CheckListOption, ICheckListOptionRepository>, Domain.Model.Interfaces.ICheckListOptionApplication
+    public class CheckListOptionService : MyServiceBaseCRUD<CheckListOption, ICheckListOptionRepository>, ICheckListOptionService
     {
-        public CheckListOptionApplication(ICheckListOptionRepository repository, NotificationContext notificationContext) : base(repository, notificationContext)
+        public CheckListOptionService(ICheckListOptionRepository repository, NotificationContext notificationContext) : base(repository, notificationContext)
         {
         }
 

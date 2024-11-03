@@ -1,6 +1,7 @@
-﻿using Cronis.VehicleControl.Domain.Model.Entities;
+﻿using Cronis.VehicleControl.Domain.Interfaces.Base;
+using Cronis.VehicleControl.Domain.Model.Entities;
 
-namespace Cronis.VehicleControl.Domain.Model.Interfaces
+namespace Cronis.VehicleControl.Domain.Interfaces
 {
     public interface ICheckListOptionRepository : IRepositoryBase<CheckListOption>
     {

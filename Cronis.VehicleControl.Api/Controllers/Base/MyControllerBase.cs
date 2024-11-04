@@ -35,5 +35,17 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
             if (validationResult != null && validationResult.Errors.Any())
                 _notificationContext.AddNotifications(validationResult);
         }
+
+        protected bool ValidateRequest(Guid id)
+        {
+            bool valid = (id == null || id == Guid.Empty);
+            if (!valid)
+                AddValidationFailure(INVALID_ID);
+
+            return valid;
+        }
+
+        public const string
+            INVALID_ID = "Id não informado.";
     }
 }

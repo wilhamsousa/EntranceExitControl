@@ -28,7 +28,7 @@ namespace Cronis.VehicleControl.Application.Services
             _CheckListOptionRepository = checkListOptionRepository;
         }
 
-        public async Task<CheckList> CreateAsync(CheckListCreateDTO param)
+        public async Task<CheckList> CreateAsync(CheckListCreateRequest param)
         {
             var items = await _CheckListOptionRepository.GetAsync();
             var newCheckList = new CheckList(param.UserId, param.VehiclePlate, items);
@@ -83,10 +83,10 @@ namespace Cronis.VehicleControl.Application.Services
             return await _checkListRepository.GetCheckListAsync();
         }
 
-        public async Task ApproveItem(CheckListItemUpdateDTO param) => AproveOrReproveItem(param, true);
-        public async Task ReproveItem(CheckListItemUpdateDTO param) => AproveOrReproveItem(param, false);
+        public async Task ApproveItem(CheckListItemUpdateRequest param) => AproveOrReproveItem(param, true);
+        public async Task ReproveItem(CheckListItemUpdateRequest param) => AproveOrReproveItem(param, false);
 
-        public async Task AproveOrReproveItem(CheckListItemUpdateDTO param, bool approve)
+        public async Task AproveOrReproveItem(CheckListItemUpdateRequest param, bool approve)
         {
             var checkListItem = await _checkListItemRepository.GetAsync(param.checkListItemId);
             CheckListItemNotFoundValidation(checkListItem);

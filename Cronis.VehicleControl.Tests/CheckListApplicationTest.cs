@@ -105,7 +105,7 @@ namespace Cronis.VehicleControl.Tests
                 getUserAsyncResult: new User(userId1, "Usuário 1")
             );
 
-            CheckListCreateDTO param = new CheckListCreateDTO()
+            CheckListCreateRequest param = new CheckListCreateRequest()
             {
                 UserId = userId1,
                 VehiclePlate = vehiclePlate
@@ -129,7 +129,7 @@ namespace Cronis.VehicleControl.Tests
                 getUserAsyncResult: new User(userId1, "Usuário 1")
             );
 
-            CheckListCreateDTO param = new CheckListCreateDTO()
+            CheckListCreateRequest param = new CheckListCreateRequest()
             {
                 UserId = userId1,
                 VehiclePlate = vehiclePlate
@@ -153,7 +153,7 @@ namespace Cronis.VehicleControl.Tests
                 getUserAsyncResult: null
             );
 
-            CheckListCreateDTO param = new CheckListCreateDTO()
+            CheckListCreateRequest param = new CheckListCreateRequest()
             {
                 UserId = userId1,
                 VehiclePlate = vehiclePlate
@@ -177,7 +177,7 @@ namespace Cronis.VehicleControl.Tests
                 .UpdateAsync(It.IsAny<CheckListItem>()))
                 .Callback((CheckListItem param) => _output.WriteLine($"Received {param.Id}"));
 
-            await _application.ApproveItem(new CheckListItemUpdateDTO(checkListItemId));
+            await _application.ApproveItem(new CheckListItemUpdateRequest(checkListItemId));
             Assert.False(_notificationContext.HasNotifications);
         }
 
@@ -192,7 +192,7 @@ namespace Cronis.VehicleControl.Tests
                 .Returns(() => Task.FromResult(checkListItemResult));
 
             Guid checkListItemId = Guid.NewGuid();
-            await _application.ApproveItem(new CheckListItemUpdateDTO(checkListItemId));
+            await _application.ApproveItem(new CheckListItemUpdateRequest(checkListItemId));
             Assert.True(_notificationContext.Notifications.Any(x => x.Message == CheckListMessage.CHECKLISTITEM_NOTFOUND));
         }
     }

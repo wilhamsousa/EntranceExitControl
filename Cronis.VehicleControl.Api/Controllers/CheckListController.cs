@@ -4,6 +4,7 @@ using Cronis.VehicleControl.Domain.Model.DTOs.CheckList;
 using Cronis.VehicleControl.Domain.Notification;
 using Microsoft.AspNetCore.Mvc;
 using Cronis.VehicleControl.Domain.Interfaces;
+using Cronis.VehicleControl.Domain.Model.Validators;
 
 namespace Cronis.VehicleControl.Api.Controllers
 {
@@ -55,13 +56,17 @@ namespace Cronis.VehicleControl.Api.Controllers
         
         [HttpPost]
         [Route("create")]
-        public virtual async Task<ActionResult> Create(CheckListCreateDTO param)
+        public virtual async Task<ActionResult> Create(CheckListCreateRequest param)
         {
             try
             {
-                AddNotifications(param.Validate());
-                if (param.Invalid)
+                var requestValidator = new CheckListCreateRequestValidator();
+                var requestValidatorResult = requestValidator.Validate(param);
+                if (!requestValidatorResult.IsValid)
+                {
+                    AddNotifications(requestValidatorResult);
                     return CreateResult();
+                }
 
                 var response = await _checkListService.CreateAsync(param);
                 return CreateResult(response);
@@ -74,7 +79,7 @@ namespace Cronis.VehicleControl.Api.Controllers
 
         [HttpPost]
         [Route("approve-item")]
-        public virtual async Task<ActionResult> ApproveItem(CheckListItemUpdateDTO param)
+        public virtual async Task<ActionResult> ApproveItem(CheckListItemUpdateRequest param)
         {
             try
             {
@@ -89,7 +94,7 @@ namespace Cronis.VehicleControl.Api.Controllers
 
         [HttpPost]
         [Route("reprove-item")]
-        public virtual async Task<ActionResult> ReproveItem(CheckListItemUpdateDTO param)
+        public virtual async Task<ActionResult> ReproveItem(CheckListItemUpdateRequest param)
         {
             try
             {

@@ -1,5 +1,6 @@
 ﻿using Cronis.VehicleControl.Domain.Model.Base;
 using Cronis.VehicleControl.Domain.Model.Enums;
+using Cronis.VehicleControl.Domain.Model.Validators;
 
 namespace Cronis.VehicleControl.Domain.Model.Entities
 {
@@ -33,6 +34,8 @@ namespace Cronis.VehicleControl.Domain.Model.Entities
                 CheckListItems.Add(new CheckListItem(item.Id));
         }
     }
+
+    
 
     public static class CheckListMessage
     {

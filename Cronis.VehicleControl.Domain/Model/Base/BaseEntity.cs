@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Cronis.VehicleControl.Domain.Model.Base
 {
-    public abstract class BaseEntity
+    public abstract class BaseEntity 
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

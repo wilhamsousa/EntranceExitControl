@@ -1,4 +1,5 @@
 ﻿using Cronis.VehicleControl.Domain.Model.Base;
+using Cronis.VehicleControl.Domain.Model.Validators;
 
 namespace Cronis.VehicleControl.Domain.Model.Entities
 {

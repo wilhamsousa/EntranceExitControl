@@ -11,10 +11,10 @@ namespace Cronis.VehicleControl.Tests
 {
     public class CheckListApplicationTest : BaseTest
     {
-        private readonly ICheckListService _application;
+        private readonly ICheckListServiceAsync _application;
         private readonly NotificationContext _notificationContext = new NotificationContext();
-        private readonly Mock<ICheckListRepository> _checkListRepository;
-        private readonly Mock<ICheckListItemRepository> _checkListItemRepository;
+        private readonly Mock<ICheckListRepositoryAsync> _checkListRepository;
+        private readonly Mock<ICheckListItemRepositoryAsync> _checkListItemRepository;
         private readonly Mock<IUserRepository> _userRepository;
         private readonly Mock<ICheckListOptionRepository> _checkListOptionRepository;
         private readonly List<CheckListOption> _checkListOption = new List<CheckListOption>();
@@ -29,13 +29,13 @@ namespace Cronis.VehicleControl.Tests
 
         public CheckListApplicationTest(ITestOutputHelper output) : base(output)
         {
-            _checkListRepository = new Mock<ICheckListRepository>();
-            _checkListItemRepository = new Mock<ICheckListItemRepository>();
+            _checkListRepository = new Mock<ICheckListRepositoryAsync>();
+            _checkListItemRepository = new Mock<ICheckListItemRepositoryAsync>();
             _userRepository = new Mock<IUserRepository>();
             _checkListOptionRepository = new Mock<ICheckListOptionRepository>();            
 
             _checkListOption.Add(new CheckListOption(Guid.Parse("182deb7b-54b9-4b4d-ba20-0d6248d3de5e"), "Item 1", "Observação 1"));
-            _application = new CheckListService(
+            _application = new CheckListServiceAsync(
                 _notificationContext,
                 _checkListRepository.Object,
                 _checkListItemRepository.Object,

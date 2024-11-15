@@ -6,18 +6,18 @@ using Cronis.VehicleControl.Domain.Notification;
 
 namespace Cronis.VehicleControl.Application.Services
 {
-    public class CheckListService : MyServiceBase, ICheckListService
+    public class CheckListServiceAsync : ServiceBase, ICheckListServiceAsync
     {
-        private readonly ICheckListRepository _checkListRepository;
-        private readonly ICheckListItemRepository _checkListItemRepository;
+        private readonly ICheckListRepositoryAsync _checkListRepository;
+        private readonly ICheckListItemRepositoryAsync _checkListItemRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICheckListOptionRepository _CheckListOptionRepository;
 
 
-        public CheckListService(
+        public CheckListServiceAsync(
             NotificationContext notificationContext,
-            ICheckListRepository checkListRepository,
-            ICheckListItemRepository checkListItemRepository,
+            ICheckListRepositoryAsync checkListRepository,
+            ICheckListItemRepositoryAsync checkListItemRepository,
             IUserRepository userRepository,
             ICheckListOptionRepository checkListOptionRepository
         ) : base(notificationContext)
@@ -73,12 +73,13 @@ namespace Cronis.VehicleControl.Application.Services
         private async Task<CheckList?> GetCheckListIfExist(string vehiclePlate) =>
             await _checkListRepository.GetStartedByVehiclePlate(vehiclePlate);
 
-        public async Task<CheckList> GetAsync(Guid id)
+        public async Task<CheckListGetResponse> GetAsync(Guid id)
         {
-            return await _checkListRepository.GetCheckListAsync(id);
+            var result = await _checkListRepository.GetCheckListAsync(id);
+            return result.Ad
         }
 
-        public async Task<List<CheckList>> GetAsync()
+        public async Task<IEnumerable<CheckListGetResponse>> GetAsync()
         {
             return await _checkListRepository.GetCheckListAsync();
         }
@@ -86,9 +87,9 @@ namespace Cronis.VehicleControl.Application.Services
         public async Task ApproveItem(CheckListItemUpdateRequest param) => AproveOrReproveItem(param, true);
         public async Task ReproveItem(CheckListItemUpdateRequest param) => AproveOrReproveItem(param, false);
 
-        public async Task AproveOrReproveItem(CheckListItemUpdateRequest param, bool approve)
+        private async Task AproveOrReproveItem(CheckListItemUpdateRequest param, bool approve)
         {
-            var checkListItem = await _checkListItemRepository.GetAsync(param.checkListItemId);
+            var checkListItem = await _checkListItemRepository.GetAsync(param.CheckListItemId);
             CheckListItemNotFoundValidation(checkListItem);
 
             if (HasNotifications)
@@ -97,8 +98,6 @@ namespace Cronis.VehicleControl.Application.Services
             checkListItem.SetApproved(approve);
             await _checkListItemRepository.UpdateAsync(checkListItem);
         }
-
-
 
         private void CheckListItemNotFoundValidation(CheckListItem? checkListItem)
         {

@@ -5,9 +5,9 @@ using Cronis.VehicleControl.Domain.Notification;
 
 namespace Cronis.VehicleControl.Application.Services
 {
-    public class UserService : MyServiceBaseCRUD<User, IUserRepository>, IUserService
+    public class UserServiceAsync : ServiceCRUDBaseAsync<User, IUserRepository>, IUserService
     {
-        public UserService(IUserRepository repository, NotificationContext notificationContext) : base(repository, notificationContext)
+        public UserServiceAsync(IUserRepository repository, NotificationContext notificationContext) : base(repository, notificationContext)
         {
         }
 

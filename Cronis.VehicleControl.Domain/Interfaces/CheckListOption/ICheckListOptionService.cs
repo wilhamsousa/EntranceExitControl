@@ -3,7 +3,7 @@ using Cronis.VehicleControl.Domain.Model.Entities;
 
 namespace Cronis.VehicleControl.Domain.Interfaces
 {
-    public interface ICheckListOptionService : IServiceBaseCRUD<CheckListOption>
+    public interface ICheckListOptionService : IAsyncServiceCRUDBase<CheckListOption>
     {
     }
 }

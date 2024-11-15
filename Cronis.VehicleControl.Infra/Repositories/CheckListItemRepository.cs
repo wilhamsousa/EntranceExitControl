@@ -6,7 +6,7 @@ using Cronis.VehicleControl.Infra.Repositories.Context;
 
 namespace Cronis.VehicleControl.Infra.Repositories
 {
-    public class CheckListItemRepository : BaseRepository<CheckListItem>, ICheckListItemRepository
+    public class CheckListItemRepository : RepositoryBaseAsync<CheckListItem>, ICheckListItemRepositoryAsync
     {
         public CheckListItemRepository(ExcContext context, NotificationContext notificationContext) : base(context, notificationContext)
         {

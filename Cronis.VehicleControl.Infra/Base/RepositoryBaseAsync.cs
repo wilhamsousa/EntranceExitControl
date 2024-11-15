@@ -7,14 +7,14 @@ using Cronis.VehicleControl.Domain.Interfaces.Base;
 
 namespace Cronis.VehicleControl.Infra.Base
 {
-    public abstract class BaseRepository<TEntity> : IRepositoryBase<TEntity>
+    public abstract class RepositoryBaseAsync<TEntity> : IAsyncRepositoryBase<TEntity>
         where TEntity : BaseEntity
     {
         public readonly ExcContext _context;
         private readonly ValidationResult _validationResult = new ValidationResult();
         private readonly NotificationContext _notificationContext;
 
-        protected BaseRepository(ExcContext context, NotificationContext notificationContext)
+        protected RepositoryBaseAsync(ExcContext context, NotificationContext notificationContext)
         {
             _context = context;
             _notificationContext = notificationContext;

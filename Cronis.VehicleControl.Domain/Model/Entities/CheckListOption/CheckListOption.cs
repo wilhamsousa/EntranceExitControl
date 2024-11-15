@@ -1,16 +1,13 @@
 ﻿using Cronis.VehicleControl.Domain.Model.Base;
-using Cronis.VehicleControl.Domain.Model.DTOs;
 using Cronis.VehicleControl.Domain.Model.Validators;
-using System.Text.Json.Serialization;
 
 namespace Cronis.VehicleControl.Domain.Model.Entities
 {
     public class CheckListOption : BaseEntity
-    {        
+    {
         public string Name { get; set; }
         public string Note { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<CheckListItem>? CheckListItems { get; set; }
 
         public CheckListOption()
@@ -25,12 +22,6 @@ namespace Cronis.VehicleControl.Domain.Model.Entities
             Note = note;
 
             Validate(this, new CheckListOptionValidator());
-        }
-
-        public void UpdateValues(CheckListOptionUpdateRequest item)
-        {
-            Name = item.Name;
-            Note = item.Note;
         }
     }
 

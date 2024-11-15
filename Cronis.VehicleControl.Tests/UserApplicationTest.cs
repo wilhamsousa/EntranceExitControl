@@ -20,7 +20,7 @@ namespace Cronis.VehicleControl.Tests
         public UserApplicationTest(ITestOutputHelper output) : base(output)
         {
             _userRepository = new Mock<IUserRepository>();
-            _userApplication = new UserService(_userRepository.Object, _notificationContext);
+            _userApplication = new UserServiceAsync(_userRepository.Object, _notificationContext);
         }
 
         private void CreateSetup(

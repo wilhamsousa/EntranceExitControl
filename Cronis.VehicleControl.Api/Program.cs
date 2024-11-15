@@ -14,14 +14,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<NotificationContext>();
 
 builder.Services.AddScoped<ICheckListOptionRepository, CheckListOptionRepository>();
-builder.Services.AddScoped<ICheckListOptionService, CheckListOptionService>();
+builder.Services.AddScoped<ICheckListOptionService, CheckListOptionServiceAsync>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserService, UserServiceAsync>();
 
-builder.Services.AddScoped<ICheckListRepository, CheckListRepository>();
-builder.Services.AddScoped<ICheckListService, CheckListService>();
-builder.Services.AddScoped<ICheckListItemRepository, CheckListItemRepository>();
+builder.Services.AddScoped<ICheckListRepositoryAsync, CheckListRepository>();
+builder.Services.AddScoped<ICheckListServiceAsync, CheckListServiceAsync>();
+builder.Services.AddScoped<ICheckListItemRepositoryAsync, CheckListItemRepository>();
 
 builder.Services
     .AddControllers()

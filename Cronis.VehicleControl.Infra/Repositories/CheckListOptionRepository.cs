@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cronis.VehicleControl.Infra.Repositories
 {
-    public class CheckListOptionRepository : BaseRepository<CheckListOption>, ICheckListOptionRepository
+    public class CheckListOptionRepository : RepositoryBaseAsync<CheckListOption>, ICheckListOptionRepository
     {
         public CheckListOptionRepository(ExcContext context, NotificationContext notificationContext) : base(context, notificationContext)
         {

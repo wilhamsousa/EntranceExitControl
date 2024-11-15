@@ -3,10 +3,10 @@ using Cronis.VehicleControl.Domain.Model.Entities;
 
 namespace Cronis.VehicleControl.Domain.Interfaces
 {
-    public interface ICheckListService
+    public interface ICheckListServiceAsync
     {
-        Task<CheckList> GetAsync(Guid id);
-        Task<List<CheckList>> GetAsync();
+        Task<CheckListGetResponse> GetAsync(Guid id);
+        Task<List<CheckListGetResponse>> GetAsync();
         Task<CheckList> CreateAsync(CheckListCreateRequest entity);
         Task ApproveItem(CheckListItemUpdateRequest param);
         Task ReproveItem(CheckListItemUpdateRequest param);

@@ -1,4 +1,3 @@
-using Azure;
 using Cronis.VehicleControl.Api.Controllers.Base;
 using Cronis.VehicleControl.Domain.Model.DTOs.CheckList;
 using Cronis.VehicleControl.Domain.Notification;
@@ -12,12 +11,12 @@ namespace Cronis.VehicleControl.Api.Controllers
     {
 
         private readonly ILogger<CheckListController> _logger;
-        private readonly ICheckListService _checkListService;
+        private readonly ICheckListServiceAsync _checkListService;
 
         public CheckListController(
             NotificationContext notificationContext, 
             ILogger<CheckListController> logger, 
-            ICheckListService CheckListApplication)
+            ICheckListServiceAsync CheckListApplication)
             : base(notificationContext)
         {
             _logger = logger;

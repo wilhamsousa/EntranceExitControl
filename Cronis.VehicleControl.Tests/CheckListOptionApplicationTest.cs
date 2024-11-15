@@ -21,7 +21,7 @@ namespace Cronis.VehicleControl.Tests
         public CheckListOptionApplicationTest(ITestOutputHelper output) : base(output)
         {
             _checkListOptionRepository = new Mock<ICheckListOptionRepository>();
-            _checkListOptionApplication = new CheckListOptionService(_checkListOptionRepository.Object, _notificationContext);
+            _checkListOptionApplication = new CheckListOptionServiceAsync(_checkListOptionRepository.Object, _notificationContext);
         }
 
         private void CreateSetup(

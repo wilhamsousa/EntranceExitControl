@@ -5,9 +5,9 @@ using Cronis.VehicleControl.Domain.Notification;
 
 namespace Cronis.VehicleControl.Application.Services
 {
-    public class CheckListOptionService : MyServiceBaseCRUD<CheckListOption, ICheckListOptionRepository>, ICheckListOptionService
+    public class CheckListOptionServiceAsync : ServiceCRUDBaseAsync<CheckListOption, ICheckListOptionRepository>, ICheckListOptionService
     {
-        public CheckListOptionService(ICheckListOptionRepository repository, NotificationContext notificationContext) : base(repository, notificationContext)
+        public CheckListOptionServiceAsync(ICheckListOptionRepository repository, NotificationContext notificationContext) : base(repository, notificationContext)
         {
         }
 

@@ -4,13 +4,13 @@ using Cronis.VehicleControl.Domain.Notification;
 
 namespace Cronis.VehicleControl.Application.Base
 {
-    public abstract class MyServiceBaseCRUD<TEntity, TRepositoryInterface> : MyServiceBase, IServiceBaseCRUD<TEntity>
+    public abstract class ServiceCRUDBaseAsync<TEntity, TRepositoryInterface> : ServiceBase, IAsyncServiceCRUDBase<TEntity>
         where TEntity : BaseEntity
-        where TRepositoryInterface : IRepositoryBase<TEntity>
+        where TRepositoryInterface : IAsyncRepositoryBase<TEntity>
     {
         protected readonly TRepositoryInterface _repository;
 
-        public MyServiceBaseCRUD(TRepositoryInterface repository, NotificationContext notificationContext) :
+        public ServiceCRUDBaseAsync(TRepositoryInterface repository, NotificationContext notificationContext) :
             base(notificationContext)
         {
             _repository = repository;

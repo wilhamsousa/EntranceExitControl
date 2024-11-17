@@ -23,9 +23,7 @@ builder.Services.AddScoped<ICheckListRepositoryAsync, CheckListRepository>();
 builder.Services.AddScoped<ICheckListServiceAsync, CheckListServiceAsync>();
 builder.Services.AddScoped<ICheckListItemRepositoryAsync, CheckListItemRepository>();
 
-builder.Services
-    .AddControllers()
-    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

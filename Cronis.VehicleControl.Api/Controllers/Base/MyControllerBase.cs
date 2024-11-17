@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Cronis.VehicleControl.Api.Controllers.Base
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public abstract class MyControllerBase: ControllerBase
     {
         private readonly ValidationResult _validationResult = new ValidationResult();

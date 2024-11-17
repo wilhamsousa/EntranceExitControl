@@ -20,7 +20,7 @@ namespace Cronis.VehicleControl.Domain.Model.Entities
             CheckListItems = new HashSet<CheckListItem>();
         }
 
-        public CheckList(Guid userId, string vehiclePlate, List<CheckListOption> items)
+        public CheckList(Guid userId, string vehiclePlate, IEnumerable<CheckListOption> items)
         {
             CheckListItems = new HashSet<CheckListItem>();
             UserId = userId;

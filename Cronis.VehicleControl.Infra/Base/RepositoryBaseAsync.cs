@@ -31,7 +31,7 @@ namespace Cronis.VehicleControl.Infra.Base
 
         public Task<List<TEntity>> GetAsync()
         {
-            return _context.Set<TEntity>().AsNoTracking().ToListAsync();
+            return _context.Set<TEntity>().ToListAsync();
         }
 
         public IQueryable<TEntity> GetQueryable()

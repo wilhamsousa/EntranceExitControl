@@ -25,7 +25,7 @@ namespace Cronis.VehicleControl.Api.Controllers
 
         [HttpGet]
         [Route("{id:guid}")]
-        public virtual async Task<ActionResult> Get(Guid id)
+        public async Task<ActionResult> Get(Guid id)
         {
             try
             {
@@ -40,12 +40,12 @@ namespace Cronis.VehicleControl.Api.Controllers
 
         [HttpGet]
         [Route("getall")]
-        public virtual async Task<ActionResult> GetAll()
+        public async Task<ActionResult> GetAll()
         {
             try
             {
                 var response = await _checkListService.GetAsync();
-                return CreateResult(response);
+                return CreateResult(response.ToList());
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace Cronis.VehicleControl.Api.Controllers
         
         [HttpPost]
         [Route("create")]
-        public virtual async Task<ActionResult> Create(CheckListCreateRequest param)
+        public async Task<ActionResult> Create(CheckListCreateRequest param)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace Cronis.VehicleControl.Api.Controllers
 
         [HttpPost]
         [Route("approve-item")]
-        public virtual async Task<ActionResult> ApproveItem(CheckListItemUpdateRequest param)
+        public async Task<ActionResult> ApproveItem(CheckListItemUpdateRequest param)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace Cronis.VehicleControl.Api.Controllers
 
         [HttpPost]
         [Route("reprove-item")]
-        public virtual async Task<ActionResult> ReproveItem(CheckListItemUpdateRequest param)
+        public async Task<ActionResult> ReproveItem(CheckListItemUpdateRequest param)
         {
             try
             {

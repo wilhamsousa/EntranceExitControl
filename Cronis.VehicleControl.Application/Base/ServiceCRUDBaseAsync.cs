@@ -37,7 +37,7 @@ namespace Cronis.VehicleControl.Application.Base
             return await _repository.GetAsync(id);
         }
 
-        public virtual async Task<List<TEntity>> GetAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAsync()
         {
             return await _repository.GetAsync();
         }

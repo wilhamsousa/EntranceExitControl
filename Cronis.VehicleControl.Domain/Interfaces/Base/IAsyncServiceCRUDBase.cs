@@ -3,7 +3,7 @@
     public interface IAsyncServiceCRUDBase<TEntity>
     {
         Task<TEntity> GetAsync(Guid id);
-        Task<List<TEntity>> GetAsync();
+        Task<IEnumerable<TEntity>> GetAsync();
         Task<TEntity> CreateAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);

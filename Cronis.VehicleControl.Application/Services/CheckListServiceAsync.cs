@@ -3,6 +3,7 @@ using Cronis.VehicleControl.Domain.Interfaces;
 using Cronis.VehicleControl.Domain.Model.DTOs.CheckList;
 using Cronis.VehicleControl.Domain.Model.Entities;
 using Cronis.VehicleControl.Domain.Notification;
+using Mapster;
 
 namespace Cronis.VehicleControl.Application.Services
 {
@@ -75,13 +76,16 @@ namespace Cronis.VehicleControl.Application.Services
 
         public async Task<CheckListGetResponse> GetAsync(Guid id)
         {
-            var result = await _checkListRepository.GetCheckListAsync(id);
-            return result.Ad
+            var entity = await _checkListRepository.GetCheckListAsync(id);
+            var model = entity.Adapt<CheckListGetResponse>();
+            return model;
         }
 
         public async Task<IEnumerable<CheckListGetResponse>> GetAsync()
         {
-            return await _checkListRepository.GetCheckListAsync();
+            var entity = await _checkListRepository.GetCheckListAsync();
+            var model = entity.Adapt<IEnumerable<CheckListGetResponse>>();
+            return model;
         }
 
         public async Task ApproveItem(CheckListItemUpdateRequest param) => AproveOrReproveItem(param, true);

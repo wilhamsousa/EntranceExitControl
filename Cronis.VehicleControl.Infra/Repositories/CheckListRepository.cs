@@ -16,7 +16,9 @@ namespace Cronis.VehicleControl.Infra.Repositories
 
         public async Task<List<CheckList>> GetCheckListAsync()
         {
-            var checkList = await _context.CheckList.ToListAsync();
+            var checkList = await _context.CheckList
+                .ToListAsync();
+
             var checkListItem = await _context.CheckListItem
                 .Include(x => x.CheckListOption)
                 .ToListAsync();

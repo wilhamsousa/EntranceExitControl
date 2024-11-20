@@ -14,6 +14,7 @@ namespace Cronis.VehicleControl.Domain.Model.DTOs.CheckList
     );
 
     public record struct CheckListItemGetResponse(
+        Guid Id,
         Guid CheckListOptionId,
         string Name,
         string Note,

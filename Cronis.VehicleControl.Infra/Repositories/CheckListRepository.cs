@@ -17,6 +17,7 @@ namespace Cronis.VehicleControl.Infra.Repositories
         public async Task<List<CheckList>> GetCheckListAsync()
         {
             var checkList = await _context.CheckList
+                .Include(x => x.User)
                 .ToListAsync();
 
             var checkListItem = await _context.CheckListItem
@@ -31,7 +32,11 @@ namespace Cronis.VehicleControl.Infra.Repositories
 
         public async Task<CheckList> GetCheckListAsync(Guid id)
         {
-            var checkList = await _context.CheckList.Where(x => x.Id == id).SingleOrDefaultAsync();
+            var checkList = await _context.CheckList
+                .Include(x => x.User)
+                .Where(x => x.Id == id)
+                .SingleOrDefaultAsync();
+
             var checkListItem = await _context.CheckListItem
                 .Include(x => x.CheckListOption)
                 .Where(x => x.CheckListId == id)

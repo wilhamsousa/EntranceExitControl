@@ -8,6 +8,7 @@ namespace Cronis.VehicleControl.Domain.Model.DTOs.CheckList
         string VehiclePlate,
         DateTime StartDateTime,
         DateTime? EndDateTime,
-        string Status
+        string Status,
+        string UserName
     );
 }

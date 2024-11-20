@@ -76,8 +76,8 @@ namespace Cronis.VehicleControl.Application.Services
 
         public async Task<CheckListGetResponse> GetAsync(Guid id)
         {
-            var entity = await _checkListRepository.GetCheckListAsync(id);
-            var model = entity.Adapt<CheckListGetResponse>();
+            var checkListEntity = await _checkListRepository.GetCheckListAsync(id);
+            var model = checkListEntity.Adapt<CheckListGetResponse>();
             return model;
         }
 

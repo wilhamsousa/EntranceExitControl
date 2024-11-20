@@ -55,7 +55,7 @@ namespace Cronis.VehicleControl.Api.Controllers
         
         [HttpPost]
         [Route("create")]
-        public async Task<ActionResult> Create(CheckListCreateRequest param)
+        public async Task<ActionResult> CreateOrGetIfExists(CheckListCreateRequest param)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace Cronis.VehicleControl.Api.Controllers
         {
             try
             {
-                await _checkListService.ApproveItem(param);
+                await _checkListService.ApproveItemAsync(param);
                 return CreateResult();
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace Cronis.VehicleControl.Api.Controllers
         {
             try
             {
-                await _checkListService.ReproveItem(param);
+                await _checkListService.ReproveItemAsync(param);
                 return CreateResult();
             }
             catch (Exception ex)

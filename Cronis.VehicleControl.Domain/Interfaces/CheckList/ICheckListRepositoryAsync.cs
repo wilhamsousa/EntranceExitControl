@@ -7,7 +7,7 @@ namespace Cronis.VehicleControl.Domain.Interfaces
     {
         Task<List<CheckList>> GetCheckListAsync();
         Task<CheckList> GetCheckListAsync(Guid id);
-        Task<CheckList> GetStartedByVehiclePlate(string vehiclePlate);
+        Task<CheckList> GetStartedByVehiclePlateAsync(string vehiclePlate);
 
     }
 }

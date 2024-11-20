@@ -38,12 +38,12 @@ namespace Cronis.VehicleControl.Application.Services
             if (HasNotifications)
                 return null;
 
-            UserNotFoundValidation(param.UserId);
+            await UserNotFoundValidationAsync(param.UserId);
 
             if (HasNotifications)
                 return null;
 
-            CheckList? oldCheckList = await GetCheckListIfExist(param.VehiclePlate);
+            CheckList? oldCheckList = await GetCheckListIfExistAsync(param.VehiclePlate);
 
             ChecklistAlreadyExistsValidation(oldCheckList, param.UserId);
 
@@ -57,7 +57,7 @@ namespace Cronis.VehicleControl.Application.Services
             return result;
         }
 
-        private async Task UserNotFoundValidation(Guid userId)
+        private async Task UserNotFoundValidationAsync(Guid userId)
         {
             var user = await _userRepository.GetAsync(userId);
 
@@ -71,8 +71,8 @@ namespace Cronis.VehicleControl.Application.Services
                 AddValidationFailure(CheckListMessage.CHECKLIST_ALREADY_EXISTS);
         }
 
-        private async Task<CheckList?> GetCheckListIfExist(string vehiclePlate) =>
-            await _checkListRepository.GetStartedByVehiclePlate(vehiclePlate);
+        private Task<CheckList?> GetCheckListIfExistAsync(string vehiclePlate) =>
+            _checkListRepository.GetStartedByVehiclePlateAsync(vehiclePlate);
 
         public async Task<CheckListGetResponse> GetAsync(Guid id)
         {
@@ -88,10 +88,10 @@ namespace Cronis.VehicleControl.Application.Services
             return model;
         }
 
-        public async Task ApproveItem(CheckListItemUpdateRequest param) => AproveOrReproveItem(param, true);
-        public async Task ReproveItem(CheckListItemUpdateRequest param) => AproveOrReproveItem(param, false);
+        public Task ApproveItemAsync(CheckListItemUpdateRequest param) => AproveOrReproveItemAsync(param, true);
+        public Task ReproveItemAsync(CheckListItemUpdateRequest param) => AproveOrReproveItemAsync(param, false);
 
-        private async Task AproveOrReproveItem(CheckListItemUpdateRequest param, bool approve)
+        private async Task AproveOrReproveItemAsync(CheckListItemUpdateRequest param, bool approve)
         {
             var checkListItem = await _checkListItemRepository.GetAsync(param.CheckListItemId);
             CheckListItemNotFoundValidation(checkListItem);

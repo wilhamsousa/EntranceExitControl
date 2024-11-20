@@ -47,8 +47,8 @@ namespace Cronis.VehicleControl.Infra.Repositories
             return checkList;
         }
 
-        public async Task<CheckList> GetStartedByVehiclePlate(string vehiclePlate) =>
-            await _context.CheckList
+        public Task<CheckList> GetStartedByVehiclePlateAsync(string vehiclePlate) =>
+            _context.CheckList
                 .Where(x => x.VehiclePlate == vehiclePlate)
                 .Where(x => x.Status == CheckListStatus.Started)
                 .SingleOrDefaultAsync();

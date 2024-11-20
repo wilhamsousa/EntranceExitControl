@@ -29,15 +29,11 @@ namespace Cronis.VehicleControl.Infra.Base
             return entity;
         }
 
-        public Task<List<TEntity>> GetAsync()
-        {
-            return _context.Set<TEntity>().ToListAsync();
-        }
+        public Task<List<TEntity>> GetAsync() =>
+            _context.Set<TEntity>().ToListAsync();
 
-        public IQueryable<TEntity> GetQueryable()
-        {
-            return _context.Set<TEntity>().AsNoTracking().AsQueryable();
-        }
+        public IQueryable<TEntity> GetQueryable() =>
+            _context.Set<TEntity>().AsNoTracking().AsQueryable();
 
         public virtual async Task<TEntity> CreateAsync(TEntity param)
         {
@@ -67,7 +63,7 @@ namespace Cronis.VehicleControl.Infra.Base
             }
         }
 
-        public virtual async Task UpdateAsync(TEntity entity)
+        public virtual Task UpdateAsync(TEntity entity)
         {
             var local = _context.Set<TEntity>().Local.FirstOrDefault(entry => entry.Id.Equals(entity.Id));
             if (local != null)
@@ -75,14 +71,14 @@ namespace Cronis.VehicleControl.Infra.Base
 
             _context.Entry<TEntity>(entity).State = EntityState.Modified;
             var result = _context.Set<TEntity>().Update(entity);
-            await _context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
 
-        public virtual async Task DeleteAsync(TEntity param)
+        public virtual Task DeleteAsync(TEntity param)
         {
             _context.Entry<TEntity>(param).State = EntityState.Detached;
             _context.Set<TEntity>().Remove(param);
-            await _context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
 
         public virtual async Task DeleteAsync(Guid id)
@@ -90,7 +86,7 @@ namespace Cronis.VehicleControl.Infra.Base
             var entity = await _context.Set<TEntity>().FindAsync(id);
             if (entity != null)
                 _context.Entry(entity).State = EntityState.Detached;
-            await DeleteAsync(entity);
+            DeleteAsync(entity);
         }
 
         private void CreateId(TEntity param)
@@ -99,10 +95,8 @@ namespace Cronis.VehicleControl.Infra.Base
                 param.SetId(Guid.NewGuid());
         }
 
-        public virtual Dictionary<string, string> MessageErrors()
-        {
-            return new Dictionary<string, string>();
-        }
+        public virtual Dictionary<string, string> MessageErrors() =>
+            new Dictionary<string, string>();
 
         protected void AddValidationFailure(string message)
         {

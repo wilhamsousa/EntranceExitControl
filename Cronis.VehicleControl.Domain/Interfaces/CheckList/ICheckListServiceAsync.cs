@@ -8,8 +8,8 @@ namespace Cronis.VehicleControl.Domain.Interfaces
         Task<CheckListGetResponse> GetAsync(Guid id);
         Task<IEnumerable<CheckListGetResponse>> GetAsync();
         Task<CheckList> CreateAsync(CheckListCreateRequest entity);
-        Task ApproveItem(CheckListItemUpdateRequest param);
-        Task ReproveItem(CheckListItemUpdateRequest param);
+        Task ApproveItemAsync(CheckListItemUpdateRequest param);
+        Task ReproveItemAsync(CheckListItemUpdateRequest param);
 
     }
 }

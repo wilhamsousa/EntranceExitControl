@@ -13,8 +13,8 @@ namespace Cronis.VehicleControl.Infra.Repositories
         {
         }
 
-        public async Task<User> GetByNameAsync(string name) => 
-            await _context.User
+        public Task<User> GetByNameAsync(string name) => 
+            _context.User
                 .Where(x => x.Name == name)
                 .SingleOrDefaultAsync();
     }

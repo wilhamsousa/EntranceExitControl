@@ -13,8 +13,8 @@ namespace Cronis.VehicleControl.Infra.Repositories
         {
         }
 
-        public async Task<CheckListOption> GetByNameAsync(string name) =>
-            await _context.CheckListOption
+        public Task<CheckListOption> GetByNameAsync(string name) =>
+            _context.CheckListOption
                 .Where(x => x.Name == name)
                 .SingleOrDefaultAsync();
     }

@@ -45,7 +45,7 @@ namespace Cronis.VehicleControl.Application.Services
 
             CheckList? oldCheckList = await GetCheckListIfExistAsync(param.VehiclePlate);
 
-            ChecklistAlreadyExistsValidation(oldCheckList, param.UserId);
+            ChecklistAlreadyExists(oldCheckList, param.UserId);
 
             if (HasNotifications)
                 return null;
@@ -65,10 +65,19 @@ namespace Cronis.VehicleControl.Application.Services
                 AddValidationFailure(CheckListMessage.CHECKLIST_USER_NOTFOUND);
         }
 
-        private void ChecklistAlreadyExistsValidation(CheckList? oldCheckList, Guid userId)
+        private void ChecklistAlreadyExists(CheckList? oldCheckList, Guid userId)
         {
             if (oldCheckList != null && oldCheckList.UserId != userId)
+            {
+                AddValidationFailure(CheckListMessage.CHECKLIST_ALREADY_EXISTS_ANOTHER_USER);
+                return;
+            }
+
+            if (oldCheckList != null)
+            {
                 AddValidationFailure(CheckListMessage.CHECKLIST_ALREADY_EXISTS);
+                return;
+            }
         }
 
         private Task<CheckList?> GetCheckListIfExistAsync(string vehiclePlate) =>
@@ -81,10 +90,10 @@ namespace Cronis.VehicleControl.Application.Services
             return model;
         }
 
-        public async Task<IEnumerable<CheckListGetResponse>> GetAsync()
+        public async Task<IEnumerable<CheckListGetAllResponse>> GetAsync()
         {
             var entity = await _checkListRepository.GetCheckListAsync();
-            var model = entity.Adapt<IEnumerable<CheckListGetResponse>>();
+            var model = entity.Adapt<IEnumerable<CheckListGetAllResponse>>();
             return model;
         }
 

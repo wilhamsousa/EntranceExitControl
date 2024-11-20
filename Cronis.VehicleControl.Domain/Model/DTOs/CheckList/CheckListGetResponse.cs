@@ -9,6 +9,15 @@ namespace Cronis.VehicleControl.Domain.Model.DTOs.CheckList
         DateTime StartDateTime,
         DateTime? EndDateTime,
         string Status,
-        string UserName
+        string UserName,
+        IEnumerable<CheckListItemGetResponse> CheckListItems
+    );
+
+    public record struct CheckListItemGetResponse(
+        Guid CheckListOptionId,
+        string Name,
+        string Note,
+        bool? Approved,
+        DateTime? DateTime
     );
 }

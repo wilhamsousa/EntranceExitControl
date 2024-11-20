@@ -6,9 +6,16 @@ namespace Cronis.VehicleControl.Application.Mapping
 {
     public static partial class Mapping
     {
-        private static void RegisterCheckListMap() =>
-            TypeAdapterConfig<CheckList, CheckListGetResponse>
+        private static void RegisterCheckListMap()
+        {
+            TypeAdapterConfig<CheckList, CheckListGetAllResponse>
                 .NewConfig()
-                .Map(member => member.UserName, source => source.User.Name);
+                .Map(destiny => destiny.UserName, source => source.User.Name);
+
+            TypeAdapterConfig<CheckListItem, CheckListItemGetResponse>
+                .NewConfig()
+                .Map(destiny => destiny.Name, source => source.CheckListOption.Name)
+                .Map(destiny => destiny.Note, source => source.CheckListOption.Note);
+        }
     }
 }

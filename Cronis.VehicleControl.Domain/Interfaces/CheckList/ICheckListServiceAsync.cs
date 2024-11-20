@@ -6,7 +6,7 @@ namespace Cronis.VehicleControl.Domain.Interfaces
     public interface ICheckListServiceAsync
     {
         Task<CheckListGetResponse> GetAsync(Guid id);
-        Task<IEnumerable<CheckListGetResponse>> GetAsync();
+        Task<IEnumerable<CheckListGetAllResponse>> GetAsync();
         Task<CheckList> CreateAsync(CheckListCreateRequest entity);
         Task ApproveItemAsync(CheckListItemUpdateRequest param);
         Task ReproveItemAsync(CheckListItemUpdateRequest param);

@@ -135,7 +135,7 @@ namespace Cronis.VehicleControl.Tests
                 VehiclePlate = vehiclePlate
             };
             var result = _application.CreateAsync(param).Result;
-            Assert.True(_notificationContext.Notifications.Any(x => x.Message == CheckListMessage.CHECKLIST_ALREADY_EXISTS));
+            Assert.True(_notificationContext.Notifications.Any(x => x.Message == CheckListMessage.CHECKLIST_ALREADY_EXISTS_ANOTHER_USER));
         }
 
         [Fact]

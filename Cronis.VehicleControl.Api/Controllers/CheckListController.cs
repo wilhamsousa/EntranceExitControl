@@ -55,7 +55,7 @@ namespace Cronis.VehicleControl.Api.Controllers
         
         [HttpPost]
         [Route("create")]
-        public async Task<ActionResult> CreateOrGetIfExists(CheckListCreateRequest param)
+        public async Task<ActionResult> Create(CheckListCreateRequest param)
         {
             try
             {

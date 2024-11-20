@@ -4,7 +4,7 @@ using Mapster;
 
 namespace Cronis.VehicleControl.Application.Mapping
 {
-    public static partial class MappingConfiguration
+    public static partial class Mapping
     {
         private static void RegisterCheckListMap() =>
             TypeAdapterConfig<CheckList, CheckListGetResponse>

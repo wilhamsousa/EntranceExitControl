@@ -2,7 +2,7 @@
 
 namespace Cronis.VehicleControl.Application.Mapping
 {
-    public static partial class MappingConfiguration
+    public static partial class Mapping
     {
         public static void RegisterMaps(this IServiceCollection services)
         {

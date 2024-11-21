@@ -4,7 +4,7 @@ using Mapster;
 
 namespace Cronis.VehicleControl.Api.Extensions
 {
-    public static partial class IServiceCollectionExtensions
+    public static partial class MappingConfiguration
     {
         private static void RegisterCheckListMap()
         {

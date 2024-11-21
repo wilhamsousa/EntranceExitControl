@@ -1,17 +1,19 @@
 using Cronis.VehicleControl.Api.Controllers.Notification;
 using Cronis.VehicleControl.Api.Extensions;
 using Cronis.VehicleControl.Infra.Repositories.Context;
-using Microsoft.AspNetCore.Mvc;
+using Hellang.Middleware.ProblemDetails;
 using Microsoft.EntityFrameworkCore;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
+        MappingConfiguration.AddMapping();
+
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.RegisterDependencyInjections();
-        builder.Services.RegisterMaps();
+        builder.Services.AddDependencyInjections();
+        builder.Services.AddProblemDetailsResponse();
 
         builder.Services.AddControllers();
 
@@ -39,12 +41,16 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        
+        app.UseProblemDetails();
 
-        //app.UseHttpsRedirection();
+        if (!app.Environment.IsDevelopment() && !app.Environment.IsStaging())
+            app.UseHttpsRedirection();
 
         app.UseAuthorization();
 
         app.MapControllers();
+
 
         app.ApplyMigration();
 

@@ -2,18 +2,13 @@
 using Cronis.VehicleControl.Domain.Interfaces;
 using Cronis.VehicleControl.Domain.Notification;
 using Cronis.VehicleControl.Infra.Repositories;
-using Microsoft.Extensions.DependencyInjection;
+using Hellang.Middleware.ProblemDetails;
 
 namespace Cronis.VehicleControl.Api.Extensions
 {
-    public static partial class IServiceCollectionExtensions
+    public static partial class DependencyInjectionConfiguration
     {
-        public static void RegisterMaps(this IServiceCollection services)
-        {
-            RegisterCheckListMap();
-        }
-
-        public static void RegisterDependencyInjections(this IServiceCollection services)
+        public static void AddDependencyInjections(this IServiceCollection services)
         {
             services.AddScoped<NotificationContext>();
 
@@ -26,6 +21,19 @@ namespace Cronis.VehicleControl.Api.Extensions
             services.AddScoped<ICheckListRepositoryAsync, CheckListRepository>();
             services.AddScoped<ICheckListServiceAsync, CheckListServiceAsync>();
             services.AddScoped<ICheckListItemRepositoryAsync, CheckListItemRepository>();
+        }
+
+        public static void AddProblemDetailsResponse(this IServiceCollection services)
+        {
+            services.AddProblemDetails(options =>
+            {
+                options.IncludeExceptionDetails = (ctx, ex) =>
+                {
+                    var env = ctx.RequestServices.GetRequireService<IHostEnvironment>();
+                    return env.IsDevelopment() || env.IsStaging();
+                };
+            })
+            .AddProblemDetailsConventions();
         }
     }
 }

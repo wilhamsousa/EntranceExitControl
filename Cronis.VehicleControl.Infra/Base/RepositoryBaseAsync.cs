@@ -84,9 +84,7 @@ namespace Cronis.VehicleControl.Infra.Base
         public virtual async Task DeleteAsync(Guid id)
         {
             var entity = await _context.Set<TEntity>().FindAsync(id);
-            if (entity != null)
-                _context.Entry(entity).State = EntityState.Detached;
-            DeleteAsync(entity);
+            await DeleteAsync(entity);
         }
 
         private void CreateId(TEntity param)

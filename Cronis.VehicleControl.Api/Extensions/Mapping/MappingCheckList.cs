@@ -2,9 +2,9 @@
 using Cronis.VehicleControl.Domain.Model.Entities;
 using Mapster;
 
-namespace Cronis.VehicleControl.Application.Mapping
+namespace Cronis.VehicleControl.Api.Extensions
 {
-    public static partial class Mapping
+    public static partial class IServiceCollectionExtensions
     {
         private static void RegisterCheckListMap()
         {

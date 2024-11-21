@@ -31,4 +31,8 @@
     <ProjectReference Include="..\Cronis.VehicleControl.Infra\Cronis.VehicleControl.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\DependencyInjection\" />
+  </ItemGroup>
+
 </Project>

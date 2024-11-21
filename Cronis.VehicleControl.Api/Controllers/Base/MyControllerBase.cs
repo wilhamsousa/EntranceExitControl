@@ -2,6 +2,7 @@
 using Cronis.VehicleControl.Domain.Notification;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Collections.Generic;
 
 namespace Cronis.VehicleControl.Api.Controllers.Base
 {
@@ -20,11 +21,18 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
         {
             if (_notificationContext.HasNotifications)
             {
+                var errors = _notificationContext.Notifications.Select(x => x.Message);
+
+                var dictionary = new Dictionary<string, object>();
+                dictionary["errors"] = errors;
+
                 var problemDetails = new ProblemDetails()
                 {
                     Title = errorTitle,
                     Status = ((int)HttpStatusCode.BadRequest),
-                    Detail = string.Join(",", _notificationContext.Notifications.Select(x => x.Message))
+                    Detail =  errors.Count() == 1 ? errors.FirstOrDefault() : "Multiple erros have occurred.",
+                    Instance = Request.Path,
+                    Extensions = dictionary
                 };
 
                 return BadRequest(problemDetails);

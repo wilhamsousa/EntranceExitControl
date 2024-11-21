@@ -1,4 +1,6 @@
 ﻿using Cronis.VehicleControl.Domain.Notification;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using System.Net;
@@ -16,13 +18,22 @@ namespace Cronis.VehicleControl.Api.Controllers.Notification
 
         public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
-            if (_notificationContext.HasNotifications)
-            {
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                context.HttpContext.Response.ContentType = "application/json";
+            const string contentTypeProblem = "application/problem+json";
 
-                var notifications = JsonConvert.SerializeObject(_notificationContext.Notifications);
-                await context.HttpContext.Response.WriteAsync(notifications);
+            if (_notificationContext.HasNotifications && !(context.Result is BadRequestObjectResult))
+            {
+                var problemDetails = new ProblemDetails()
+                {
+                    Title = "Erro geral",
+                    Status = ((int)HttpStatusCode.BadRequest),
+                    Detail = string.Join(",", _notificationContext.Notifications.Select(x => x.Message))
+                };
+
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                context.HttpContext.Response.ContentType = contentTypeProblem;
+
+                var problemDetailsJson = JsonConvert.SerializeObject(problemDetails);
+                await context.HttpContext.Response.WriteAsync(problemDetailsJson);
 
                 return;
             }

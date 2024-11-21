@@ -1,4 +1,5 @@
-﻿using Cronis.VehicleControl.Domain.Interfaces.Base;
+﻿using Azure;
+using Cronis.VehicleControl.Domain.Interfaces.Base;
 using Cronis.VehicleControl.Domain.Model.Base;
 using Cronis.VehicleControl.Domain.Notification;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
             try
             {
                 var response = await _service.GetAsync(id);
-                return CreateResult(response);
+                return CreateResult(response, "Erro ao consultar");
             }
             catch (Exception ex)
             {
@@ -39,7 +40,7 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
             try
             {
                 var response = await _service.GetAsync();
-                return CreateResult(response);
+                return CreateResult(response, "Erro ao consultar todos");
             }
             catch (Exception ex)
             {
@@ -54,7 +55,7 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
             try
             {
                 var response = await _service.CreateAsync(item);
-                return CreateResult(response);
+                return CreateResult(response, "Erro ao criar registro");
             }
             catch (Exception ex)
             {
@@ -70,7 +71,7 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
             {
                 item.SetId(id);
                 await _service.UpdateAsync(item);
-                return CreateResult();
+                return CreateResult(null, "Erro ao atualizar registro");
             }
             catch (Exception ex)
             {
@@ -86,10 +87,13 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
             {
                 var response = await _service.GetAsync(id);
                 if (response == null)
-                    return CreateResult(response);
+                {
+                    AddValidationFailure("Registro não encontrado para excluir.");
+                    return CreateResult(null, "Erro ao excluir registro");
+                }
 
                 await _service.DeleteAsync(id);
-                return CreateResult(id);
+                return CreateResult(id, "Erro ao excluir registro");
             }
             catch (Exception ex)
             {

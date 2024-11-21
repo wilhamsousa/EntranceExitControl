@@ -30,7 +30,7 @@ namespace Cronis.VehicleControl.Api.Controllers
             try
             {
                 var response = await _checkListService.GetAsync(id);
-                return CreateResult(response);
+                return CreateResult(response, "Erro");
             }
             catch (Exception ex)
             {
@@ -45,7 +45,7 @@ namespace Cronis.VehicleControl.Api.Controllers
             try
             {
                 var response = await _checkListService.GetAsync();
-                return CreateResult(response.ToList());
+                return CreateResult(response.ToList(), "Erro ao consultar.");
             }
             catch (Exception ex)
             {
@@ -64,11 +64,11 @@ namespace Cronis.VehicleControl.Api.Controllers
                 if (!requestValidatorResult.IsValid)
                 {
                     AddNotifications(requestValidatorResult);
-                    return CreateResult();
+                    return CreateResult(null, "Erro ao inserir registro");
                 }
 
                 var response = await _checkListService.CreateAsync(param);
-                return CreateResult(response);
+                return CreateResult(response, "Erro ao inserir registro");
             }
             catch (Exception ex)
             {
@@ -83,7 +83,7 @@ namespace Cronis.VehicleControl.Api.Controllers
             try
             {
                 await _checkListService.ApproveItemAsync(param);
-                return CreateResult();
+                return CreateResult(null, "Erro ao aprovar item");
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace Cronis.VehicleControl.Api.Controllers
             try
             {
                 await _checkListService.ReproveItemAsync(param);
-                return CreateResult();
+                return CreateResult(null, "Erro ao reprovar item");
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using Cronis.VehicleControl.Domain.Notification;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Cronis.VehicleControl.Api.Controllers.Base
 {
@@ -8,7 +9,6 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
     [Route("api/[controller]")]
     public abstract class MyControllerBase: ControllerBase
     {
-        private readonly ValidationResult _validationResult = new ValidationResult();
         private readonly NotificationContext _notificationContext;
 
         protected MyControllerBase(NotificationContext notificationContext)
@@ -16,18 +16,33 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
             _notificationContext = notificationContext;
         }
 
-        protected ActionResult CreateResult(object responseObject) =>
-            responseObject == null ? NotFound("Registro não encontrado") : Ok(responseObject);
+        protected ActionResult CreateResult(object responseObject, string errorTitle)
+        {
+            if (_notificationContext.HasNotifications)
+            {
+                var problemDetails = new ProblemDetails()
+                {
+                    Title = errorTitle,
+                    Status = ((int)HttpStatusCode.BadRequest),
+                    Detail = string.Join(",", _notificationContext.Notifications.Select(x => x.Message))
+                };
 
-        protected ActionResult CreateResult(IEnumerable<object> responseObject) =>
-            responseObject == null || !responseObject.Any() ? NotFound("Registro não encontrado") : Ok(responseObject);
+                return BadRequest(problemDetails);
+            }
+            
+            return Ok(responseObject);
+        }
 
-        protected ActionResult CreateResult() => Ok();
+        //protected ActionResult CreateResult(IEnumerable<object> responseObject) =>
+        //    responseObject == null || !responseObject.Any() ? NotFound("Registro não encontrado") : Ok(responseObject);
+
+        //protected ActionResult CreateResult() => Ok();
 
         protected void AddValidationFailure(string message)
         {
-            _validationResult.Errors.Add(new ValidationFailure() { ErrorMessage = message });
-            _notificationContext.AddNotifications(_validationResult);
+            var validationResult = new ValidationResult();
+            validationResult.Errors.Add(new ValidationFailure() { ErrorMessage = message });
+            _notificationContext.AddNotifications(validationResult);
         }
 
         protected void AddNotifications(ValidationResult validationResult)

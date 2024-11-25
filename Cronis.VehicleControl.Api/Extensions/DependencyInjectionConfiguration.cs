@@ -22,18 +22,5 @@ namespace Cronis.VehicleControl.Api.Extensions
             services.AddScoped<ICheckListServiceAsync, CheckListServiceAsync>();
             services.AddScoped<ICheckListItemRepositoryAsync, CheckListItemRepository>();
         }
-
-        public static void AddProblemDetailsResponse(this IServiceCollection services)
-        {
-            services.AddProblemDetails(options =>
-            {
-                options.IncludeExceptionDetails = (ctx, ex) =>
-                {
-                    var env = ctx.RequestServices.GetRequireService<IHostEnvironment>();
-                    return env.IsDevelopment() || env.IsStaging();
-                };
-            })
-            .AddProblemDetailsConventions();
-        }
     }
 }

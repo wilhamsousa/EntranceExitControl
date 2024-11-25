@@ -12,8 +12,8 @@ internal class Program
 
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddProblemDetailsConfiguration();
         builder.Services.AddDependencyInjections();
-        builder.Services.AddProblemDetailsResponse();
 
         builder.Services.AddControllers();
 
@@ -35,14 +35,14 @@ internal class Program
         //            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);        
 
         var app = builder.Build();
+        
+        app.UseProblemDetails();
 
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-        
-        app.UseProblemDetails();
 
         if (!app.Environment.IsDevelopment() && !app.Environment.IsStaging())
             app.UseHttpsRedirection();
@@ -50,7 +50,6 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
-
 
         app.ApplyMigration();
 

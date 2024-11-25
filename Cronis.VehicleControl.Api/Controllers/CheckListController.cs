@@ -14,8 +14,8 @@ namespace Cronis.VehicleControl.Api.Controllers
         private readonly ICheckListServiceAsync _checkListService;
 
         public CheckListController(
-            NotificationContext notificationContext, 
-            ILogger<CheckListController> logger, 
+            NotificationContext notificationContext,
+            ILogger<CheckListController> logger,
             ICheckListServiceAsync CheckListApplication)
             : base(notificationContext)
         {
@@ -27,15 +27,8 @@ namespace Cronis.VehicleControl.Api.Controllers
         [Route("{id:guid}")]
         public async Task<ActionResult> Get(Guid id)
         {
-            try
-            {
-                var response = await _checkListService.GetAsync(id);
-                return CreateResult(response, "Erro");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            var response = await _checkListService.GetAsync(id);
+            return CreateResult(response, "Erro");
         }
 
         [HttpGet]
@@ -52,7 +45,7 @@ namespace Cronis.VehicleControl.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        
+
         [HttpPost]
         [Route("create")]
         public async Task<ActionResult> Create(CheckListCreateRequest param)
@@ -80,30 +73,16 @@ namespace Cronis.VehicleControl.Api.Controllers
         [Route("approve-item")]
         public async Task<ActionResult> ApproveItem(CheckListItemUpdateRequest param)
         {
-            try
-            {
-                await _checkListService.ApproveItemAsync(param);
-                return CreateResult(null, "Erro ao aprovar item");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            await _checkListService.ApproveItemAsync(param);
+            return CreateResult(null, "Erro ao aprovar item");
         }
 
         [HttpPost]
         [Route("reprove-item")]
         public async Task<ActionResult> ReproveItem(CheckListItemUpdateRequest param)
         {
-            try
-            {
-                await _checkListService.ReproveItemAsync(param);
-                return CreateResult(null, "Erro ao reprovar item");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            await _checkListService.ReproveItemAsync(param);
+            return CreateResult(null, "Erro ao reprovar item");
         }
     }
 }

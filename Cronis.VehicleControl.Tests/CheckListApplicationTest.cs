@@ -95,7 +95,7 @@ namespace Cronis.VehicleControl.Tests
         {
             CreateSetup(
                 createCheckListResult: new CheckList(userId1, vehiclePlate, _checkListOption),
-                getStartedByVehiclePlateResult: new CheckList(userId1, vehiclePlate, _checkListOption),
+                getStartedByVehiclePlateResult: null,
                 getCheckListItemResult: new CheckListItem(itemId1, itemId2, true, DateTime.Now),
                 getCheckListOptionResult: new List<CheckListOption>()
                 {
@@ -111,7 +111,8 @@ namespace Cronis.VehicleControl.Tests
                 VehiclePlate = vehiclePlate
             };
             var result = _application.CreateAsync(param).Result;
-            Assert.True(result.Valid);
+
+            Assert.False(_notificationContext.HasNotifications);
         }
 
         [Fact]

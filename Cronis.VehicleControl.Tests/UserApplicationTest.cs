@@ -10,8 +10,8 @@ namespace Cronis.VehicleControl.Tests
 {
     public class UserApplicationTest : BaseTest
     {
-        private readonly Mock<IUserRepository> _userRepository;
-        private readonly IUserService _userApplication;
+        private readonly Mock<IUserRepositoryAsync> _userRepository;
+        private readonly IUserServiceAsync _userApplication;
         NotificationContext _notificationContext = new NotificationContext();
 
         private readonly Guid userId1 = Guid.Parse("8ab7a28f-3526-4abd-8567-7dd42840cbf7");
@@ -19,7 +19,7 @@ namespace Cronis.VehicleControl.Tests
 
         public UserApplicationTest(ITestOutputHelper output) : base(output)
         {
-            _userRepository = new Mock<IUserRepository>();
+            _userRepository = new Mock<IUserRepositoryAsync>();
             _userApplication = new UserServiceAsync(_userRepository.Object, _notificationContext);
         }
 

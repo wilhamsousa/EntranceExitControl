@@ -16,11 +16,11 @@ namespace Cronis.VehicleControl.Api.Controllers
         public CheckListController(
             NotificationContext notificationContext,
             ILogger<CheckListController> logger,
-            ICheckListServiceAsync CheckListApplication)
+            ICheckListServiceAsync checkListService)
             : base(notificationContext)
         {
             _logger = logger;
-            _checkListService = CheckListApplication;
+            _checkListService = checkListService;
         }
 
         [HttpGet]

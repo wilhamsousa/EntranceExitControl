@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cronis.VehicleControl.Infra.Repositories
 {
-    public class UserRepository : RepositoryBaseAsync<User>, IUserRepository
+    public class UserRepository : RepositoryBaseAsync<User>, IUserRepositoryAsync
     {
         public UserRepository(ExcContext context, NotificationContext notificationContext) : base(context, notificationContext)
         {

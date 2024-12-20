@@ -3,8 +3,7 @@ using Cronis.VehicleControl.Domain.Model.Entities;
 
 namespace Cronis.VehicleControl.Domain.Interfaces
 {
-    public interface ICheckListOptionRepository : IAsyncRepositoryBase<CheckListOption>
+    public interface ICheckListOptionServiceAsync : IAsyncServiceCRUDBase<CheckListOption>
     {
-        Task<CheckListOption> GetByNameAsync(string name);
     }
 }

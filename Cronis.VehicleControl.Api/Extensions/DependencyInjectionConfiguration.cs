@@ -12,11 +12,11 @@ namespace Cronis.VehicleControl.Api.Extensions
         {
             services.AddScoped<NotificationContext>();
 
-            services.AddScoped<ICheckListOptionRepository, CheckListOptionRepository>();
-            services.AddScoped<ICheckListOptionService, CheckListOptionServiceAsync>();
+            services.AddScoped<ICheckListOptionRepositoryAsync, CheckListOptionRepository>();
+            services.AddScoped<ICheckListOptionServiceAsync, CheckListOptionServiceAsync>();
 
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserServiceAsync>();
+            services.AddScoped<IUserRepositoryAsync, UserRepository>();
+            services.AddScoped<IUserServiceAsync, UserServiceAsync>();
 
             services.AddScoped<ICheckListRepositoryAsync, CheckListRepository>();
             services.AddScoped<ICheckListServiceAsync, CheckListServiceAsync>();

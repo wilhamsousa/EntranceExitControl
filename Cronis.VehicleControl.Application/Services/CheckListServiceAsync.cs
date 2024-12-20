@@ -11,16 +11,16 @@ namespace Cronis.VehicleControl.Application.Services
     {
         private readonly ICheckListRepositoryAsync _checkListRepository;
         private readonly ICheckListItemRepositoryAsync _checkListItemRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly ICheckListOptionRepository _CheckListOptionRepository;
+        private readonly IUserRepositoryAsync _userRepository;
+        private readonly ICheckListOptionRepositoryAsync _CheckListOptionRepository;
 
 
         public CheckListServiceAsync(
             NotificationContext notificationContext,
             ICheckListRepositoryAsync checkListRepository,
             ICheckListItemRepositoryAsync checkListItemRepository,
-            IUserRepository userRepository,
-            ICheckListOptionRepository checkListOptionRepository
+            IUserRepositoryAsync userRepository,
+            ICheckListOptionRepositoryAsync checkListOptionRepository
         ) : base(notificationContext)
         {
             _checkListRepository = checkListRepository;

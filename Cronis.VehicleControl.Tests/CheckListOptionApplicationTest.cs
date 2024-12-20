@@ -10,8 +10,8 @@ namespace Cronis.VehicleControl.Tests
 {
     public class CheckListOptionApplicationTest : BaseTest
     {
-        private readonly Mock<ICheckListOptionRepository> _checkListOptionRepository;
-        private readonly ICheckListOptionService _checkListOptionApplication;
+        private readonly Mock<ICheckListOptionRepositoryAsync> _checkListOptionRepository;
+        private readonly ICheckListOptionServiceAsync _checkListOptionApplication;
         NotificationContext _notificationContext = new NotificationContext();
 
         private readonly Guid ItemCheckListId1 = Guid.Parse("8ab7a28f-3526-4abd-8567-7dd42840cbf7");
@@ -20,7 +20,7 @@ namespace Cronis.VehicleControl.Tests
 
         public CheckListOptionApplicationTest(ITestOutputHelper output) : base(output)
         {
-            _checkListOptionRepository = new Mock<ICheckListOptionRepository>();
+            _checkListOptionRepository = new Mock<ICheckListOptionRepositoryAsync>();
             _checkListOptionApplication = new CheckListOptionServiceAsync(_checkListOptionRepository.Object, _notificationContext);
         }
 

@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Appli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Tests", "Cronis.VehicleControl.Tests\Cronis.VehicleControl.Tests.csproj", "{AE16FC47-B424-4685-8060-FA8535731175}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2601ED96-B003-4280-8F75-198ED4328807}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B907E0F2-8CB6-4F45-B035-0021C4696A9F}"
 	ProjectSection(SolutionItems) = preProject
 		Dockerfile = Dockerfile
@@ -46,10 +44,6 @@ Global
 		{AE16FC47-B424-4685-8060-FA8535731175}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE16FC47-B424-4685-8060-FA8535731175}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE16FC47-B424-4685-8060-FA8535731175}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2601ED96-B003-4280-8F75-198ED4328807}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2601ED96-B003-4280-8F75-198ED4328807}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2601ED96-B003-4280-8F75-198ED4328807}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2601ED96-B003-4280-8F75-198ED4328807}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cronis.VehicleControl.Infra.Migrations
 {
     [DbContext(typeof(ExcContext))]
-    [Migration("20241014043516_initial")]
+    [Migration("20250125184317_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Cronis.VehicleControl.Infra.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);

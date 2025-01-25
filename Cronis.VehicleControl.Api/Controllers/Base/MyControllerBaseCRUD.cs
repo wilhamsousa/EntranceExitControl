@@ -42,7 +42,7 @@ namespace Cronis.VehicleControl.Api.Controllers.Base
             return CreateResult(response, "Erro ao criar registro");
         }
 
-        [HttpPost]
+        [HttpPatch]
         [Route("update/{id}")]
         public virtual async Task<ActionResult> Update(TEntity item, Guid id)
         {

@@ -20,7 +20,7 @@ services:
     container_name: cronis.vehiclecontrol.api
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: dockerfile-api
     ports: 
       - 8080:8080
     environment:

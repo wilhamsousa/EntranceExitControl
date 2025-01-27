@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Devops", "Devops", "{B515EC8E-F766-4541-8B93-6344DE4E1E9B}"
 	ProjectSection(SolutionItems) = preProject
-		Dockerfile = Dockerfile
+		dockerfile-api. = dockerfile-api.
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{CF271169-2C6E-4DD3-A032-024A757A04B3}"

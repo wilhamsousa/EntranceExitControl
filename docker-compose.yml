@@ -1,0 +1,32 @@
+services:
+  db-sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: mssql
+    ports: 
+      - 1433:1433
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "MSSQL_SA_PASSWORD=S@cr#t1_01"
+      - "MSSQL_PID=Evaluation"
+    networks:
+      - live-network
+
+  cronis.vehiclecontrol.api:
+    image: cronis.vehiclecontrol.api
+    container_name: cronis.vehiclecontrol.api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - 8080:8080
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+    networks:
+      - live-network
+    depends_on: 
+      - db-sqlserver
+
+networks:
+  live-network:
+    driver: bridge
+    

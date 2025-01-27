@@ -13,10 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Appli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cronis.VehicleControl.Tests", "Cronis.VehicleControl.Tests\Cronis.VehicleControl.Tests.csproj", "{AE16FC47-B424-4685-8060-FA8535731175}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B907E0F2-8CB6-4F45-B035-0021C4696A9F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Devops", "Devops", "{B515EC8E-F766-4541-8B93-6344DE4E1E9B}"
 	ProjectSection(SolutionItems) = preProject
 		Dockerfile = Dockerfile
 	EndProjectSection
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{CF271169-2C6E-4DD3-A032-024A757A04B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,9 +46,16 @@ Global
 		{AE16FC47-B424-4685-8060-FA8535731175}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE16FC47-B424-4685-8060-FA8535731175}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE16FC47-B424-4685-8060-FA8535731175}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF271169-2C6E-4DD3-A032-024A757A04B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF271169-2C6E-4DD3-A032-024A757A04B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF271169-2C6E-4DD3-A032-024A757A04B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF271169-2C6E-4DD3-A032-024A757A04B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CF271169-2C6E-4DD3-A032-024A757A04B3} = {B515EC8E-F766-4541-8B93-6344DE4E1E9B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E42083A-E9C6-4CCA-9C38-A5DBF6E5D62B}

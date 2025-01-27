@@ -38,14 +38,16 @@ internal class Program
         
         app.UseProblemDetails();
 
-        if (app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
 
-        if (!app.Environment.IsDevelopment() && !app.Environment.IsStaging())
-            app.UseHttpsRedirection();
+        //if (!app.Environment.IsDevelopment() && 
+        //    !app.Environment.IsEnvironment("Docker") && 
+        //    !app.Environment.IsStaging())
+        //    app.UseHttpsRedirection();
 
         app.UseAuthorization();
 

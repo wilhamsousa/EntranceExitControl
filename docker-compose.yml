@@ -1,6 +1,6 @@
 services:
   db-sqlserver:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: mssql
     ports: 
       - 1433:1433
@@ -10,6 +10,10 @@ services:
       - "MSSQL_PID=Evaluation"
     networks:
       - live-network
+    volumes:
+      - ./data:/var/opt/mssql/data
+      - ./log:/var/opt/mssql/log
+      - ./secrets:/var/opt/mssql/secrets
 
   cronis.vehiclecontrol.api:
     image: cronis.vehiclecontrol.api
@@ -29,4 +33,4 @@ services:
 networks:
   live-network:
     driver: bridge
-    
+

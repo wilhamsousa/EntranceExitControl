@@ -20,11 +20,12 @@ services:
     container_name: cronis.vehiclecontrol.api
     build:
       context: .
-      dockerfile: dockerfile-api
+      dockerfile: .\Cronis.VehicleControl.Api\Dockerfile
     ports: 
       - 8180:8180
     environment:
       ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_HTTP_PORTS: 8180
     networks:
       - live-network
     depends_on: 

@@ -44,10 +44,10 @@ internal class Program
             app.UseSwaggerUI();
         }
 
-        //if (!app.Environment.IsDevelopment() && 
-        //    !app.Environment.IsEnvironment("Docker") && 
-        //    !app.Environment.IsStaging())
-        //    app.UseHttpsRedirection();
+        if (!app.Environment.IsDevelopment() &&
+            !app.Environment.IsEnvironment("Docker") &&
+            !app.Environment.IsStaging())
+            app.UseHttpsRedirection();
 
         app.UseAuthorization();
 

@@ -17,10 +17,11 @@ RUN dotnet publish "Cronis.VehicleControl.Api.csproj" -c $BUILD_CONFIGURATION -o
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER $APP_UID
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 8180
+EXPOSE 8181
 
 ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_HTTP_PORTS=8180
 
 FROM base AS final
 WORKDIR /app
